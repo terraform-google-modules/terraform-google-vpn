@@ -29,7 +29,7 @@ resource "google_compute_router" "cr-central1-to-mgt-vpc" {
 module "vpn-gw-us-ce1-prd-mgt-internal" {
   source             = "../../"
   project_id         = "${var.prod_project_id}"
-  network_name       = "${var.prod_network}"
+  network            = "${var.prod_network}"
   region             = "us-central1"
   gateway_name       = "vpn-gw-us-ce1-prd-mgt-internal"
   tunnel_name_prefix = "vpn-tn-us-ce1-prd-mgt-internal"
@@ -46,7 +46,7 @@ module "vpn-gw-us-ce1-prd-mgt-internal" {
 module "vpn-gw-us-we1-prd-mgt-internal" {
   source             = "../../"
   project_id         = "${var.prod_project_id}"
-  network_name       = "${var.prod_network}"
+  network            = "${var.prod_network}"
   region             = "us-west1"
   gateway_name       = "vpn-gw-us-we1-prd-mgt-internal"
   tunnel_name_prefix = "vpn-tn-us-we1-prd-mgt-internal"
@@ -55,5 +55,5 @@ module "vpn-gw-us-we1-prd-mgt-internal" {
   peer_ips           = ["${module.vpn-gw-us-we1-mgt-prd-internal.gateway_ip}"]
 
   route_priority = 1000
-  remote_subnet  = ["10.200.10.0/24", "10.200.20.0/24"]
+  remote_subnet  = ["10.17.32.0/20", "10.17.16.0/20"]
 }

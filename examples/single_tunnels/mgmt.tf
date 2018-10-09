@@ -55,5 +55,5 @@ module "vpn-gw-us-we1-mgt-prd-internal" {
   peer_ips           = ["${module.vpn-gw-us-we1-prd-mgt-internal.gateway_ip}"]
 
   route_priority = 1000
-  remote_subnet  = ["10.10.0.0/16", "10.20.0.0/16"]
+  remote_subnet  = ["10.17.0.0/22", "10.16.80.0/24"]
 }
