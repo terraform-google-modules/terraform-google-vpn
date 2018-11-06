@@ -1,0 +1,70 @@
+/**
+ * Copyright 2018 Google LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+locals {
+  tunnel_name_prefix    = "${var.tunnel_name_prefix != "" ? var.tunnel_name_prefix : "${var.network}-${var.gateway_name}-tunnel"}"
+  default_shared_secret = "${var.shared_secret != "" ? var.shared_secret : random_id.ipsec_secret.b64_url}"
+}
+
+# For VPN gateways with static routing
+## Create Route (for static routing gateways)
+resource "google_compute_route" "route" {
+  count      = "${var.cr_name == "" ? var.tunnel_count  * length(var.remote_subnet):0}"
+  name       = "${google_compute_vpn_gateway.vpn_gateway.name}-tunnel${(count.index%var.tunnel_count)+1}-route${count.index%length(var.remote_subnet)+1}"
+  network    = "${var.network}"
+  project    = "${var.project_id}"
+  dest_range = "${element(var.remote_subnet, (count.index%length(var.remote_subnet)))}"
+  priority   = "${var.route_priority}"
+
+  next_hop_vpn_tunnel = "${google_compute_vpn_tunnel.tunnel-static.*.self_link[count.index%var.tunnel_count]}"
+
+  depends_on = [
+    "google_compute_vpn_tunnel.tunnel-static",
+  ]
+}
+
+# For VPN gateways routing through BGP and Cloud Routers
+## Create Router Interfaces
+resource "google_compute_router_interface" "router_interface" {
+  count      = "${var.cr_name != "" ? var.tunnel_count : 0}"
+  name       = "interface-${local.tunnel_name_prefix}-${count.index}"
+  router     = "${var.cr_name}"
+  region     = "${var.region}"
+  ip_range   = "${element(var.bgp_cr_session_range, count.index)}"
+  vpn_tunnel = "${google_compute_vpn_tunnel.tunnel-dynamic.*.name[count.index]}"
+  project    = "${var.project_id}"
+
+  depends_on = [
+    "google_compute_vpn_tunnel.tunnel-dynamic",
+  ]
+}
+
+## Create Peers
+resource "google_compute_router_peer" "bgp_peer" {
+  count                     = "${var.cr_name != "" ? var.tunnel_count : 0}"
+  name                      = "bgp-session-${count.index}"
+  router                    = "${var.cr_name}"
+  region                    = "${var.region}"
+  peer_ip_address           = "${element(var.bgp_remote_session_range, count.index)}"
+  peer_asn                  = "${element(var.peer_asn, count.index)}"
+  advertised_route_priority = "${var.advertised_route_priority}"
+  interface                 = "interface-${local.tunnel_name_prefix}-${count.index}"
+  project                   = "${var.project_id}"
+
+  depends_on = [
+    "google_compute_router_interface.router_interface",
+  ]
+}
