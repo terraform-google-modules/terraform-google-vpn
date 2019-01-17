@@ -31,7 +31,7 @@ resource "google_compute_vpn_tunnel" "tunnel-static" {
   local_traffic_selector  = ["0.0.0.0/0"]
   remote_traffic_selector = ["0.0.0.0/0"]
 
-  ike_version = "2"
+  ike_version = "${var.ike_version}"
 
   depends_on = [
     "google_compute_forwarding_rule.vpn_esp",
@@ -51,7 +51,7 @@ resource "google_compute_vpn_tunnel" "tunnel-dynamic" {
   target_vpn_gateway = "${google_compute_vpn_gateway.vpn_gateway.self_link}"
 
   router      = "${var.cr_name}"
-  ike_version = "2"
+  ike_version = "${var.ike_version}"
 
   depends_on = [
     "google_compute_forwarding_rule.vpn_esp",
