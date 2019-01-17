@@ -92,7 +92,7 @@ Then perform the following commands on the root folder:
 | tunnel_name_prefix | The prefix used for the tunnel names. If more than one tunnel_count is specified, the tunnel_count is appended to the end of the tunnel prefix | string | - | yes |
 | tunnel_count | The amount of tunnels attached to this gateway | int | 1 | no |
 | peer_ips | List of peer IP's to use, needs a peer IP for each tunnel in tunnel_count. The first peer IP attaches to tunnel #1, second peer IP attaches to tunnel #2, and so on | list | - | yes |
-| ike_version | Sets the IKE version to use with the tnnels. Defaults to IKEv2 | string | 2 | no |
+| ike_version | Sets the IKE version to use with the tnnels. Defaults to IKEv2 | int | 2 | no |
 
 Depending on if the VPN tunnel(s) will be using dynamic or static routing, different variables will need to be used in the module. For dynamic routing, please use the following variables. In addition, a cloud router resource will need to be created outside of the module to be leveraged by the gateway. (reference examples for more info)
 
