@@ -1,4 +1,4 @@
-# Terraform Google Cloud Platform - VPN Module
+# Terraform Google Cloud Platform - [VPN Module](https://registry.terraform.io/modules/terraform-google-modules/vpn/google)
 
 This modules makes it easy to set up VPN connectivity in GCP by defining your gateways and tunnels in a concise syntax.
 
@@ -7,25 +7,6 @@ It supports creating:
 - A Google VPN Gateway
 - Tunnels connecting the gateway to defined peers
 - Static routes for subnets across tunnel -or- dynamic routes with cloud router
-
-## Requirements
-### Terraform plugins
-- [Terraform](https://www.terraform.io/downloads.html) 0.10.x
-- [terraform-provider-google](https://github.com/terraform-providers/terraform-provider-google) plugin v1.8.0
-
-### Configure a Service Account
-In order to execute this module you must have a Service Account with the following roles:
-- roles/compute.networkAdmin on the organization
-
-### Enable API's
-In order to operate with the Service Account you must activate the following API on the project where the Service Account was created:
-- Compute Engine API - compute.googleapis.com
-
-## Install
-
-### Terraform
-Be sure you have the correct Terraform version (0.10.x), you can choose the binary here:
-- https://releases.hashicorp.com/terraform/
 
 ## Usage
 You can go to the examples folder, however the usage of the module could be like this in your own main.tf file:
@@ -115,7 +96,21 @@ For static routing, please use the following variables:
 ## Outputs
 Please refer the /outputs.tf file for the outputs that you can get with the `terraform output` command
 
-## File structure
+## Requirements
+### Terraform plugins
+- [Terraform](https://www.terraform.io/downloads.html) 0.10.x
+- [terraform-provider-google](https://github.com/terraform-providers/terraform-provider-google) plugin v1.8.0
+
+### Configure a Service Account
+In order to execute this module you must have a Service Account with the following roles:
+- roles/compute.networkAdmin on the organization
+
+### Enable API's
+In order to operate with the Service Account you must activate the following API on the project where the Service Account was created:
+- Compute Engine API - compute.googleapis.com
+
+## Development
+### File structure
 The project has the following folders and files:
 
 - /: root folder
