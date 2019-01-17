@@ -89,3 +89,7 @@ variable "advertised_route_priority" {
   description = "Please enter the priority for the advertised route to BGP peer(default is 100)"
   default     = 100
 }
+variable "ike_version" {
+  description = "Please enter the IKE version used by this tunnel (default is IKEv2)"
+  default     = 2
+}
