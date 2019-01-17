@@ -24,7 +24,9 @@ resource "google_compute_router" "cr-central1-to-mgt-vpc" {
 }
 
 module "vpn-module-dynamic" {
-  source                   = "github.com/terraform-google-modules/terraform-google-vpn""
+  source  = "terraform-google-modules/vpn/google"
+  version = "0.2.0"
+
   project_id               = "${var.project_id}"
   network                  = "${var.network}"
   region                   = "us-west1"
@@ -41,7 +43,9 @@ module "vpn-module-dynamic" {
 }
 
 module "vpn-module-static" {
-  source             = "github.com/terraform-google-modules/terraform-google-vpn""
+  source  = "terraform-google-modules/vpn/google"
+  version = "0.2.0"
+
   project_id         = "${var.project_id}"
   network            = "${var.network}"
   region             = "us-west1"
