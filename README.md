@@ -96,6 +96,8 @@ For static routing, please use the following variables:
 |------|-------------|:----:|:-----:|:-----:|
 | route_priority | The priority for static routes being added to VPC | int | 1000 | no |
 | remote_subnet | List of IP ranges that will be accessible over this VPN gateway. A route is created for each range in this list with next hop as VPN tunnels | list | - | yes |
+| local_traffic_selector | Local traffic selector to use when establishing the VPN tunnel with peer VPN gateway. Value should be list of CIDR formatted strings and ranges should be disjoint | list | ["0.0.0.0/0"] | no |
+| remote_traffic_selector | Remote traffic selector to use when establishing the VPN tunnel with peer VPN gateway. Value should be list of CIDR formatted strings and ranges should be disjoint | list | ["0.0.0.0/0"] | no |
 
 ## Outputs
 Please refer the /outputs.tf file for the outputs that you can get with the `terraform output` command
