@@ -41,6 +41,18 @@ variable "tunnel_name_prefix" {
   default     = ""
 }
 
+variable "local_traffic_selector" {
+  description = "The optional list of local traffic IP ranges"
+  type        = "list"
+  default     = ["0.0.0.0/0"]
+}
+
+variable "remote_traffic_selector" {
+  description = "The optional list of remote traffic IP ranges"
+  type        = "list"
+  default     = ["0.0.0.0/0"]
+}
+
 variable "peer_ips" {
   type        = "list"
   description = "IP address of remote-peer/gateway"
