@@ -42,13 +42,19 @@ variable "tunnel_name_prefix" {
 }
 
 variable "local_traffic_selector" {
-  description = "The optional list of local traffic IP ranges"
+  description = <<EOD
+Local traffic selector to use when establishing the VPN tunnel with peer VPN gateway.
+Value should be list of CIDR formatted strings and ranges should be disjoint.
+EOD
   type        = "list"
   default     = ["0.0.0.0/0"]
 }
 
 variable "remote_traffic_selector" {
-  description = "The optional list of remote traffic IP ranges"
+  description = <<EOD
+Remote traffic selector to use when establishing the VPN tunnel with peer VPN gateway.
+Value should be list of CIDR formatted strings and ranges should be disjoint.
+EOD
   type        = "list"
   default     = ["0.0.0.0/0"]
 }
