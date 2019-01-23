@@ -28,8 +28,8 @@ resource "google_compute_vpn_tunnel" "tunnel-static" {
   shared_secret = "${local.default_shared_secret}"
 
   target_vpn_gateway      = "${google_compute_vpn_gateway.vpn_gateway.self_link}"
-  local_traffic_selector  = ["0.0.0.0/0"]
-  remote_traffic_selector = ["0.0.0.0/0"]
+  local_traffic_selector  = "${var.local_traffic_selector}"
+  remote_traffic_selector = "${var.remote_traffic_selector}"
 
   ike_version = "${var.ike_version}"
 
