@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-# Creating the VPN tunnel 
+# Creating the VPN tunnel
 resource "random_id" "ipsec_secret" {
   byte_length = 8
 }

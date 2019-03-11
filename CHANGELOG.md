@@ -7,7 +7,7 @@ project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [0.3.0]
 ### CHANGED
-- Made `local_traffic_selector` and `remote_traffic_selector` configurable. 
+- Made `local_traffic_selector` and `remote_traffic_selector` configurable.
 - Update examples to use registry with versions
 - Reorganize README
 

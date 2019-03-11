@@ -31,7 +31,7 @@ module "vpn-module-dynamic" {
   network                  = "${var.network}"
   region                   = "us-west1"
   gateway_name             = "vpn-gw-us-we1-dynamic"
-  tunnel_name_prefix       = "vpn-tn-us-we1-dynamic"  
+  tunnel_name_prefix       = "vpn-tn-us-we1-dynamic"
   shared_secret            = "secrets"
   tunnel_count             = 2
   peer_ips                 = ["1.1.1.1","2.2.2.2"]
@@ -84,9 +84,9 @@ Depending on if the VPN tunnel(s) will be using dynamic or static routing, diffe
 | Name | Description | Type | Default | Required |
 |------|-------------|:----:|:-----:|:-----:|
 | cr_name | Name of cloud router that is being used | string | - | yes |
-| bgp_cr_session_range | Source IP and range of cloud router BGP session. List of IP and ranges to use, needs an IP/range for each tunnel in tunnel_count. First IP/range is used for BGP session of tunnel #1, second IP/range is used for BGP session of tunnel #2, and so on | list | - | yes | 
-| bgp_remote_session_range | Remote peer IP of cloud router BGP session. List of IP's to use, needs an IP/range for each tunnel in tunnel_count. First IP/range is used for BGP session of tunnel #1, second IP/range is used for BGP session of tunnel #2, and so on | list | - | yes | 
-| peer_asn | ASN number of peer for cloud router BGP session. List of ASN's to use, needs an ASN for each tunnel in tunnel_count. First ASN is used for BGP session of tunnel #1, second ASN is used for BGP session of tunnel #2, and so on | list | - | yes | 
+| bgp_cr_session_range | Source IP and range of cloud router BGP session. List of IP and ranges to use, needs an IP/range for each tunnel in tunnel_count. First IP/range is used for BGP session of tunnel #1, second IP/range is used for BGP session of tunnel #2, and so on | list | - | yes |
+| bgp_remote_session_range | Remote peer IP of cloud router BGP session. List of IP's to use, needs an IP/range for each tunnel in tunnel_count. First IP/range is used for BGP session of tunnel #1, second IP/range is used for BGP session of tunnel #2, and so on | list | - | yes |
+| peer_asn | ASN number of peer for cloud router BGP session. List of ASN's to use, needs an ASN for each tunnel in tunnel_count. First ASN is used for BGP session of tunnel #1, second ASN is used for BGP session of tunnel #2, and so on | list | - | yes |
 | advertised_route_priority | The priority of routes advertised to the BGP peers | int | 100 | no |
 
 
@@ -121,7 +121,7 @@ The project has the following folders and files:
 
 - /: root folder
 - /examples: examples for using this module
-- /main.tf: main file for this module, contains the routing resources 
+- /main.tf: main file for this module, contains the routing resources
 - /gateway.tf: contains the gateway resources
 - /tunnel.tf: contains the tunnel resources
 - /forwarding-rule.tf: contains the forwarding rules
