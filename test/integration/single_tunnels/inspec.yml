@@ -2,4 +2,4 @@ name: single_tunnels
 depends:
   - name: inspec-gcp
     git: https://github.com/inspec/inspec-gcp.git
-    version: '~> 0.9.0'
+    tag: v0.11.0
