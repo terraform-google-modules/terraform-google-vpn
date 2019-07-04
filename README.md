@@ -36,7 +36,7 @@ module "vpn-module-dynamic" {
   tunnel_count             = 2
   peer_ips                 = ["1.1.1.1","2.2.2.2"]
 
-  cr_name                  = "cr-uswest1-tunnels"
+  cr_name                  = "cr-uscentral1-to-mgt-vpc-tunnels"
   bgp_cr_session_range     = ["169.254.0.1/30", "169.254.0.3/30"]
   bgp_remote_session_range = ["169.254.0.2", "169.254.0.4"]
   peer_asn                 = ["64516", "64517"]
