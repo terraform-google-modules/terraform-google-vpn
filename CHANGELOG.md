@@ -21,13 +21,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Update examples to use registry with versions
 - Reorganize README
 
-## [0.2.0]
+## [0.2.0] - 2019-01-17
 
 ### Changed
 
 - Made `ike_version` configurable. #2
 
-## [0.1.0]
+## [0.1.0] - 2019-01-17
 
 ### Added
 
