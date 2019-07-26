@@ -16,4 +16,10 @@
 
 module "single_tunnels" {
   source = "../../../examples/single_tunnels"
+
+  mgt_project_id  = var.mgt_project_id
+  mgt_network     = var.mgt_network
+  prod_project_id = var.prod_project_id
+  prod_network    = var.prod_network
 }
+

@@ -74,13 +74,11 @@ function docker() {
 # directory paths which contain *.tf files.
 function check_terraform() {
   echo "Running terraform validate"
-  find_files . -name "*.tf" -print0 \
-    | compat_xargs -0 -n1 dirname \
-    | sort -u \
-    | grep -xv './test/fixtures/shared' \
-    | compat_xargs -t -n1 terraform validate --check-variables=false
+  #shellcheck disable=SC2156
+  find . -name "*.tf" -not -path "./test/fixtures/shared/*" -not -path "./test/fixtures/all_examples/*" -exec bash -c 'cd $(dirname "{}") && terraform init && terraform validate ' \;
+  echo "Running terraform fmt"
+  find_files . -name "*.tf" -exec terraform fmt  -check=true -write=false {} \;
 }
-
 # This function runs 'go fmt' and 'go vet' on every file
 # that ends in '.go'
 function golang() {

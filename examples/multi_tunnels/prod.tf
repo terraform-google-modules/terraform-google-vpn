@@ -18,8 +18,8 @@
 resource "google_compute_router" "cr-uscentral1-to-mgt-vpc-01" {
   name    = "cr-uscentral1-to-mgt-vpc-tunnels-01"
   region  = "us-central1"
-  network = "${var.prod_network}"
-  project = "${var.prod_project_id}"
+  network = var.prod_network
+  project = var.prod_project_id
 
   bgp {
     asn = "64515"
@@ -29,8 +29,8 @@ resource "google_compute_router" "cr-uscentral1-to-mgt-vpc-01" {
 resource "google_compute_router" "cr-uscentral1-to-mgt-vpc-02" {
   name    = "cr-uscentral1-to-mgt-vpc-tunnels-02"
   region  = "us-central1"
-  network = "${var.prod_network}"
-  project = "${var.prod_project_id}"
+  network = var.prod_network
+  project = var.prod_project_id
 
   bgp {
     asn = "64520"
@@ -39,14 +39,14 @@ resource "google_compute_router" "cr-uscentral1-to-mgt-vpc-02" {
 
 module "vpn-gw-us-ce1-prd-mgt-internal-01" {
   source             = "../../"
-  project_id         = "${var.prod_project_id }"
-  network            = "${var.prod_network}"
+  project_id         = var.prod_project_id
+  network            = var.prod_network
   region             = "us-central1"
   gateway_name       = "vpn-gw-us-ce1-prd-mgt-internal-01"
   tunnel_name_prefix = "vpn-tn-us-ce1-prd-mgt-internal-01-tunnel"
   shared_secret      = "secrets"
   tunnel_count       = 2
-  peer_ips           = ["${module.vpn-gw-us-ce1-mgt-prd-internal-01.gateway_ip}", "${module.vpn-gw-us-ce1-mgt-prd-internal-02.gateway_ip}"]
+  peer_ips           = [module.vpn-gw-us-ce1-mgt-prd-internal-01.gateway_ip, module.vpn-gw-us-ce1-mgt-prd-internal-02.gateway_ip]
 
   cr_name                  = "cr-uscentral1-to-mgt-vpc-tunnels-01"
   bgp_cr_session_range     = ["169.254.0.1/30", "169.254.0.21/30"]
@@ -56,14 +56,14 @@ module "vpn-gw-us-ce1-prd-mgt-internal-01" {
 
 module "vpn-gw-us-ce1-prd-mgt-internal-02" {
   source             = "../../"
-  project_id         = "${var.prod_project_id}"
-  network            = "${var.prod_network}"
+  project_id         = var.prod_project_id
+  network            = var.prod_network
   region             = "us-central1"
   gateway_name       = "vpn-gw-us-ce1-prd-mgt-internal-02"
   tunnel_name_prefix = "vpn-tn-us-ce1-prd-mgt-internal-02-tunnel"
   shared_secret      = "secrets"
   tunnel_count       = 2
-  peer_ips           = ["${module.vpn-gw-us-ce1-mgt-prd-internal-02.gateway_ip}", "${module.vpn-gw-us-ce1-mgt-prd-internal-01.gateway_ip}"]
+  peer_ips           = [module.vpn-gw-us-ce1-mgt-prd-internal-02.gateway_ip, module.vpn-gw-us-ce1-mgt-prd-internal-01.gateway_ip]
 
   cr_name                  = "cr-uscentral1-to-mgt-vpc-tunnels-02"
   bgp_cr_session_range     = ["169.254.0.5/30", "169.254.0.25/30"]
@@ -73,15 +73,16 @@ module "vpn-gw-us-ce1-prd-mgt-internal-02" {
 
 module "vpn-gw-us-we1-prd-mgt-internal" {
   source             = "../../"
-  project_id         = "${var.prod_project_id}"
-  network            = "${var.prod_network}"
+  project_id         = var.prod_project_id
+  network            = var.prod_network
   region             = "us-west1"
   gateway_name       = "vpn-gw-us-we1-prd-mgt-internal"
   tunnel_name_prefix = "vpn-tn-us-we1-prd-mgt-internal"
   shared_secret      = "secrets"
   tunnel_count       = 1
-  peer_ips           = ["${module.vpn-gw-us-we1-mgt-prd-internal.gateway_ip}"]
+  peer_ips           = [module.vpn-gw-us-we1-mgt-prd-internal.gateway_ip]
 
   route_priority = 1000
   remote_subnet  = ["10.17.32.0/20", "10.17.16.0/20"]
 }
+

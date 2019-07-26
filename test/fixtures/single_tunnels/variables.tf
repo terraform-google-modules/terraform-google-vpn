@@ -13,24 +13,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 variable "prod_project_id" {
-  type    = string
-  default = ""
+  type        = string
+  description = "The ID of the production project where the VPC will be created."
 }
 
 variable "prod_network" {
-  type    = string
-  default = ""
+  type        = string
+  description = "The name of the production VPC to be created."
 }
 
 variable "mgt_project_id" {
-  type    = string
-  default = ""
+  type        = string
+  description = "The ID of the management project where the VPC will be created."
 }
 
 variable "mgt_network" {
-  type    = string
-  default = ""
+  type        = string
+  description = "The name of the management VPC to be created."
 }
-

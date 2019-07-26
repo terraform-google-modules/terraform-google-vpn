@@ -21,7 +21,7 @@ SHELL := /usr/bin/env bash
 # Docker build config variables
 CREDENTIALS_PATH 			?= /cft/workdir/credentials.json
 DOCKER_ORG 				:= gcr.io/cloud-foundation-cicd
-DOCKER_TAG_BASE_KITCHEN_TERRAFORM 	?= 0.11.10_216.0.0_1.19.1_0.1.10
+DOCKER_TAG_BASE_KITCHEN_TERRAFORM 	?= 2.3.0
 DOCKER_REPO_BASE_KITCHEN_TERRAFORM 	:= ${DOCKER_ORG}/cft/kitchen-terraform:${DOCKER_TAG_BASE_KITCHEN_TERRAFORM}
 
 # All is the first target in the file so it will get picked up when you just run 'make' on its own
@@ -97,7 +97,7 @@ docker_run:
 		-e GOOGLE_APPLICATION_CREDENTIALS=${CREDENTIALS_PATH} \
 		-v $(CURDIR):/cft/workdir \
 		${DOCKER_REPO_BASE_KITCHEN_TERRAFORM} \
-		/bin/bash -c "source test/ci_integration.sh && setup_environment && exec /bin/bash"
+		/bin/bash -c "cd /cft/workdir && source test/ci_integration.sh && setup_environment && exec /bin/bash"
 
 .PHONY: docker_create
 docker_create:
@@ -111,7 +111,7 @@ docker_create:
 		-e GOOGLE_APPLICATION_CREDENTIALS=${CREDENTIALS_PATH} \
 		-v $(CURDIR):/cft/workdir \
 		${DOCKER_REPO_BASE_KITCHEN_TERRAFORM} \
-		/bin/bash -c "source test/ci_integration.sh && setup_environment && kitchen create"
+		/bin/bash -c "cd /cft/workdir && source test/ci_integration.sh && setup_environment && kitchen create"
 
 .PHONY: docker_converge
 docker_converge:
@@ -125,7 +125,7 @@ docker_converge:
 		-e GOOGLE_APPLICATION_CREDENTIALS=${CREDENTIALS_PATH} \
 		-v $(CURDIR):/cft/workdir \
 		${DOCKER_REPO_BASE_KITCHEN_TERRAFORM} \
-		/bin/bash -c "source test/ci_integration.sh && setup_environment && kitchen converge"
+		/bin/bash -c "cd /cft/workdir && source test/ci_integration.sh && setup_environment && kitchen converge"
 
 .PHONY: docker_verify
 docker_verify:
@@ -139,7 +139,7 @@ docker_verify:
 		-e GOOGLE_APPLICATION_CREDENTIALS=${CREDENTIALS_PATH} \
 		-v $(CURDIR):/cft/workdir \
 		${DOCKER_REPO_BASE_KITCHEN_TERRAFORM} \
-		/bin/bash -c "source test/ci_integration.sh && setup_environment && kitchen verify"
+		/bin/bash -c "cd /cft/workdir && source test/ci_integration.sh && setup_environment && kitchen verify"
 
 .PHONY: docker_destroy
 docker_destroy:
@@ -153,7 +153,7 @@ docker_destroy:
 		-e GOOGLE_APPLICATION_CREDENTIALS=${CREDENTIALS_PATH} \
 		-v $(CURDIR):/cft/workdir \
 		${DOCKER_REPO_BASE_KITCHEN_TERRAFORM} \
-		/bin/bash -c "source test/ci_integration.sh && setup_environment && kitchen destroy"
+		/bin/bash -c "cd /cft/workdir && source test/ci_integration.sh && setup_environment && kitchen destroy"
 
 .PHONY: test_integration_docker
 test_integration_docker:
@@ -167,4 +167,4 @@ test_integration_docker:
 		-e GOOGLE_APPLICATION_CREDENTIALS=${CREDENTIALS_PATH} \
 		-v $(CURDIR):/cft/workdir \
 		${DOCKER_REPO_BASE_KITCHEN_TERRAFORM} \
-		make test_integration
+		/bin/bash -c "cd /cft/workdir && source test/ci_integration.sh && setup_environment && make test_integration"
