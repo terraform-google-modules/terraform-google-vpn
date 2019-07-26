@@ -8,6 +8,12 @@ It supports creating:
 - Tunnels connecting the gateway to defined peers
 - Static routes for subnets across tunnel -or- dynamic routes with cloud router
 
+## Compatibility
+
+ This module is meant for use with Terraform 0.12. If you haven't [upgraded](https://www.terraform.io/upgrade-guides/0-12.html)
+  and need a Terraform 0.11.x-compatible version of this module, the last released version intended for
+  Terraform 0.11.x is [0.3.0](https://registry.terraform.io/modules/terraform-google-modules/vpn/google/0.3.0).
+
 ## Usage
 You can go to the examples folder, however the usage of the module could be like this in your own main.tf file:
 
@@ -104,7 +110,7 @@ Please refer the /outputs.tf file for the outputs that you can get with the `ter
 
 ## Requirements
 ### Terraform plugins
-- [Terraform](https://www.terraform.io/downloads.html) 0.10.x
+- [Terraform](https://www.terraform.io/downloads.html) 0.12.x
 - [terraform-provider-google](https://github.com/terraform-providers/terraform-provider-google) plugin v1.8.0
 
 ### Configure a Service Account

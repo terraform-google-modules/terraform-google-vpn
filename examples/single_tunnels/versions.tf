@@ -14,23 +14,6 @@
  * limitations under the License.
  */
 
-variable "prod_project_id" {
-  type    = string
-  default = ""
+terraform {
+  required_version = ">= 0.12"
 }
-
-variable "prod_network" {
-  type    = string
-  default = ""
-}
-
-variable "mgt_project_id" {
-  type    = string
-  default = ""
-}
-
-variable "mgt_network" {
-  type    = string
-  default = ""
-}
-
