@@ -73,6 +73,7 @@ Then perform the following commands on the root folder:
 - `terraform apply` to apply the infrastructure build
 - `terraform destroy` to destroy the built infrastructure
 
+<!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 ## Inputs
 | Name | Description | Type | Default | Required |
 |------|-------------|:----:|:-----:|:-----:|
@@ -89,7 +90,8 @@ Depending on if the VPN tunnel(s) will be using dynamic or static routing, diffe
 
 | Name | Description | Type | Default | Required |
 |------|-------------|:----:|:-----:|:-----:|
-| cr_name | Name of cloud router that is being used | string | - | yes |
+| cr_name | Name of cloud router that is being used | string | - | no |
+| cr_enabled | If there is a cloud router for BGP routing | bool | false | no |
 | bgp_cr_session_range | Source IP and range of cloud router BGP session. List of IP and ranges to use, needs an IP/range for each tunnel in tunnel_count. First IP/range is used for BGP session of tunnel #1, second IP/range is used for BGP session of tunnel #2, and so on | list | - | yes |
 | bgp_remote_session_range | Remote peer IP of cloud router BGP session. List of IP's to use, needs an IP/range for each tunnel in tunnel_count. First IP/range is used for BGP session of tunnel #1, second IP/range is used for BGP session of tunnel #2, and so on | list | - | yes |
 | peer_asn | ASN number of peer for cloud router BGP session. List of ASN's to use, needs an ASN for each tunnel in tunnel_count. First ASN is used for BGP session of tunnel #1, second ASN is used for BGP session of tunnel #2, and so on | list | - | yes |
@@ -107,6 +109,7 @@ For static routing, please use the following variables:
 
 ## Outputs
 Please refer the /outputs.tf file for the outputs that you can get with the `terraform output` command
+<!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 
 ## Requirements
 ### Terraform plugins

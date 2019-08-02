@@ -22,7 +22,7 @@ locals {
 # For VPN gateways with static routing
 ## Create Route (for static routing gateways)
 resource "google_compute_route" "route" {
-  count      = var.cr_name == "" ? var.tunnel_count * length(var.remote_subnet) : 0
+  count      = !var.cr_enabled ? var.tunnel_count * length(var.remote_subnet) : 0
   name       = "${google_compute_vpn_gateway.vpn_gateway.name}-tunnel${count.index % var.tunnel_count + 1}-route${count.index % length(var.remote_subnet) + 1}"
   network    = var.network
   project    = var.project_id
@@ -37,7 +37,7 @@ resource "google_compute_route" "route" {
 # For VPN gateways routing through BGP and Cloud Routers
 ## Create Router Interfaces
 resource "google_compute_router_interface" "router_interface" {
-  count      = var.cr_name != "" ? var.tunnel_count : 0
+  count      = var.cr_enabled ? var.tunnel_count : 0
   name       = "interface-${local.tunnel_name_prefix}-${count.index}"
   router     = var.cr_name
   region     = var.region
@@ -50,7 +50,7 @@ resource "google_compute_router_interface" "router_interface" {
 
 ## Create Peers
 resource "google_compute_router_peer" "bgp_peer" {
-  count                     = var.cr_name != "" ? var.tunnel_count : 0
+  count                     = var.cr_enabled ? var.tunnel_count : 0
   name                      = "bgp-session-${count.index}"
   router                    = var.cr_name
   region                    = var.region
