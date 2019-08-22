@@ -7,7 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## [1.0.1] - 2019-XX-YY
+## [1.1.0] - 2019-08-21
 
 ### Change
 
@@ -39,10 +39,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Initial module release.
 
-[Unreleased]: https://github.com/terraform-google-modules/terraform-google-vpn/compare/v1.0.0...HEAD
+[Unreleased]: https://github.com/terraform-google-modules/terraform-google-vpn/compare/v1.1.0...HEAD
+[1.1.0]: https://github.com/terraform-google-modules/terraform-google-vpn/compare/v1.0.0...v1.1.0
 [1.0.0]: https://github.com/terraform-google-modules/terraform-google-vpn/compare/v0.3.0...v1.0.0
 [0.3.0]: https://github.com/terraform-google-modules/terraform-google-vpn/compare/v0.2.0...v0.3.0
 [0.2.0]: https://github.com/terraform-google-modules/terraform-google-vpn/compare/v0.1.0...v0.2.0
 [0.1.0]: https://github.com/terraform-google-modules/terraform-google-vpn/releases/tag/v0.1.0
+
 [#12]: https://github.com/terraform-google-modules/terraform-google-vpn/pull/12
 [#17]: https://github.com/terraform-google-modules/terraform-google-vpn/pull/17
