@@ -27,8 +27,9 @@ finish() {
 # running the tests to Terraform input variables.  Also setup credentials for
 # use with kitchen-terraform, inspec, and gcloud.
 setup_environment() {
-  local tmpfile
+  local tmpfile def_net
   tmpfile="$(mktemp)"
+  def_net="default"
   echo "${SERVICE_ACCOUNT_JSON}" > "${tmpfile}"
 
   # gcloud variables
@@ -37,10 +38,13 @@ setup_environment() {
   export GOOGLE_APPLICATION_CREDENTIALS="${tmpfile}"
 
   # Terraform  variables
+  export TF_VAR_credentials_path="${tmpfile}"
+  export TF_VAR_billing_account="${BILLING_ACCOUNT_ID}"
+  export TF_VAR_folder_id="${FOLDER_ID}"
+  export TF_VAR_org_id="${ORG_ID}"
   export TF_VAR_prod_project_id="${PROD_PROJECT_ID}"
-  export TF_VAR_prod_network="${PROD_NETWORK}"
-  export TF_VAR_mgt_project_id="${MGT_PROJECT_ID}"
-  export TF_VAR_mgt_network="${MGT_NETWORK}"
+  export TF_VAR_prod_network="${PROD_NETWORK:- $def_net}"
+  export TF_VAR_mgt_network="${MGT_NETWORK:- $def_net}"
 }
 
 main() {

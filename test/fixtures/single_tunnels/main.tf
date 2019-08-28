@@ -14,10 +14,26 @@
  * limitations under the License.
  */
 
+
+
+module "mgt_project" {
+  source              = "terraform-google-modules/project-factory/google"
+  version             = "~> 3.2.0"
+  random_project_id   = true
+  name                = "mgt-sample-project"
+  org_id              = var.org_id
+  folder_id           = var.folder_id
+  billing_account     = var.billing_account
+  activate_apis       = ["compute.googleapis.com"]
+  credentials_path    = var.credentials_path
+  domain              = "phoogle.net"
+  auto_create_network = true
+}
+
 module "single_tunnels" {
   source = "../../../examples/single_tunnels"
 
-  mgt_project_id  = var.mgt_project_id
+  mgt_project_id  = module.mgt_project.project_id
   mgt_network     = var.mgt_network
   prod_project_id = var.prod_project_id
   prod_network    = var.prod_network

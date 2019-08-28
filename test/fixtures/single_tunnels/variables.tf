@@ -20,15 +20,34 @@ variable "prod_project_id" {
 
 variable "prod_network" {
   type        = string
+  default     = "default"
   description = "The name of the production VPC to be created."
-}
-
-variable "mgt_project_id" {
-  type        = string
-  description = "The ID of the management project where the VPC will be created."
 }
 
 variable "mgt_network" {
   type        = string
+  default     = "default"
   description = "The name of the management VPC to be created."
+}
+
+variable "credentials_path" {
+  description = "Path to a service account credentials file with rights to run the Project Factory. If this file is absent Terraform will fall back to Application Default Credentials."
+  type        = string
+  default     = ""
+}
+
+variable "billing_account" {
+  description = "The ID of the billing account to associate this project with"
+  type        = string
+}
+
+variable "org_id" {
+  description = "The organization id for the associated services"
+  type        = string
+}
+
+variable "folder_id" {
+  description = "The ID of a folder to host project"
+  type        = string
+  default     = ""
 }

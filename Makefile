@@ -88,7 +88,10 @@ version:
 .PHONY: docker_run
 docker_run:
 	docker run --rm -it \
-		-e PROD_PROJECT_ID \
+		-e BILLING_ACCOUNT_ID  \
+    	-e FOLDER_ID \
+    	-e ORG_ID \
+    	-e PROD_PROJECT_ID \
 		-e PROD_NETWORK \
 		-e MGT_PROJECT_ID \
 		-e MGT_NETWORK \
@@ -102,6 +105,9 @@ docker_run:
 .PHONY: docker_create
 docker_create:
 	docker run --rm -it \
+		-e BILLING_ACCOUNT_ID  \
+        -e FOLDER_ID \
+        -e ORG_ID \
 		-e PROD_PROJECT_ID \
 		-e PROD_NETWORK \
 		-e MGT_PROJECT_ID \
@@ -116,6 +122,9 @@ docker_create:
 .PHONY: docker_converge
 docker_converge:
 	docker run --rm -it \
+		-e BILLING_ACCOUNT_ID  \
+        -e FOLDER_ID \
+        -e ORG_ID \
 		-e PROD_PROJECT_ID \
 		-e PROD_NETWORK \
 		-e MGT_PROJECT_ID \
@@ -130,6 +139,9 @@ docker_converge:
 .PHONY: docker_verify
 docker_verify:
 	docker run --rm -it \
+		-e BILLING_ACCOUNT_ID  \
+        -e FOLDER_ID \
+        -e ORG_ID \
 		-e PROD_PROJECT_ID \
 		-e PROD_NETWORK \
 		-e MGT_PROJECT_ID \
@@ -144,6 +156,9 @@ docker_verify:
 .PHONY: docker_destroy
 docker_destroy:
 	docker run --rm -it \
+		-e BILLING_ACCOUNT_ID  \
+        -e FOLDER_ID \
+        -e ORG_ID \
 		-e PROD_PROJECT_ID \
 		-e PROD_NETWORK \
 		-e MGT_PROJECT_ID \
@@ -158,6 +173,9 @@ docker_destroy:
 .PHONY: test_integration_docker
 test_integration_docker:
 	docker run --rm -it \
+		-e BILLING_ACCOUNT_ID  \
+        -e FOLDER_ID \
+        -e ORG_ID \
 		-e PROD_PROJECT_ID \
 		-e PROD_NETWORK \
 		-e MGT_PROJECT_ID \
