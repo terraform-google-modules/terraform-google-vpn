@@ -14,6 +14,12 @@ It supports creating:
   and need a Terraform 0.11.x-compatible version of this module, the last released version intended for
   Terraform 0.11.x is [0.3.0](https://registry.terraform.io/modules/terraform-google-modules/vpn/google/0.3.0).
 
+## Upgrading
+
+The following guides are available to assist with upgrades:
+
+- [1.X -> 2.0](./docs/upgrading_to_vpn_v2.0.md)
+
 ## Usage
 
 You can go to the examples folder, however the usage of the module could be like this in your own main.tf file:
