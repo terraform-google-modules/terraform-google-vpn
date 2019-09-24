@@ -15,26 +15,27 @@ It supports creating:
   Terraform 0.11.x is [0.3.0](https://registry.terraform.io/modules/terraform-google-modules/vpn/google/0.3.0).
 
 ## Usage
+
 You can go to the examples folder, however the usage of the module could be like this in your own main.tf file:
 
 ```hcl
-resource "google_compute_router" "cr-central1-to-mgt-vpc" {
+resource "google_compute_router" "cr_central1_to_mgt_vpc" {
   name    = "cr-uscentral1-to-mgt-vpc-tunnels"
   region  = "us-central1"
-  network = "${var.prod_network}"
-  project = "${var.prod_project_id}"
+  network = var.prod_network
+  project = var.prod_project_id
 
   bgp {
     asn   = "64515"
   }
 }
 
-module "vpn-module-dynamic" {
+module "vpn_dynamic" {
   source  = "terraform-google-modules/vpn/google"
-  version = "0.2.0"
+  version = "~> 2.0"
 
-  project_id               = "${var.project_id}"
-  network                  = "${var.network}"
+  project_id               = var.project_id
+  network                  = var.network
   region                   = "us-west1"
   gateway_name             = "vpn-gw-us-we1-dynamic"
   tunnel_name_prefix       = "vpn-tn-us-we1-dynamic"
@@ -42,18 +43,19 @@ module "vpn-module-dynamic" {
   tunnel_count             = 2
   peer_ips                 = ["1.1.1.1","2.2.2.2"]
 
-  cr_name                  = "cr-uscentral1-to-mgt-vpc-tunnels"
+  cr_enabled               = true
+  cr_name                  = google_compute_router.cr_central1_to_mgt_vpc.name
   bgp_cr_session_range     = ["169.254.0.1/30", "169.254.0.3/30"]
   bgp_remote_session_range = ["169.254.0.2", "169.254.0.4"]
   peer_asn                 = ["64516", "64517"]
 }
 
-module "vpn-module-static" {
+module "vpn_static" {
   source  = "terraform-google-modules/vpn/google"
-  version = "0.2.0"
+  version = "~> 2.0"
 
-  project_id         = "${var.project_id}"
-  network            = "${var.network}"
+  project_id         = var.project_id
+  network            = var.network
   region             = "us-west1"
   gateway_name       = "vpn-gw-us-we1-static"
   tunnel_name_prefix = "vpn-tn-us-we1-static"
