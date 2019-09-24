@@ -38,6 +38,7 @@ module "vpn-gw-us-ce1-prd-mgt-internal" {
   peer_ips           = [module.vpn-gw-us-ce1-mgt-prd-internal.gateway_ip]
 
   cr_name                  = "cr-uscentral1-to-mgt-vpc-tunnels"
+  cr_enabled               = true
   bgp_cr_session_range     = ["169.254.0.1/30"]
   bgp_remote_session_range = ["169.254.0.2"]
   peer_asn                 = ["64516"]

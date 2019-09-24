@@ -92,9 +92,15 @@ default     = 1000
 }
 
 variable "cr_name" {
-type        = string
-description = "The name of cloud router for BGP routing"
-default     = ""
+  type        = string
+  description = "The name of cloud router for BGP routing"
+  default     = ""
+}
+
+variable "cr_enabled" {
+  type        = bool
+  description = "If there is a cloud router for BGP routing"
+  default     = false
 }
 
 variable "peer_asn" {

@@ -49,6 +49,7 @@ module "vpn-gw-us-ce1-prd-mgt-internal-01" {
   peer_ips           = [module.vpn-gw-us-ce1-mgt-prd-internal-01.gateway_ip, module.vpn-gw-us-ce1-mgt-prd-internal-02.gateway_ip]
 
   cr_name                  = "cr-uscentral1-to-mgt-vpc-tunnels-01"
+  cr_enabled = true
   bgp_cr_session_range     = ["169.254.0.1/30", "169.254.0.21/30"]
   bgp_remote_session_range = ["169.254.0.2", "169.254.0.22"]
   peer_asn                 = ["64516", "64521"]
@@ -66,6 +67,7 @@ module "vpn-gw-us-ce1-prd-mgt-internal-02" {
   peer_ips           = [module.vpn-gw-us-ce1-mgt-prd-internal-02.gateway_ip, module.vpn-gw-us-ce1-mgt-prd-internal-01.gateway_ip]
 
   cr_name                  = "cr-uscentral1-to-mgt-vpc-tunnels-02"
+  cr_enabled               = true
   bgp_cr_session_range     = ["169.254.0.5/30", "169.254.0.25/30"]
   bgp_remote_session_range = ["169.254.0.6", "169.254.0.26"]
   peer_asn                 = ["64521", "64516"]
