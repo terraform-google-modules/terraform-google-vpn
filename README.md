@@ -21,8 +21,8 @@ You can go to the examples folder, however the usage of the module could be like
 resource "google_compute_router" "cr-central1-to-mgt-vpc" {
   name    = "cr-uscentral1-to-mgt-vpc-tunnels"
   region  = "us-central1"
-  network = "${var.prod_network}"
-  project = "${var.prod_project_id}"
+  network = var.prod_network
+  project = var.prod_project_id
 
   bgp {
     asn   = "64515"
@@ -31,10 +31,10 @@ resource "google_compute_router" "cr-central1-to-mgt-vpc" {
 
 module "vpn-module-dynamic" {
   source  = "terraform-google-modules/vpn/google"
-  version = "0.2.0"
+  version = "~> 1.0"
 
-  project_id               = "${var.project_id}"
-  network                  = "${var.network}"
+  project_id               = var.project_id
+  network                  = var.network
   region                   = "us-west1"
   gateway_name             = "vpn-gw-us-we1-dynamic"
   tunnel_name_prefix       = "vpn-tn-us-we1-dynamic"
@@ -50,10 +50,10 @@ module "vpn-module-dynamic" {
 
 module "vpn-module-static" {
   source  = "terraform-google-modules/vpn/google"
-  version = "0.2.0"
+  version = "~> 1.0"
 
-  project_id         = "${var.project_id}"
-  network            = "${var.network}"
+  project_id         = var.project_id
+  network            = var.network
   region             = "us-west1"
   gateway_name       = "vpn-gw-us-we1-static"
   tunnel_name_prefix = "vpn-tn-us-we1-static"
