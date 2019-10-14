@@ -21,6 +21,12 @@ steps:
     - 'TF_VAR_org_id=$_ORG_ID'
     - 'TF_VAR_folder_id=$_FOLDER_ID'
     - 'TF_VAR_billing_account=$_BILLING_ACCOUNT'
+- id: destroy-project-prod
+  name: 'gcr.io/cloud-foundation-cicd/$_DOCKER_IMAGE_DEVELOPER_TOOLS:$_DOCKER_TAG_VERSION_DEVELOPER_TOOLS'
+  args: ['/bin/bash', '-c', 'source /usr/local/bin/task_helper_functions.sh && source_test_env && init_credentials && gcloud projects delete -q ${TF_VAR_prod_project_id}']
+- id: destroy-project-mgt
+  name: 'gcr.io/cloud-foundation-cicd/$_DOCKER_IMAGE_DEVELOPER_TOOLS:$_DOCKER_TAG_VERSION_DEVELOPER_TOOLS'
+  args: ['/bin/bash', '-c', 'source /usr/local/bin/task_helper_functions.sh && source_test_env && init_credentials && gcloud projects delete -q ${TF_VAR_mgt_project_id}']
 - id: create
   name: 'gcr.io/cloud-foundation-cicd/$_DOCKER_IMAGE_DEVELOPER_TOOLS:$_DOCKER_TAG_VERSION_DEVELOPER_TOOLS'
   args: ['/bin/bash', '-c', 'source /usr/local/bin/task_helper_functions.sh && kitchen_do create']
