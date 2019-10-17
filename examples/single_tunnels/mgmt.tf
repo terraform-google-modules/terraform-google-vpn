@@ -37,7 +37,7 @@ module "vpn-gw-us-ce1-mgt-prd-internal" {
   tunnel_count       = 1
   peer_ips           = [module.vpn-gw-us-ce1-prd-mgt-internal.gateway_ip]
 
-  cr_name                  = "cr-uscentral1-to-prod-vpc-tunnels"
+  cr_name                  = google_compute_router.cr-uscentral1-to-prod-vpc.name
   cr_enabled               = true
   bgp_cr_session_range     = ["169.254.0.2/30"]
   bgp_remote_session_range = ["169.254.0.1"]
@@ -58,4 +58,3 @@ module "vpn-gw-us-we1-mgt-prd-internal" {
   route_priority = 1000
   remote_subnet  = ["10.17.0.0/22", "10.16.80.0/24"]
 }
-
