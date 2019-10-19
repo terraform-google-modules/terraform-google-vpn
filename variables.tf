@@ -54,7 +54,7 @@ Value should be list of CIDR formatted strings and ranges should be disjoint.
 EOD
 
 
-  type = list(string)
+  type    = list(string)
   default = ["0.0.0.0/0"]
 }
 
@@ -65,30 +65,30 @@ Value should be list of CIDR formatted strings and ranges should be disjoint.
 EOD
 
 
-type    = list(string)
-default = ["0.0.0.0/0"]
+  type    = list(string)
+  default = ["0.0.0.0/0"]
 }
 
 variable "peer_ips" {
-type        = list(string)
-description = "IP address of remote-peer/gateway"
+  type        = list(string)
+  description = "IP address of remote-peer/gateway"
 }
 
 variable "remote_subnet" {
-description = "remote subnet ip range in CIDR format - x.x.x.x/x"
-type        = list(string)
-default     = []
+  description = "remote subnet ip range in CIDR format - x.x.x.x/x"
+  type        = list(string)
+  default     = []
 }
 
 variable "shared_secret" {
-type        = string
-description = "Please enter the shared secret/pre-shared key"
-default     = ""
+  type        = string
+  description = "Please enter the shared secret/pre-shared key"
+  default     = ""
 }
 
 variable "route_priority" {
-description = "Priority for static route being created"
-default     = 1000
+  description = "Priority for static route being created"
+  default     = 1000
 }
 
 variable "cr_name" {
@@ -104,31 +104,31 @@ variable "cr_enabled" {
 }
 
 variable "peer_asn" {
-type        = list(string)
-description = "Please enter the ASN of the BGP peer that cloud router will use"
-default     = ["65101"]
+  type        = list(string)
+  description = "Please enter the ASN of the BGP peer that cloud router will use"
+  default     = ["65101"]
 }
 
 variable "bgp_cr_session_range" {
-type        = list(string)
-description = "Please enter the cloud-router interface IP/Session IP"
-default     = ["169.254.1.1/30", "169.254.1.5/30"]
+  type        = list(string)
+  description = "Please enter the cloud-router interface IP/Session IP"
+  default     = ["169.254.1.1/30", "169.254.1.5/30"]
 }
 
 variable "bgp_remote_session_range" {
-type        = list(string)
-description = "Please enter the remote environments BGP Session IP"
-default     = ["169.254.1.2", "169.254.1.6"]
+  type        = list(string)
+  description = "Please enter the remote environments BGP Session IP"
+  default     = ["169.254.1.2", "169.254.1.6"]
 }
 
 variable "advertised_route_priority" {
-description = "Please enter the priority for the advertised route to BGP peer(default is 100)"
-default     = 100
+  description = "Please enter the priority for the advertised route to BGP peer(default is 100)"
+  default     = 100
 }
 
 variable "ike_version" {
-type        = number
-description = "Please enter the IKE version used by this tunnel (default is IKEv2)"
-default     = 2
+  type        = number
+  description = "Please enter the IKE version used by this tunnel (default is IKEv2)"
+  default     = 2
 }
 

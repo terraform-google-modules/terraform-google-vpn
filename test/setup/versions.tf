@@ -1,5 +1,5 @@
 /**
- * Copyright 2018 Google LLC
+ * Copyright 2019 Google LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,24 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-variable "prod_project_id" {
-  type        = string
-  description = "The ID of the production project where the VPC will be created."
+
+terraform {
+  required_version = ">= 0.12"
 }
 
-variable "prod_network" {
-  type        = string
-  default     = "default"
-  description = "The name of the production VPC to be created."
+provider "google" {
+  version = "~> 2.13.0"
 }
 
-variable "mgt_project_id" {
-  type        = string
-  description = "The ID of the management project where the VPC will be created."
-}
-
-variable "mgt_network" {
-  type        = string
-  default     = "default"
-  description = "The name of the management VPC to be created."
+provider "google-beta" {
+  version = "~> 2.13.0"
 }
