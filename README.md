@@ -25,52 +25,48 @@ The following guides are available to assist with upgrades:
 You can go to the examples folder, however the usage of the module could be like this in your own main.tf file:
 
 ```hcl
-resource "google_compute_router" "cr_central1_to_mgt_vpc" {
-  name    = "cr-uscentral1-to-mgt-vpc-tunnels"
+resource "google_compute_router" "cr-uscentral1-to-prod-vpc" {
+  name    = "cr-uscentral1-to-prod-vpc-tunnels"
   region  = "us-central1"
-  network = var.prod_network
-  project = var.prod_project_id
+  network = "default"
+  project = var.project_id
 
   bgp {
-    asn   = "64515"
+    asn = "64519"
   }
 }
 
-module "vpn_dynamic" {
+module "vpn-prod-internal" {
   source  = "terraform-google-modules/vpn/google"
-  version = "~> 2.0"
-
-  project_id               = var.project_id
-  network                  = var.network
-  region                   = "us-west1"
-  gateway_name             = "vpn-gw-us-we1-dynamic"
-  tunnel_name_prefix       = "vpn-tn-us-we1-dynamic"
-  shared_secret            = "secrets"
-  tunnel_count             = 2
-  peer_ips                 = ["1.1.1.1","2.2.2.2"]
-
-  cr_enabled               = true
-  cr_name                  = google_compute_router.cr_central1_to_mgt_vpc.name
-  bgp_cr_session_range     = ["169.254.0.1/30", "169.254.0.3/30"]
-  bgp_remote_session_range = ["169.254.0.2", "169.254.0.4"]
-  peer_asn                 = ["64516", "64517"]
-}
-
-module "vpn_static" {
-  source  = "terraform-google-modules/vpn/google"
-  version = "~> 2.0"
+  version = "~> 1.2.0"
 
   project_id         = var.project_id
-  network            = var.network
+  network            = "default"
   region             = "us-west1"
-  gateway_name       = "vpn-gw-us-we1-static"
-  tunnel_name_prefix = "vpn-tn-us-we1-static"
+  gateway_name       = "vpn-prod-internal"
+  tunnel_name_prefix = "vpn-tn-prod-internal"
   shared_secret      = "secrets"
-  tunnel_count       = 2
-  peer_ips           = ["1.1.1.1","2.2.2.2"]
+  tunnel_count       = 1
+  peer_ips           = ["1.1.1.1", "2.2.2.2"]
 
-  route_priority     = 1000
-  remote_subnet      = ["10.200.10.0/24","10.200.20.0/24"]
+  route_priority = 1000
+  remote_subnet  = ["10.17.0.0/22", "10.16.80.0/24"]
+}
+
+module "vpn-manage-internal" {
+  source  = "terraform-google-modules/vpn/google"
+  version = "~> 1.2.0"
+  project_id         = var.project_id
+  network            = "default"
+  region             = "us-west1"
+  gateway_name       = "vpn-manage-internal"
+  tunnel_name_prefix = "vpn-tn-manage-internal"
+  shared_secret      = "secrets"
+  tunnel_count       = 1
+  peer_ips           = ["1.1.1.1", "2.2.2.2"]
+
+  route_priority = 1000
+  remote_subnet  = ["10.17.32.0/20", "10.17.16.0/20"]
 }
 ```
 
