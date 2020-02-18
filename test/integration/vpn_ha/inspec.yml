@@ -1,0 +1,27 @@
+name: vpn_ha
+attributes:
+  - name: mgt_project_id
+    required: true
+    type: string
+  - name: prod_project_id
+    required: true
+    type: string
+  - name: mgt_gateway_name
+    required: true
+    type: string
+  - name: prod_gateway_name
+    required: true
+    type: string
+  - name: prod_tunnel_names
+    required: true
+    type: hash
+  - name: mgt_tunnel_names
+    required: true
+    type: hash
+  - name: region
+    required: true
+    type: string
+depends:
+  - name: inspec-gcp
+    git: https://github.com/inspec/inspec-gcp.git
+    tag: v0.11.0

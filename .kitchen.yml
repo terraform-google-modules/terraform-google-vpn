@@ -32,3 +32,16 @@ suites:
           backend: gcp
           controls:
             - gcp
+  - name: vpn_ha
+    driver:
+      name: terraform
+      root_module_directory: test/fixtures/vpn_ha
+      command_timeout: 1800
+    verifier:
+      name: terraform
+      color: false
+      systems:
+        - name: local
+          backend: local
+          controls:
+            - gcloud
