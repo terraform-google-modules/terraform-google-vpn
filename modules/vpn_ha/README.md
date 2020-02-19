@@ -129,33 +129,33 @@ module "vpn_ha" {
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 ## Inputs
 
-| Name                      | Description                                                                                       |  Type  |  Default  | Required |
-| ------------------------- | ------------------------------------------------------------------------------------------------- | :----: | :-------: | :------: |
-| name                      | VPN gateway name, and prefix used for dependent resources.                                        | string |    n/a    |   yes    |
-| network                   | VPC used for the gateway and routes.                                                              | string |    n/a    |   yes    |
-| peer\_external\_gateway   | Configuration of an external VPN gateway to which this VPN is connected.                          | object | `"null"`  |    no    |
-| peer\_gcp\_gateway        | Self Link URL of the peer side HA GCP VPN gateway to which this VPN tunnel is connected.          | string | `"null"`  |    no    |
-| project\_id               | Project where resources will be created.                                                          | string |    n/a    |   yes    |
-| region                    | Region used for resources.                                                                        | string |    n/a    |   yes    |
-| route\_priority           | Route priority, defaults to 1000.                                                                 | number | `"1000"`  |    no    |
-| router\_advertise\_config | Router custom advertisement configuration, ip_ranges is a map of address ranges and descriptions. | object | `"null"`  |    no    |
-| router\_asn               | Router ASN used for auto-created router.                                                          | number | `"64514"` |    no    |
-| router\_name              | Name of router, leave blank to create one.                                                        | string |   `""`    |    no    |
-| tunnels                   | VPN tunnel configurations, bgp_peer_options is usually null.                                      | object |  `<map>`  |    no    |
+| Name | Description | Type | Default | Required |
+|------|-------------|:----:|:-----:|:-----:|
+| name | VPN gateway name, and prefix used for dependent resources. | string | n/a | yes |
+| network | VPC used for the gateway and routes. | string | n/a | yes |
+| peer\_external\_gateway | Configuration of an external VPN gateway to which this VPN is connected. | object | `"null"` | no |
+| peer\_gcp\_gateway | Self Link URL of the peer side HA GCP VPN gateway to which this VPN tunnel is connected. | string | `"null"` | no |
+| project\_id | Project where resources will be created. | string | n/a | yes |
+| region | Region used for resources. | string | n/a | yes |
+| route\_priority | Route priority, defaults to 1000. | number | `"1000"` | no |
+| router\_advertise\_config | Router custom advertisement configuration, ip_ranges is a map of address ranges and descriptions. | object | `"null"` | no |
+| router\_asn | Router ASN used for auto-created router. | number | `"64514"` | no |
+| router\_name | Name of router, leave blank to create one. | string | `""` | no |
+| tunnels | VPN tunnel configurations, bgp_peer_options is usually null. | object | `<map>` | no |
 
 ## Outputs
 
-| Name                | Description                             |
-| ------------------- | --------------------------------------- |
-| external\_gateway   | External VPN gateway resource.          |
-| gateway             | HA VPN gateway resource.                |
-| name                | VPN gateway name.                       |
-| random\_secret      | Generated secret.                       |
-| router              | Router resource (only if auto-created). |
-| router\_name        | Router name.                            |
-| self\_link          | HA VPN gateway self link.               |
-| tunnel\_names       | VPN tunnel names.                       |
-| tunnel\_self\_links | VPN tunnel self links.                  |
-| tunnels             | VPN tunnel resources.                   |
+| Name | Description |
+|------|-------------|
+| external\_gateway | External VPN gateway resource. |
+| gateway | HA VPN gateway resource. |
+| name | VPN gateway name. |
+| random\_secret | Generated secret. |
+| router | Router resource (only if auto-created). |
+| router\_name | Router name. |
+| self\_link | HA VPN gateway self link. |
+| tunnel\_names | VPN tunnel names. |
+| tunnel\_self\_links | VPN tunnel self links. |
+| tunnels | VPN tunnel resources. |
 
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
