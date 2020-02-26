@@ -19,9 +19,19 @@ output "prod_project_id" {
   description = "The name of the production VPC to be created."
 }
 
+output "prod_network_self_link" {
+  value       = format("https://www.googleapis.com/compute/v1/projects/%s/global/networks/default", module.prod-project.project_id)
+  description = "Self link of the production VPC to be created."
+}
+
 output "mgt_project_id" {
   value       = module.mgt-project.project_id
   description = "The ID of the management project where the VPC will be created."
+}
+
+output "mgt_network_self_link" {
+  value       = format("https://www.googleapis.com/compute/v1/projects/%s/global/networks/default", module.mgt-project.project_id)
+  description = "Self link of the production VPC to be created."
 }
 
 output "sa_key" {
