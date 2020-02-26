@@ -15,26 +15,27 @@
  */
 
 variable "prod_project_id" {
-  type    = string
-  default = ""
+  description = "Production Project ID."
+  type        = string
 }
 
 variable "prod_network_self_link" {
-  type    = string
-  default = ""
+  description = "Production Network Self Link."
+  type        = string
 }
 
 variable "mgt_project_id" {
-  type    = string
-  default = ""
+  description = "Management Project ID."
+  type        = string
 }
 
 variable "mgt_network_self_link" {
-  type    = string
-  default = ""
+  description = "Management Network Self Link."
+  type        = string
 }
 
 variable "region" {
-  type    = string
-  default = "europe-west4"
+  description = "Region."
+  type        = string
+  default     = "europe-west4"
 }
