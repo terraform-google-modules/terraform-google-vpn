@@ -83,7 +83,7 @@ module "vpn_ha-2" {
 
 ```hcl
 module "vpn_ha" {
-  source = "../modules/net-vpn-ha"
+  source = "terraform-google-modules/vpn/google//modules/vpn_ha"
   project_id  = "<PROJECT_ID>"
   region  = "europe-west4"
   network         = "https://www.googleapis.com/compute/v1/projects/<PROJECT_ID>/global/networks/my-network"
