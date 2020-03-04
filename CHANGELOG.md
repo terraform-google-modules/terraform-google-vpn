@@ -1,11 +1,12 @@
 # Changelog
 
-All notable changes to this project will be documented in this file.
-
-The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
+All notable changes to this project will be documented in this file. The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [1.3.0] - 2020-03-03
+
+### Features
+- Added support for HA VPN through a [submodule](./modules/vpn_ha). [#32](https://github.com/terraform-google-modules/terraform-google-vpn/pull/32)
 
 ## [1.2.0] - 2019-11-20
 
@@ -44,7 +45,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Initial module release.
 
-[Unreleased]: https://github.com/terraform-google-modules/terraform-google-vpn/compare/v1.2.0...HEAD
+[1.3.0]: https://github.com/terraform-google-modules/terraform-google-vpn/compare/v1.2.0...v1.3.0
 [1.2.0]: https://github.com/terraform-google-modules/terraform-google-vpn/compare/v1.1.0...v1.2.0
 [1.1.0]: https://github.com/terraform-google-modules/terraform-google-vpn/compare/v1.0.0...v1.1.0
 [1.0.0]: https://github.com/terraform-google-modules/terraform-google-vpn/compare/v0.3.0...v1.0.0
