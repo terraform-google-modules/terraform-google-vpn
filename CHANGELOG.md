@@ -3,10 +3,12 @@
 All notable changes to this project will be documented in this file. The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [1.3.1](https://github.com/terraform-google-modules/terraform-google-vpn/compare/v1.3.0...v1.3.1) - 2020-03-03
+### [1.3.1](https://www.github.com/terraform-google-modules/terraform-google-vpn/compare/v1.3.0...v1.3.1) (2020-03-04)
 
-### Fixes
-- Add the project argument to external_gateway [(#33)](https://github.com/terraform-google-modules/terraform-google-vpn/pull/33)
+
+### Bug Fixes
+
+* Add the project argument to external_gateway ([#33](https://www.github.com/terraform-google-modules/terraform-google-vpn/issues/33)) ([a901ab7](https://www.github.com/terraform-google-modules/terraform-google-vpn/commit/a901ab7e89aed7dffddbcd90920918fac33a71be))
 
 ## [1.3.0] - 2020-03-03
 
