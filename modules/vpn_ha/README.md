@@ -43,7 +43,7 @@ module "vpn_ha-1" {
 }
 
 module "vpn_ha-2" {
-  source  = "terraform-google-modules/vpn/google"
+  source  = "terraform-google-modules/vpn/google//modules/vpn_ha"
   version = "~> 1.3.0"
   project_id  = "<PROJECT_ID>"
   region  = "europe-west4"
