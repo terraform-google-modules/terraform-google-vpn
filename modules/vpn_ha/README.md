@@ -6,7 +6,7 @@ This module makes it easy to deploy either GCP-to-GCP or GCP-to-On-prem [Cloud H
 ### GCP to GCP
 ```hcl
 module "vpn_ha-1" {
-  source  = "terraform-google-modules/vpn/google"
+  source  = "terraform-google-modules/vpn/google//modules/vpn_ha"
   version = "~> 1.3.0"
   project_id  = "<PROJECT_ID>"
   region  = "europe-west4"
