@@ -36,7 +36,7 @@ output "network" {
 
 output "gateway_ip" {
   description = "The VPN Gateway Public IP"
-  value       = google_compute_address.vpn_gw_ip.address
+  value       = local.vpn_gw_ip
 }
 
 output "vpn_tunnels_names-static" {
