@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.4.0](https://www.github.com/terraform-google-modules/terraform-google-vpn/compare/v1.3.1...v1.4.0) (2020-05-28)
+
+
+### Features
+
+* enable usage of a already created public IP address([#40](https://www.github.com/terraform-google-modules/terraform-google-vpn/issues/40)) ([537d81e](https://www.github.com/terraform-google-modules/terraform-google-vpn/commit/537d81ee10a1e7b142cf5a1f84e9d1c31b22a9dd))
+
 ### [1.3.1](https://www.github.com/terraform-google-modules/terraform-google-vpn/compare/v1.3.0...v1.3.1) (2020-03-04)
 
 
