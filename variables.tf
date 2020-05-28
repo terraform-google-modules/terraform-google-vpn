@@ -132,3 +132,8 @@ variable "ike_version" {
   default     = 2
 }
 
+variable "vpn_gw_ip" {
+  type        = string
+  description = "Please enter the public IP address of the VPN Gateway, if you have already one. Do not set this variable to autocreate one"
+  default     = ""
+}
