@@ -23,13 +23,13 @@ locals {
 ## Create Route (for static routing gateways)
 resource "google_compute_route" "route" {
   count      = ! var.cr_enabled ? var.tunnel_count * length(var.remote_subnet) : 0
-  name       = "${google_compute_vpn_gateway.vpn_gateway.name}-tunnel${count.index % var.tunnel_count + 1}-route${count.index % length(var.remote_subnet) + 1}"
+  name       = "${google_compute_vpn_gateway.vpn_gateway.name}-tunnel${floor(count.index / length(var.remote_subnet)) + 1}-route${count.index % length(var.remote_subnet) + 1}"
   network    = var.network
   project    = var.project_id
   dest_range = var.remote_subnet[count.index % length(var.remote_subnet)]
   priority   = var.route_priority
 
-  next_hop_vpn_tunnel = google_compute_vpn_tunnel.tunnel-static[count.index % var.tunnel_count].self_link
+  next_hop_vpn_tunnel = google_compute_vpn_tunnel.tunnel-static[floor(count.index / length(var.remote_subnet))].self_link
 
   depends_on = [google_compute_vpn_tunnel.tunnel-static]
 }
