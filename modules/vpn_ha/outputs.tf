@@ -30,7 +30,11 @@ output "external_gateway" {
 
 output "name" {
   description = "VPN gateway name."
-  value       = google_compute_ha_vpn_gateway.ha_gateway.name
+  value = (
+    var.vpn_gateway_self_link != null
+    ? null
+    : google_compute_ha_vpn_gateway.ha_gateway[0].name
+  )
 }
 
 output "router" {
@@ -45,7 +49,7 @@ output "router_name" {
 
 output "self_link" {
   description = "HA VPN gateway self link."
-  value       = google_compute_ha_vpn_gateway.ha_gateway.self_link
+  value       = local.vpn_gateway_self_link
 }
 
 output "tunnels" {
