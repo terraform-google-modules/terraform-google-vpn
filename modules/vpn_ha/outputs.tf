@@ -31,9 +31,7 @@ output "external_gateway" {
 output "name" {
   description = "VPN gateway name."
   value = (
-    var.vpn_gateway_self_link != null
-    ? null
-    : google_compute_ha_vpn_gateway.ha_gateway[0].name
+    regex("[\\w-]+$", lower(local.vpn_gateway_self_link))
   )
 }
 

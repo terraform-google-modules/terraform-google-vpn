@@ -29,14 +29,14 @@ locals {
   )
   secret = random_id.secret.b64_url
   vpn_gateway_self_link = (
-    var.vpn_gateway_self_link != null || var.create_vpn_gateway == false
-    ? var.vpn_gateway_self_link :
-    google_compute_ha_vpn_gateway.ha_gateway[0].self_link
+    var.create_vpn_gateway
+    ? google_compute_ha_vpn_gateway.ha_gateway[0].self_link
+    : var.vpn_gateway_self_link
   )
 }
 
 resource "google_compute_ha_vpn_gateway" "ha_gateway" {
-  count    = var.create_vpn_gateway == null ? 1 : 0
+  count    = var.create_vpn_gateway == true ? 1 : 0
   provider = google-beta
   name     = var.name
   project  = var.project_id
