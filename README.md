@@ -79,42 +79,53 @@ Then perform the following commands on the root folder:
 - `terraform apply` to apply the infrastructure build
 - `terraform destroy` to destroy the built infrastructure
 
+## Static vs Dynamic
+Depending on if the VPN tunnel(s) will be using dynamic or static routing,
+different variables will need to be used in the module.
+References the variable descriptions below to determine the right configuration.
+
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 ## Inputs
-| Name               | Description                                                                                                                                                         |  Type  | Default | Required |
-| ------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :----: | :-----: | :------: |
-| project_id         | The ID of the project where this VPC will be created                                                                                                                | string |    -    |   yes    |
-| network            | The name of the network being created                                                                                                                               | string |    -    |   yes    |
-| region             | The region where the gateway and tunnels are going to be created                                                                                                    | string |    -    |   yes    |
-| gateway_name       | The name of the VPN gateway being created                                                                                                                           |  list  |    -    |   yes    |
-| tunnel_name_prefix | The prefix used for the tunnel names. If more than one tunnel_count is specified, the tunnel_count is appended to the end of the tunnel prefix                      | string |    -    |   yes    |
-| tunnel_count       | The amount of tunnels attached to this gateway                                                                                                                      |  int   |    1    |    no    |
-| peer_ips           | List of peer IP's to use, needs a peer IP for each tunnel in tunnel_count. The first peer IP attaches to tunnel #1, second peer IP attaches to tunnel #2, and so on |  list  |    -    |   yes    |
-| ike_version        | Sets the IKE version to use with the tnnels. Defaults to IKEv2                                                                                                      |  int   |    2    |    no    |
 
-Depending on if the VPN tunnel(s) will be using dynamic or static routing, different variables will need to be used in the module. For dynamic routing, please use the following variables. In addition, a cloud router resource will need to be created outside of the module to be leveraged by the gateway. (reference examples for more info)
-
-| Name                      | Description                                                                                                                                                                                                                                            |  Type  | Default | Required |
-| ------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | :----: | :-----: | :------: |
-| cr_name                   | Name of cloud router that is being used                                                                                                                                                                                                                | string |    -    |    no    |
-| cr_enabled                | If there is a cloud router for BGP routing                                                                                                                                                                                                             |  bool  |  false  |    no    |
-| bgp_cr_session_range      | Source IP and range of cloud router BGP session. List of IP and ranges to use, needs an IP/range for each tunnel in tunnel_count. First IP/range is used for BGP session of tunnel #1, second IP/range is used for BGP session of tunnel #2, and so on |  list  |    -    |   yes    |
-| bgp_remote_session_range  | Remote peer IP of cloud router BGP session. List of IP's to use, needs an IP/range for each tunnel in tunnel_count. First IP/range is used for BGP session of tunnel #1, second IP/range is used for BGP session of tunnel #2, and so on               |  list  |    -    |   yes    |
-| peer_asn                  | ASN number of peer for cloud router BGP session. List of ASN's to use, needs an ASN for each tunnel in tunnel_count. First ASN is used for BGP session of tunnel #1, second ASN is used for BGP session of tunnel #2, and so on                        |  list  |    -    |   yes    |
-| advertised_route_priority | The priority of routes advertised to the BGP peers                                                                                                                                                                                                     |  int   |   100   |    no    |
-
-
-For static routing, please use the following variables:
-
-| Name                    | Description                                                                                                                                                         | Type  |    Default    | Required |
-| ----------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :---: | :-----------: | :------: |
-| route_priority          | The priority for static routes being added to VPC                                                                                                                   |  int  |     1000      |    no    |
-| remote_subnet           | List of IP ranges that will be accessible over this VPN gateway. A route is created for each range in this list with next hop as VPN tunnels                        | list  |       -       |   yes    |
-| local_traffic_selector  | Local traffic selector to use when establishing the VPN tunnel with peer VPN gateway. Value should be list of CIDR formatted strings and ranges should be disjoint  | list  | ["0.0.0.0/0"] |    no    |
-| remote_traffic_selector | Remote traffic selector to use when establishing the VPN tunnel with peer VPN gateway. Value should be list of CIDR formatted strings and ranges should be disjoint | list  | ["0.0.0.0/0"] |    no    |
+| Name | Description | Type | Default | Required |
+|------|-------------|------|---------|:--------:|
+| advertised\_route\_priority | Please enter the priority for the advertised route to BGP peer(default is 100) | `number` | `100` | no |
+| bgp\_cr\_session\_range | Please enter the cloud-router interface IP/Session IP | `list(string)` | <pre>[<br>  "169.254.1.1/30",<br>  "169.254.1.5/30"<br>]</pre> | no |
+| bgp\_remote\_session\_range | Please enter the remote environments BGP Session IP | `list(string)` | <pre>[<br>  "169.254.1.2",<br>  "169.254.1.6"<br>]</pre> | no |
+| cr\_enabled | If there is a cloud router for BGP routing | `bool` | `false` | no |
+| cr\_name | The name of cloud router for BGP routing | `string` | `""` | no |
+| gateway\_name | The name of VPN gateway | `string` | `"test-vpn"` | no |
+| ike\_version | Please enter the IKE version used by this tunnel (default is IKEv2) | `number` | `2` | no |
+| local\_traffic\_selector | Local traffic selector to use when establishing the VPN tunnel with peer VPN gateway.<br>Value should be list of CIDR formatted strings and ranges should be disjoint. | `list(string)` | <pre>[<br>  "0.0.0.0/0"<br>]</pre> | no |
+| network | The name of VPC being created | `string` | n/a | yes |
+| peer\_asn | Please enter the ASN of the BGP peer that cloud router will use | `list(string)` | <pre>[<br>  "65101"<br>]</pre> | no |
+| peer\_ips | IP address of remote-peer/gateway | `list(string)` | n/a | yes |
+| project\_id | The ID of the project where this VPC will be created | `string` | n/a | yes |
+| region | The region in which you want to create the VPN gateway | `string` | n/a | yes |
+| remote\_subnet | remote subnet ip range in CIDR format - x.x.x.x/x | `list(string)` | `[]` | no |
+| remote\_traffic\_selector | Remote traffic selector to use when establishing the VPN tunnel with peer VPN gateway.<br>Value should be list of CIDR formatted strings and ranges should be disjoint. | `list(string)` | <pre>[<br>  "0.0.0.0/0"<br>]</pre> | no |
+| route\_priority | Priority for static route being created | `number` | `1000` | no |
+| shared\_secret | Please enter the shared secret/pre-shared key | `string` | `""` | no |
+| tunnel\_count | The number of tunnels from each VPN gw (default is 1) | `number` | `1` | no |
+| tunnel\_name\_prefix | The optional custom name of VPN tunnel being created | `string` | `""` | no |
+| vpn\_gw\_ip | Please enter the public IP address of the VPN Gateway, if you have already one. Do not set this variable to autocreate one | `string` | `""` | no |
 
 ## Outputs
-Please refer the /outputs.tf file for the outputs that you can get with the `terraform output` command
+
+| Name | Description |
+|------|-------------|
+| gateway\_ip | The VPN Gateway Public IP |
+| gateway\_self\_link | The self-link of the Gateway |
+| ipsec\_secret-dynamic | The secret |
+| ipsec\_secret-static | The secret |
+| name | The name of the Gateway |
+| network | The name of the VPC |
+| project\_id | The Project-ID |
+| vpn\_tunnels\_names-dynamic | The VPN tunnel name is |
+| vpn\_tunnels\_names-static | The VPN tunnel name is |
+| vpn\_tunnels\_self\_link-dynamic | The VPN tunnel self-link is |
+| vpn\_tunnels\_self\_link-static | The VPN tunnel self-link is |
+
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 
 ## Requirements
