@@ -20,7 +20,7 @@ resource "random_id" "ipsec_secret" {
 }
 
 resource "google_compute_vpn_tunnel" "tunnel-static" {
-  count         = ! var.cr_enabled ? var.tunnel_count : 0
+  count         = !var.cr_enabled ? var.tunnel_count : 0
   name          = var.tunnel_count == 1 ? format("%s-%s", local.tunnel_name_prefix, "1") : format("%s-%d", local.tunnel_name_prefix, count.index + 1)
   region        = var.region
   project       = var.project_id

@@ -22,7 +22,7 @@ locals {
 # For VPN gateways with static routing
 ## Create Route (for static routing gateways)
 resource "google_compute_route" "route" {
-  count      = ! var.cr_enabled ? var.tunnel_count * length(var.remote_subnet) : 0
+  count      = !var.cr_enabled ? var.tunnel_count * length(var.remote_subnet) : 0
   name       = "${google_compute_vpn_gateway.vpn_gateway.name}-tunnel${floor(count.index / length(var.remote_subnet)) + 1}-route${count.index % length(var.remote_subnet) + 1}"
   network    = var.network
   project    = var.project_id
