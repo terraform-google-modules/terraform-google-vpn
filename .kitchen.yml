@@ -28,10 +28,10 @@ suites:
       name: terraform
       color: false
       systems:
-        - name: gcp
-          backend: gcp
+        - name: local
+          backend: local
           controls:
-            - gcp
+            - local
   - name: vpn_ha
     driver:
       name: terraform
