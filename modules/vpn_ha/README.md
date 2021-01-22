@@ -143,7 +143,7 @@ module "vpn_ha" {
 | router\_asn | Router ASN used for auto-created router. | number | `"64514"` | no |
 | router\_name | Name of router, leave blank to create one. | string | `""` | no |
 | tunnels | VPN tunnel configurations, bgp_peer_options is usually null. | object | `<map>` | no |
-| vpn\_gateway\_self\_link | self_link of existing VPN gateway. If provided, the module won't create a VPN gateway, but use the provided one. | string | `"null"` | no |
+| vpn\_gateway\_self\_link | self_link of existing VPN gateway to be used for the vpn tunnel | string | `"null"` | no |
 
 ## Outputs
 
