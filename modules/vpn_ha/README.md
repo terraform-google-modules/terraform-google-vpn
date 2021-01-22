@@ -131,6 +131,7 @@ module "vpn_ha" {
 
 | Name | Description | Type | Default | Required |
 |------|-------------|:----:|:-----:|:-----:|
+| create\_vpn\_gateway | create a VPN gateway | bool | `"true"` | no |
 | name | VPN gateway name, and prefix used for dependent resources. | string | n/a | yes |
 | network | VPC used for the gateway and routes. | string | n/a | yes |
 | peer\_external\_gateway | Configuration of an external VPN gateway to which this VPN is connected. | object | `"null"` | no |
@@ -142,8 +143,7 @@ module "vpn_ha" {
 | router\_asn | Router ASN used for auto-created router. | number | `"64514"` | no |
 | router\_name | Name of router, leave blank to create one. | string | `""` | no |
 | tunnels | VPN tunnel configurations, bgp_peer_options is usually null. | object | `<map>` | no |
-| vpn_gateway_self_link | self_link of existing VPN gateway. If provided, the module won't create a VPN gateway, but use the provided one. | string | `null` | no |
-| create_vpn_gateway | create a VPN gateway | bool | `true` | no |
+| vpn\_gateway\_self\_link | self_link of existing VPN gateway. If provided, the module won't create a VPN gateway, but use the provided one. | string | `"null"` | no |
 
 ## Outputs
 
