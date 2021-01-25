@@ -16,7 +16,7 @@
 
 module "prod-project" {
   source  = "terraform-google-modules/project-factory/google"
-  version = "~> 3.0"
+  version = "~> 10.0"
 
   name                = "ci-vpn"
   random_project_id   = true
@@ -32,7 +32,7 @@ module "prod-project" {
 
 module "mgt-project" {
   source  = "terraform-google-modules/project-factory/google"
-  version = "~> 3.0"
+  version = "~> 10.0"
 
   name                = "ci-vpn"
   random_project_id   = true
