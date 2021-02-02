@@ -50,6 +50,7 @@ output "self_link" {
 
 output "tunnels" {
   description = "VPN tunnel resources."
+  sensitive   = true
   value = {
     for name in keys(var.tunnels) :
     name => google_compute_vpn_tunnel.tunnels[name]
@@ -58,6 +59,7 @@ output "tunnels" {
 
 output "tunnel_names" {
   description = "VPN tunnel names."
+  sensitive   = true
   value = {
     for name in keys(var.tunnels) :
     name => google_compute_vpn_tunnel.tunnels[name].name
@@ -66,6 +68,7 @@ output "tunnel_names" {
 
 output "tunnel_self_links" {
   description = "VPN tunnel self links."
+  sensitive   = true
   value = {
     for name in keys(var.tunnels) :
     name => google_compute_vpn_tunnel.tunnels[name].self_link
