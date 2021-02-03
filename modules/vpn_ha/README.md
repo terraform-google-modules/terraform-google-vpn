@@ -131,6 +131,7 @@ module "vpn_ha" {
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
+| create\_vpn\_gateway | create a VPN gateway | `bool` | `true` | no |
 | name | VPN gateway name, and prefix used for dependent resources. | `string` | n/a | yes |
 | network | VPC used for the gateway and routes. | `string` | n/a | yes |
 | peer\_external\_gateway | Configuration of an external VPN gateway to which this VPN is connected. | <pre>object({<br>    redundancy_type = string<br>    interfaces = list(object({<br>      id         = number<br>      ip_address = string<br>    }))<br>  })</pre> | `null` | no |
@@ -142,6 +143,7 @@ module "vpn_ha" {
 | router\_asn | Router ASN used for auto-created router. | `number` | `64514` | no |
 | router\_name | Name of router, leave blank to create one. | `string` | `""` | no |
 | tunnels | VPN tunnel configurations, bgp\_peer\_options is usually null. | <pre>map(object({<br>    bgp_peer = object({<br>      address = string<br>      asn     = number<br>    })<br>    bgp_peer_options = object({<br>      advertise_groups    = list(string)<br>      advertise_ip_ranges = map(string)<br>      advertise_mode      = string<br>      route_priority      = number<br>    })<br>    bgp_session_range               = string<br>    ike_version                     = number<br>    vpn_gateway_interface           = number<br>    peer_external_gateway_interface = number<br>    shared_secret                   = string<br>  }))</pre> | `{}` | no |
+| vpn\_gateway\_self\_link | self\_link of existing VPN gateway to be used for the vpn tunnel | `any` | `null` | no |
 
 ## Outputs
 

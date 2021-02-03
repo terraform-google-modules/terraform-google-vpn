@@ -101,3 +101,14 @@ variable "tunnels" {
   }))
   default = {}
 }
+
+variable "vpn_gateway_self_link" {
+  description = "self_link of existing VPN gateway to be used for the vpn tunnel"
+  default     = null
+}
+
+variable "create_vpn_gateway" {
+  description = "create a VPN gateway"
+  default     = true
+  type        = bool
+}

@@ -28,9 +28,15 @@ locals {
 
   )
   secret = random_id.secret.b64_url
+  vpn_gateway_self_link = (
+    var.create_vpn_gateway
+    ? google_compute_ha_vpn_gateway.ha_gateway[0].self_link
+    : var.vpn_gateway_self_link
+  )
 }
 
 resource "google_compute_ha_vpn_gateway" "ha_gateway" {
+  count    = var.create_vpn_gateway == true ? 1 : 0
   provider = google-beta
   name     = var.name
   project  = var.project_id
@@ -158,7 +164,7 @@ resource "google_compute_vpn_tunnel" "tunnels" {
   vpn_gateway_interface           = each.value.vpn_gateway_interface
   ike_version                     = each.value.ike_version
   shared_secret                   = each.value.shared_secret == "" ? local.secret : each.value.shared_secret
-  vpn_gateway                     = google_compute_ha_vpn_gateway.ha_gateway.self_link
+  vpn_gateway                     = local.vpn_gateway_self_link
 }
 
 resource "random_id" "secret" {

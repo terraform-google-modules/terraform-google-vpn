@@ -30,7 +30,7 @@ output "external_gateway" {
 
 output "name" {
   description = "VPN gateway name."
-  value       = google_compute_ha_vpn_gateway.ha_gateway.name
+  value       = regex("[\\w-]+$", lower(local.vpn_gateway_self_link))
 }
 
 output "router" {
@@ -45,7 +45,7 @@ output "router_name" {
 
 output "self_link" {
   description = "HA VPN gateway self link."
-  value       = google_compute_ha_vpn_gateway.ha_gateway.self_link
+  value       = local.vpn_gateway_self_link
 }
 
 output "tunnels" {
