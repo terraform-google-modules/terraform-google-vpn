@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file. The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.5.0](https://www.github.com/terraform-google-modules/terraform-google-vpn/compare/v1.4.1...v1.5.0) (2021-02-03)
+
+
+### Features
+
+* Add option to use an existing vpn_gateway ([#48](https://www.github.com/terraform-google-modules/terraform-google-vpn/issues/48)) ([712720a](https://www.github.com/terraform-google-modules/terraform-google-vpn/commit/712720a231bdb14b8ad5e310a5ff55284d27762e))
+
+
+### Bug Fixes
+
+* Mark certain output values as sensitive for TF 0.14 ([#51](https://www.github.com/terraform-google-modules/terraform-google-vpn/issues/51)) ([2e55b02](https://www.github.com/terraform-google-modules/terraform-google-vpn/commit/2e55b029f73de94ea5ad6e0d44a53a4897074652))
+
 ### [1.4.1](https://www.github.com/terraform-google-modules/terraform-google-vpn/compare/v1.4.0...v1.4.1) (2020-08-28)
 
 
