@@ -51,7 +51,7 @@ resource "google_compute_router_interface" "router_interface" {
 ## Create Peers
 resource "google_compute_router_peer" "bgp_peer" {
   count                     = var.cr_enabled ? var.tunnel_count : 0
-  name                      = "bgp-session-${count.index}"
+  name                      = "bgp-session-${local.tunnel_name_prefix}-${count.index}"
   router                    = var.cr_name
   region                    = var.region
   peer_ip_address           = var.bgp_remote_session_range[count.index]
