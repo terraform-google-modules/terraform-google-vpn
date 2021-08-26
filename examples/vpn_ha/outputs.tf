@@ -27,10 +27,12 @@ output "prod_gateway_name" {
 output "prod_tunnel_names" {
   description = "Prod VPN tunnel names."
   value       = module.vpn-ha-to-mgmt.tunnel_names
+  sensitive   = true
 }
 
 output "mgt_tunnel_names" {
   description = "Mgt VPN tunnel names."
   value       = module.vpn-ha-to-prod.tunnel_names
+  sensitive   = true
 }
 
