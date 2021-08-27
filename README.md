@@ -105,6 +105,7 @@ References the variable descriptions below to determine the right configuration.
 | remote\_subnet | remote subnet ip range in CIDR format - x.x.x.x/x | `list(string)` | `[]` | no |
 | remote\_traffic\_selector | Remote traffic selector to use when establishing the VPN tunnel with peer VPN gateway.<br>Value should be list of CIDR formatted strings and ranges should be disjoint. | `list(string)` | <pre>[<br>  "0.0.0.0/0"<br>]</pre> | no |
 | route\_priority | Priority for static route being created | `number` | `1000` | no |
+| route\_tags | A list of instance tags to which this route applies. | `list(string)` | `[]` | no |
 | shared\_secret | Please enter the shared secret/pre-shared key | `string` | `""` | no |
 | tunnel\_count | The number of tunnels from each VPN gw (default is 1) | `number` | `1` | no |
 | tunnel\_name\_prefix | The optional custom name of VPN tunnel being created | `string` | `""` | no |
