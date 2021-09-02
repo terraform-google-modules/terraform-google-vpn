@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file. The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.0.0](https://www.github.com/terraform-google-modules/terraform-google-vpn/compare/v1.5.0...v2.0.0) (2021-08-26)
+
+
+### ⚠ BREAKING CHANGES
+
+* The BGP session name now includes the tunnel name. This may cause recreation of the VPN tunnel.
+
+### Bug Fixes
+
+* Prefix BGP session name with tunnel name ([#58](https://www.github.com/terraform-google-modules/terraform-google-vpn/issues/58)) ([f8d08fd](https://www.github.com/terraform-google-modules/terraform-google-vpn/commit/f8d08fd34c34a9d6e01e510d9888616010e606de)), closes [#54](https://www.github.com/terraform-google-modules/terraform-google-vpn/issues/54)
+
 ## [1.5.0](https://www.github.com/terraform-google-modules/terraform-google-vpn/compare/v1.4.1...v1.5.0) (2021-02-03)
 
 
