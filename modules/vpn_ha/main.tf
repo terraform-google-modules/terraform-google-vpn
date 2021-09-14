@@ -90,8 +90,8 @@ resource "google_compute_router" "router" {
       )
       iterator = range
       content {
-        range       = range.key
-        description = range.value
+        range       = range.value
+        description = range.key
       }
     }
     asn = var.router_asn
@@ -133,8 +133,8 @@ resource "google_compute_router_peer" "bgp_peer" {
     )
     iterator = range
     content {
-      range       = range.key
-      description = range.value
+      range       = range.value
+      description = range.key
     }
   }
   interface = google_compute_router_interface.router_interface[each.key].name
