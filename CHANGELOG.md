@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.1.0](https://www.github.com/terraform-google-modules/terraform-google-vpn/compare/v2.0.0...v2.1.0) (2021-09-23)
+
+
+### Features
+
+* added variable route_tags ([#61](https://www.github.com/terraform-google-modules/terraform-google-vpn/issues/61)) ([b85d3fa](https://www.github.com/terraform-google-modules/terraform-google-vpn/commit/b85d3fa02dcdb3b7c26254673301e7065b2af927))
+
 ## [2.0.0](https://www.github.com/terraform-google-modules/terraform-google-vpn/compare/v1.5.0...v2.0.0) (2021-08-26)
 
 
