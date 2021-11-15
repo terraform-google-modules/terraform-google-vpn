@@ -45,3 +45,6 @@ crash.log
 test/fixtures/shared/terraform.tfvars
 
 credentials.json
+
+# tf lock file
+.terraform.lock.hcl
