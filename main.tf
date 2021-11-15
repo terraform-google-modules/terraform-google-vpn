@@ -28,6 +28,7 @@ resource "google_compute_route" "route" {
   project    = var.project_id
   dest_range = var.remote_subnet[count.index % length(var.remote_subnet)]
   priority   = var.route_priority
+  tags       = var.route_tags
 
   next_hop_vpn_tunnel = google_compute_vpn_tunnel.tunnel-static[floor(count.index / length(var.remote_subnet))].self_link
 

@@ -137,3 +137,9 @@ variable "vpn_gw_ip" {
   description = "Please enter the public IP address of the VPN Gateway, if you have already one. Do not set this variable to autocreate one"
   default     = ""
 }
+
+variable "route_tags" {
+  type        = list(string)
+  description = "A list of instance tags to which this route applies."
+  default     = []
+}
