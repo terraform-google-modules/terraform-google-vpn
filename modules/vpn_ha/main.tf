@@ -84,7 +84,7 @@ resource "google_compute_router" "router" {
       for_each = (
         var.router_advertise_config == null ? {} : (
           var.router_advertise_config.mode != "CUSTOM"
-          ? null
+          ? {}
           : var.router_advertise_config.ip_ranges
         )
       )
