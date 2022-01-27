@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file. The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.2.0](https://github.com/terraform-google-modules/terraform-google-vpn/compare/v2.1.0...v2.2.0) (2022-01-18)
+
+
+### Features
+
+* update TPG version constraints to allow 4.0 ([#66](https://github.com/terraform-google-modules/terraform-google-vpn/issues/66)) ([a9bd3a7](https://github.com/terraform-google-modules/terraform-google-vpn/commit/a9bd3a70635e0229119618c8872e200369b8d6e2))
+
+
+### Bug Fixes
+
+* for_each can not receive null vpn_ha ([#67](https://github.com/terraform-google-modules/terraform-google-vpn/issues/67)) ([50120ec](https://github.com/terraform-google-modules/terraform-google-vpn/commit/50120ec35c0961d6cb79b2e640a7d154ebc341c5))
+
 ## [2.1.0](https://www.github.com/terraform-google-modules/terraform-google-vpn/compare/v2.0.0...v2.1.0) (2021-09-23)
 
 
