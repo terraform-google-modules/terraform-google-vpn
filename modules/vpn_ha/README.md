@@ -32,7 +32,7 @@ module "vpn_ha-1" {
       bgp_peer = {
         address = "169.254.2.1"
         asn     = 64513
-      }           
+      }          
       admin_enabled = true
       bgp_peer_options  = null
       bgp_session_range = "169.254.2.2/30"

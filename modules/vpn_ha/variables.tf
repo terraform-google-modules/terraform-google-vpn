@@ -63,7 +63,7 @@ variable "admin_enabled" {
   type        = bool
   default     = true
 }
-   
+
 variable "router_advertise_config" {
   description = "Router custom advertisement configuration, ip_ranges is a map of address ranges and descriptions."
   type = object({
