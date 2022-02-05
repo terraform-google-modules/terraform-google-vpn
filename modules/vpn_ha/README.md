@@ -20,6 +20,7 @@ module "vpn_ha-1" {
         address = "169.254.1.1"
         asn     = 64513
       }
+      admin_enabled = true
       bgp_peer_options  = null
       bgp_session_range = "169.254.1.2/30"
       ike_version       = 2
@@ -31,7 +32,8 @@ module "vpn_ha-1" {
       bgp_peer = {
         address = "169.254.2.1"
         asn     = 64513
-      }
+      }           
+      admin_enabled = true
       bgp_peer_options  = null
       bgp_session_range = "169.254.2.2/30"
       ike_version       = 2
@@ -57,6 +59,7 @@ module "vpn_ha-2" {
         address = "169.254.1.2"
         asn     = 64514
       }
+      admin_enabled = true
       bgp_peer_options  = null
       bgp_session_range = "169.254.1.1/30"
       ike_version       = 2
@@ -69,6 +72,7 @@ module "vpn_ha-2" {
         address = "169.254.2.2"
         asn     = 64514
       }
+      admin_enabled = true
       bgp_peer_options  = null
       bgp_session_range = "169.254.2.1/30"
       ike_version       = 2
@@ -103,6 +107,7 @@ module "vpn_ha" {
         address = "169.254.1.1"
         asn     = 64513
       }
+      admin_enabled = true
       bgp_peer_options  = null
       bgp_session_range = "169.254.1.2/30"
       ike_version       = 2
@@ -138,6 +143,7 @@ module "vpn_ha" {
 | peer\_gcp\_gateway | Self Link URL of the peer side HA GCP VPN gateway to which this VPN tunnel is connected. | `string` | `null` | no |
 | project\_id | Project where resources will be created. | `string` | n/a | yes |
 | region | Region used for resources. | `string` | n/a | yes |
+| admin\_enabled | The status of the BGP peer connection, defaults to true | `bool` | `true` | no |
 | route\_priority | Route priority, defaults to 1000. | `number` | `1000` | no |
 | router\_advertise\_config | Router custom advertisement configuration, ip\_ranges is a map of address ranges and descriptions. | <pre>object({<br>    groups    = list(string)<br>    ip_ranges = map(string)<br>    mode      = string<br>  })</pre> | `null` | no |
 | router\_asn | Router ASN used for auto-created router. | `number` | `64514` | no |
