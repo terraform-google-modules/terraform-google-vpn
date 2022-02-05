@@ -58,6 +58,12 @@ variable "route_priority" {
   default     = 1000
 }
 
+variable "admin_enabled" {
+  description = "The status of the BGP peer connection, defaults to true"
+  type        = bool
+  default     = true
+}
+
 variable "router_advertise_config" {
   description = "Router custom advertisement configuration, ip_ranges is a map of address ranges and descriptions."
   type = object({
@@ -87,6 +93,7 @@ variable "tunnels" {
       address = string
       asn     = number
     })
+    admin_enabled = bool
     bgp_peer_options = object({
       advertise_groups    = list(string)
       advertise_ip_ranges = map(string)
