@@ -114,7 +114,7 @@ variable "create_vpn_gateway" {
 }
 
 variable "labels" {
-   description = "Labels for vpn components"
-   type = map(string)
-   default = {}
+  description = "Labels for vpn components"
+  type        = map(string)
+  default     = {}
 }
