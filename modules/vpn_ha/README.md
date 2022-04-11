@@ -132,6 +132,7 @@ module "vpn_ha" {
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
 | create\_vpn\_gateway | create a VPN gateway | `bool` | `true` | no |
+| labels | Labels for vpn components | `map(string)` | `{}` | no |
 | name | VPN gateway name, and prefix used for dependent resources. | `string` | n/a | yes |
 | network | VPC used for the gateway and routes. | `string` | n/a | yes |
 | peer\_external\_gateway | Configuration of an external VPN gateway to which this VPN is connected. | <pre>object({<br>    redundancy_type = string<br>    interfaces = list(object({<br>      id         = number<br>      ip_address = string<br>    }))<br>  })</pre> | `null` | no |
