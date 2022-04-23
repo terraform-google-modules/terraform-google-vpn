@@ -16,7 +16,7 @@
 
 locals {
   tunnel_name_prefix    = var.tunnel_name_prefix != "" ? var.tunnel_name_prefix : "${var.network}-${var.gateway_name}-tunnel"
-  default_shared_secret = var.shared_secret != "" ? var.shared_secret : random_id.ipsec_secret.b64_url
+  default_shared_secret = var.shared_secret != "" ? var.shared_secret : random_password.ipsec_secret[0].result
 }
 
 # For VPN gateways with static routing

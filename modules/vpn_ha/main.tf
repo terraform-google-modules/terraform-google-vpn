@@ -25,9 +25,7 @@ locals {
     var.peer_external_gateway != null
     ? google_compute_external_vpn_gateway.external_gateway[0].self_link
     : null
-
   )
-  secret = random_id.secret.b64_url
   vpn_gateway_self_link = (
     var.create_vpn_gateway
     ? google_compute_ha_vpn_gateway.ha_gateway[0].self_link
@@ -163,11 +161,12 @@ resource "google_compute_vpn_tunnel" "tunnels" {
   peer_gcp_gateway                = var.peer_gcp_gateway
   vpn_gateway_interface           = each.value.vpn_gateway_interface
   ike_version                     = each.value.ike_version
-  shared_secret                   = each.value.shared_secret == "" ? local.secret : each.value.shared_secret
+  shared_secret                   = each.value.shared_secret == "" ? random_password.secret.result : each.value.shared_secret
   vpn_gateway                     = local.vpn_gateway_self_link
   labels                          = var.labels
 }
 
-resource "random_id" "secret" {
-  byte_length = 8
+resource "random_password" "secret" {
+  length  = 32
+  special = false
 }
