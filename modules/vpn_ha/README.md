@@ -20,7 +20,6 @@ module "vpn_ha-1" {
         address = "169.254.1.1"
         asn     = 64513
       }
-      admin_enabled = true
       bgp_peer_options  = null
       bgp_session_range = "169.254.1.2/30"
       ike_version       = 2
@@ -58,7 +57,6 @@ module "vpn_ha-2" {
         address = "169.254.1.2"
         asn     = 64514
       }
-      admin_enabled = true
       bgp_peer_options  = null
       bgp_session_range = "169.254.1.1/30"
       ike_version       = 2
