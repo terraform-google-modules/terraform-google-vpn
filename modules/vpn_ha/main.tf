@@ -169,6 +169,7 @@ resource "google_compute_vpn_tunnel" "tunnels" {
   ike_version                     = each.value.ike_version
   shared_secret                   = each.value.shared_secret == "" ? local.secret : each.value.shared_secret
   vpn_gateway                     = local.vpn_gateway_self_link
+  labels                          = var.labels
 }
 
 resource "random_id" "secret" {
