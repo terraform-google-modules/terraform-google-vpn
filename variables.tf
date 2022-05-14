@@ -86,9 +86,10 @@ variable "shared_secret" {
   default     = ""
 }
 
-variable "route_priority" {
-  description = "Priority for static route being created"
-  default     = 1000
+variable "route_priorities" {
+  type = list(number)
+  description = "Priorities for static routes being created"
+  default     = [1000, 1000]
 }
 
 variable "cr_name" {
@@ -121,9 +122,10 @@ variable "bgp_remote_session_range" {
   default     = ["169.254.1.2", "169.254.1.6"]
 }
 
-variable "advertised_route_priority" {
-  description = "Please enter the priority for the advertised route to BGP peer(default is 100)"
-  default     = 100
+variable "advertised_route_priorities" {
+  type = list(number)
+  description = "Please enter the priorities for the advertised routes to BGP peer(default is 100 for each tunnel)"
+  default     = [100, 100]
 }
 
 variable "ike_version" {

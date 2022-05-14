@@ -27,7 +27,7 @@ resource "google_compute_route" "route" {
   network    = var.network
   project    = var.project_id
   dest_range = var.remote_subnet[count.index % length(var.remote_subnet)]
-  priority   = var.route_priority
+  priority   = var.route_priorities[count.index]
   tags       = var.route_tags
 
   next_hop_vpn_tunnel = google_compute_vpn_tunnel.tunnel-static[floor(count.index / length(var.remote_subnet))].self_link
@@ -57,7 +57,7 @@ resource "google_compute_router_peer" "bgp_peer" {
   region                    = var.region
   peer_ip_address           = var.bgp_remote_session_range[count.index]
   peer_asn                  = var.peer_asn[count.index]
-  advertised_route_priority = var.advertised_route_priority
+  advertised_route_priority = var.advertised_route_priorities[count.index]
   interface                 = "interface-${local.tunnel_name_prefix}-${count.index}"
   project                   = var.project_id
 

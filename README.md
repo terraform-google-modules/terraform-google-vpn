@@ -89,7 +89,7 @@ References the variable descriptions below to determine the right configuration.
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| advertised\_route\_priority | Please enter the priority for the advertised route to BGP peer(default is 100) | `number` | `100` | no |
+| advertised\_route\_priorities | Please enter the priorities for the advertised routes to BGP peer(default is 100 for each tunnel) | `list(number)` | <pre>[<br>  100,<br>  100<br>]</pre> | no |
 | bgp\_cr\_session\_range | Please enter the cloud-router interface IP/Session IP | `list(string)` | <pre>[<br>  "169.254.1.1/30",<br>  "169.254.1.5/30"<br>]</pre> | no |
 | bgp\_remote\_session\_range | Please enter the remote environments BGP Session IP | `list(string)` | <pre>[<br>  "169.254.1.2",<br>  "169.254.1.6"<br>]</pre> | no |
 | cr\_enabled | If there is a cloud router for BGP routing | `bool` | `false` | no |
@@ -104,7 +104,7 @@ References the variable descriptions below to determine the right configuration.
 | region | The region in which you want to create the VPN gateway | `string` | n/a | yes |
 | remote\_subnet | remote subnet ip range in CIDR format - x.x.x.x/x | `list(string)` | `[]` | no |
 | remote\_traffic\_selector | Remote traffic selector to use when establishing the VPN tunnel with peer VPN gateway.<br>Value should be list of CIDR formatted strings and ranges should be disjoint. | `list(string)` | <pre>[<br>  "0.0.0.0/0"<br>]</pre> | no |
-| route\_priority | Priority for static route being created | `number` | `1000` | no |
+| route\_priorities | Priorities for static routes being created | `list(number)` | <pre>[<br>  1000,<br>  1000<br>]</pre> | no |
 | route\_tags | A list of instance tags to which this route applies. | `list(string)` | `[]` | no |
 | shared\_secret | Please enter the shared secret/pre-shared key | `string` | `""` | no |
 | tunnel\_count | The number of tunnels from each VPN gw (default is 1) | `number` | `1` | no |
