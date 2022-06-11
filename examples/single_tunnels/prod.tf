@@ -14,36 +14,6 @@
  * limitations under the License.
  */
 
-##To MGMT VPC
-resource "google_compute_router" "cr-central1-to-mgt-vpc" {
-  name    = "cr-uscentral1-to-mgt-vpc-tunnels"
-  region  = "us-central1"
-  network = var.prod_network
-  project = var.prod_project_id
-
-  bgp {
-    asn = "64515"
-  }
-}
-
-module "vpn-gw-us-ce1-prd-mgt-internal" {
-  source             = "../../"
-  project_id         = var.prod_project_id
-  network            = var.prod_network
-  region             = "us-central1"
-  gateway_name       = "vpn-gw-us-ce1-prd-mgt-internal"
-  tunnel_name_prefix = "vpn-tn-us-ce1-prd-mgt-internal"
-  shared_secret      = "secrets"
-  tunnel_count       = 1
-  peer_ips           = [module.vpn-gw-us-ce1-mgt-prd-internal.gateway_ip]
-
-  cr_name                  = google_compute_router.cr-central1-to-mgt-vpc.name
-  cr_enabled               = true
-  bgp_cr_session_range     = ["169.254.0.1/30"]
-  bgp_remote_session_range = ["169.254.0.2"]
-  peer_asn                 = ["64516"]
-}
-
 module "vpn-gw-us-we1-prd-mgt-internal" {
   source             = "../../"
   project_id         = var.prod_project_id
