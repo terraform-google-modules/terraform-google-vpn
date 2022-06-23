@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file. The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.3.0](https://github.com/terraform-google-modules/terraform-google-vpn/compare/v2.2.0...v2.3.0) (2022-06-11)
+
+
+### Features
+
+* Add labels to VPN tunnel ([#76](https://github.com/terraform-google-modules/terraform-google-vpn/issues/76)) ([c2e563b](https://github.com/terraform-google-modules/terraform-google-vpn/commit/c2e563b4d5cf6b907898fd56f287fcbbb72274b5))
+
+
+### Bug Fixes
+
+* remove Classic VPN tunnels dynamic example ([#82](https://github.com/terraform-google-modules/terraform-google-vpn/issues/82)) ([2ab8e68](https://github.com/terraform-google-modules/terraform-google-vpn/commit/2ab8e68a0b8cc2508bfcab3aa9516ac2cbc9ed64))
+
 ## [2.2.0](https://github.com/terraform-google-modules/terraform-google-vpn/compare/v2.1.0...v2.2.0) (2022-01-18)
 
 
