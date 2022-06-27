@@ -143,3 +143,9 @@ variable "route_tags" {
   description = "A list of instance tags to which this route applies."
   default     = []
 }
+
+variable "labels" {
+  description = "Labels for vpn related resources"
+  type        = map(string)
+  default     = {}
+}

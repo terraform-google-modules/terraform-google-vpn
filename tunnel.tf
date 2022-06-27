@@ -20,12 +20,14 @@ resource "random_id" "ipsec_secret" {
 }
 
 resource "google_compute_vpn_tunnel" "tunnel-static" {
+  provider      = google-beta
   count         = !var.cr_enabled ? var.tunnel_count : 0
   name          = var.tunnel_count == 1 ? format("%s-%s", local.tunnel_name_prefix, "1") : format("%s-%d", local.tunnel_name_prefix, count.index + 1)
   region        = var.region
   project       = var.project_id
   peer_ip       = var.peer_ips[count.index]
   shared_secret = local.default_shared_secret
+  labels        = var.labels
 
   target_vpn_gateway      = google_compute_vpn_gateway.vpn_gateway.self_link
   local_traffic_selector  = var.local_traffic_selector
@@ -41,12 +43,14 @@ resource "google_compute_vpn_tunnel" "tunnel-static" {
 }
 
 resource "google_compute_vpn_tunnel" "tunnel-dynamic" {
+  provider      = google-beta
   count         = var.cr_enabled ? var.tunnel_count : 0
   name          = var.tunnel_count == 1 ? format("%s-%s", local.tunnel_name_prefix, "1") : format("%s-%d", local.tunnel_name_prefix, count.index + 1)
   region        = var.region
   project       = var.project_id
   peer_ip       = var.peer_ips[count.index]
   shared_secret = local.default_shared_secret
+  labels        = var.labels
 
   target_vpn_gateway = google_compute_vpn_gateway.vpn_gateway.self_link
 
