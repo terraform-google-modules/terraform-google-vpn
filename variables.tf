@@ -74,21 +74,32 @@ variable "peer_ips" {
   description = "IP address of remote-peer/gateway"
 }
 
-variable "remote_subnet" {
-  description = "remote subnet ip range in CIDR format - x.x.x.x/x"
-  type        = list(string)
-  default     = []
+variable "routes" {
+  description = <<EOT
+    routes = {
+      remote_subnet : "remote subnet ip range in CIDR format - x.x.x.x/x"
+      priority : "Priority for the static route being created"
+      tags : "A list of instance tags to which this route applies."
+    }
+  EOT
+  type = list(object({
+    remote_subnet = string
+    priority      = number
+    tags          = list(string)
+  }))
+  default = [
+    {
+      remote_subnet = ""
+      priority      = 1000
+      tags          = []
+    }
+  ]
 }
 
 variable "shared_secret" {
   type        = string
   description = "Please enter the shared secret/pre-shared key"
   default     = ""
-}
-
-variable "route_priority" {
-  description = "Priority for static route being created"
-  default     = 1000
 }
 
 variable "cr_name" {
@@ -136,10 +147,4 @@ variable "vpn_gw_ip" {
   type        = string
   description = "Please enter the public IP address of the VPN Gateway, if you have already one. Do not set this variable to autocreate one"
   default     = ""
-}
-
-variable "route_tags" {
-  type        = list(string)
-  description = "A list of instance tags to which this route applies."
-  default     = []
 }

@@ -51,8 +51,14 @@ module "vpn-prod-internal" {
   tunnel_count       = 1
   peer_ips           = ["1.1.1.1", "2.2.2.2"]
 
-  route_priority = 1000
-  remote_subnet  = ["10.17.0.0/22", "10.16.80.0/24"]
+  routes = [
+    {
+     remote_subnet = "10.17.0.0/22"
+    },
+    {
+     remote_subnet = "10.16.80.0/24"
+    }
+  ]
 }
 
 module "vpn-manage-internal" {
@@ -67,8 +73,16 @@ module "vpn-manage-internal" {
   tunnel_count       = 1
   peer_ips           = ["1.1.1.1", "2.2.2.2"]
 
-  route_priority = 1000
-  remote_subnet  = ["10.17.32.0/20", "10.17.16.0/20"]
+  routes = [
+    {
+     remote_subnet = "10.17.32.0/20"
+     priority = 1000
+    },
+    {
+     remote_subnet = "10.17.16.0/20"
+     priority = 1000
+    }
+  ]
 }
 ```
 
@@ -102,10 +116,8 @@ References the variable descriptions below to determine the right configuration.
 | peer\_ips | IP address of remote-peer/gateway | `list(string)` | n/a | yes |
 | project\_id | The ID of the project where this VPC will be created | `string` | n/a | yes |
 | region | The region in which you want to create the VPN gateway | `string` | n/a | yes |
-| remote\_subnet | remote subnet ip range in CIDR format - x.x.x.x/x | `list(string)` | `[]` | no |
 | remote\_traffic\_selector | Remote traffic selector to use when establishing the VPN tunnel with peer VPN gateway.<br>Value should be list of CIDR formatted strings and ranges should be disjoint. | `list(string)` | <pre>[<br>  "0.0.0.0/0"<br>]</pre> | no |
-| route\_priority | Priority for static route being created | `number` | `1000` | no |
-| route\_tags | A list of instance tags to which this route applies. | `list(string)` | `[]` | no |
+| routes | A list of routes. Each route has a remote_subnet ip range in CIDR format - x.x.x.x/x, a priority for the route being created, and a list of instance tags | `object({ remote_subnet=string, priority=number, tags=list(string) })` | <pre>[<br>  {<br>    remote_subnet = ""<br>    priority      = 1000<br>    tags          = []<br>  }<br>] | no
 | shared\_secret | Please enter the shared secret/pre-shared key | `string` | `""` | no |
 | tunnel\_count | The number of tunnels from each VPN gw (default is 1) | `number` | `1` | no |
 | tunnel\_name\_prefix | The optional custom name of VPN tunnel being created | `string` | `""` | no |

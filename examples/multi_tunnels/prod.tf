@@ -84,7 +84,15 @@ module "vpn-gw-us-we1-prd-mgt-internal" {
   tunnel_count       = 1
   peer_ips           = [module.vpn-gw-us-we1-mgt-prd-internal.gateway_ip]
 
-  route_priority = 1000
-  remote_subnet  = ["10.17.32.0/20", "10.17.16.0/20"]
+  routes = [
+    {
+      remote_subnet = "10.17.32.0/20"
+      priority      = 1000
+    },
+    {
+      remote_subnet = "10.17.16.0/20"
+      priority      = 1000
+    }
+  ]
 }
 
