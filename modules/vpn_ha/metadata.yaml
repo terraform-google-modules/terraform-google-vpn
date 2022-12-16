@@ -1,0 +1,159 @@
+# Copyright 2022 Google LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+apiVersion: blueprints.cloud.google.com/v1alpha1
+kind: BlueprintMetadata
+metadata:
+  name: terraform-google-vpn
+  annotations:
+    config.kubernetes.io/local-config: "true"
+spec:
+  title: Cloud VPN HA Module
+  source:
+    repo: https://github.com/terraform-google-modules/terraform-google-vpn
+    sourceType: git
+  version: 2.3.0
+  actuationTool:
+    type: Terraform
+    version: '>=0.13.0'
+  examples:
+  - name: multi_tunnels
+    location: examples/multi_tunnels
+  - name: single_tunnels
+    location: examples/single_tunnels
+  - name: vpn_ha
+    location: examples/vpn_ha
+  variables:
+  - name: create_vpn_gateway
+    description: create a VPN gateway
+    type: bool
+    default: true
+    required: false
+  - name: labels
+    description: Labels for vpn components
+    type: map(string)
+    default: {}
+    required: false
+  - name: name
+    description: VPN gateway name, and prefix used for dependent resources.
+    type: string
+    required: true
+  - name: network
+    description: VPC used for the gateway and routes.
+    type: string
+    required: true
+  - name: peer_external_gateway
+    description: Configuration of an external VPN gateway to which this VPN is connected.
+    type: |-
+      object({
+          redundancy_type = string
+          interfaces = list(object({
+            id         = number
+            ip_address = string
+          }))
+        })
+    required: false
+  - name: peer_gcp_gateway
+    description: Self Link URL of the peer side HA GCP VPN gateway to which this VPN tunnel is connected.
+    type: string
+    required: false
+  - name: project_id
+    description: Project where resources will be created.
+    type: string
+    required: true
+  - name: region
+    description: Region used for resources.
+    type: string
+    required: true
+  - name: route_priority
+    description: Route priority, defaults to 1000.
+    type: number
+    default: 1000
+    required: false
+  - name: router_advertise_config
+    description: Router custom advertisement configuration, ip_ranges is a map of address ranges and descriptions.
+    type: |-
+      object({
+          groups    = list(string)
+          ip_ranges = map(string)
+          mode      = string
+        })
+    required: false
+  - name: router_asn
+    description: Router ASN used for auto-created router.
+    type: number
+    default: 64514
+    required: false
+  - name: router_name
+    description: Name of router, leave blank to create one.
+    type: string
+    default: ""
+    required: false
+  - name: tunnels
+    description: VPN tunnel configurations, bgp_peer_options is usually null.
+    type: |-
+      map(object({
+          bgp_peer = object({
+            address = string
+            asn     = number
+          })
+          bgp_peer_options = object({
+            advertise_groups    = list(string)
+            advertise_ip_ranges = map(string)
+            advertise_mode      = string
+            route_priority      = number
+          })
+          bgp_session_range               = string
+          ike_version                     = number
+          vpn_gateway_interface           = number
+          peer_external_gateway_interface = number
+          shared_secret                   = string
+        }))
+    default: {}
+    required: false
+  - name: vpn_gateway_self_link
+    description: self_link of existing VPN gateway to be used for the vpn tunnel
+    type: string
+    required: false
+  outputs:
+  - name: external_gateway
+    description: External VPN gateway resource.
+  - name: gateway
+    description: HA VPN gateway resource.
+  - name: name
+    description: VPN gateway name.
+  - name: random_secret
+    description: Generated secret.
+  - name: router
+    description: Router resource (only if auto-created).
+  - name: router_name
+    description: Router name.
+  - name: self_link
+    description: HA VPN gateway self link.
+  - name: tunnel_names
+    description: VPN tunnel names.
+  - name: tunnel_self_links
+    description: VPN tunnel self links.
+  - name: tunnels
+    description: VPN tunnel resources.
+  roles:
+  - level: Project
+    roles:
+    - roles/owner
+    - roles/compute.networkAdmin
+    - roles/compute.instanceAdmin
+    - roles/iam.serviceAccountUser
+  services:
+  - cloudresourcemanager.googleapis.com
+  - compute.googleapis.com
