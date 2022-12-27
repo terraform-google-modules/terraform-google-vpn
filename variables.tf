@@ -88,6 +88,7 @@ variable "shared_secret" {
 
 variable "route_priority" {
   description = "Priority for static route being created"
+  type        = number
   default     = 1000
 }
 
@@ -123,6 +124,7 @@ variable "bgp_remote_session_range" {
 
 variable "advertised_route_priority" {
   description = "Please enter the priority for the advertised route to BGP peer(default is 100)"
+  type        = number
   default     = 100
 }
 

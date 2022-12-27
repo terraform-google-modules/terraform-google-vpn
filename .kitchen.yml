@@ -23,6 +23,7 @@ suites:
     driver:
       name: terraform
       root_module_directory: test/fixtures/single_tunnels
+      verify_version: false
       command_timeout: 1800
     verifier:
       name: terraform
@@ -36,6 +37,7 @@ suites:
     driver:
       name: terraform
       root_module_directory: test/fixtures/vpn_ha
+      verify_version: false
       command_timeout: 1800
     verifier:
       name: terraform
