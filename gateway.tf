@@ -16,17 +16,24 @@
 
 # Static External IP for the VPN Gateway
 resource "google_compute_address" "vpn_gw_ip" {
-  count   = var.vpn_gw_ip == "" ? 1 : 0
-  name    = "ip-${var.gateway_name}"
-  region  = var.region
-  project = var.project_id
+  count      = var.vpn_gw_ip == "" ? 1 : 0
+  name       = "ip-${var.gateway_name}"
+  region     = var.region
+  project    = var.project_id
+  depends_on = [null_resource.module_depends_on]
 }
 
 # VPN Gateways
 resource "google_compute_vpn_gateway" "vpn_gateway" {
-  name    = var.gateway_name
-  network = var.network
-  region  = var.region
-  project = var.project_id
+  name       = var.gateway_name
+  network    = var.network
+  region     = var.region
+  project    = var.project_id
+  depends_on = [null_resource.module_depends_on]
 }
 
+resource "null_resource" "module_depends_on" {
+  triggers = {
+    value = length(var.module_depends_on)
+  }
+}

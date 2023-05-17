@@ -145,3 +145,9 @@ variable "route_tags" {
   description = "A list of instance tags to which this route applies."
   default     = []
 }
+
+variable "module_depends_on" {
+  description = "List of modules or resources this module depends on."
+  type        = list(any)
+  default     = []
+}
