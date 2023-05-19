@@ -51,6 +51,7 @@ resource "google_compute_external_vpn_gateway" "external_gateway" {
   project         = var.project_id
   redundancy_type = var.peer_external_gateway.redundancy_type
   description     = "Terraform managed external VPN gateway"
+  labels          = var.labels
   dynamic "interface" {
     for_each = var.peer_external_gateway.interfaces
     content {
