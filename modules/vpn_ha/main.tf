@@ -106,9 +106,7 @@ resource "google_compute_router_peer" "bgp_peer" {
   router          = local.router
   peer_ip_address = each.value.bgp_peer.address
   peer_asn        = each.value.bgp_peer.asn
-  ip_address = (
-    each.value.bgp_peer_options == null ? null : each.value.bgp_peer_options.ip_address
-  )
+  ip_address      = each.value.bgp_peer_options == null ? null : each.value.bgp_peer_options.ip_address
   advertised_route_priority = (
     each.value.bgp_peer_options == null ? var.route_priority : (
       each.value.bgp_peer_options.route_priority == null
