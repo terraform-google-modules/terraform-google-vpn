@@ -17,6 +17,7 @@
 variable "peer_external_gateway" {
   description = "Configuration of an external VPN gateway to which this VPN is connected."
   type = object({
+    name            = optional(string)
     redundancy_type = string
     interfaces = list(object({
       id         = number
@@ -74,6 +75,12 @@ variable "router_asn" {
   default     = 64514
 }
 
+variable "keepalive_interval" {
+  description = "The interval in seconds between BGP keepalive messages that are sent to the peer."
+  type        = number
+  default     = 20
+}
+
 variable "router_name" {
   description = "Name of router, leave blank to create one."
   type        = string
@@ -87,6 +94,7 @@ variable "tunnels" {
       address = string
       asn     = number
     })
+    bgp_session_name = optional(string)
     bgp_peer_options = object({
       advertise_groups    = list(string)
       advertise_ip_ranges = map(string)

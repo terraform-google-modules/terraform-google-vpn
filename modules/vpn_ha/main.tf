@@ -47,7 +47,7 @@ resource "google_compute_ha_vpn_gateway" "ha_gateway" {
 resource "google_compute_external_vpn_gateway" "external_gateway" {
   provider        = google-beta
   count           = var.peer_external_gateway != null ? 1 : 0
-  name            = "external-${var.name}"
+  name            = var.peer_external_gateway.name != null ? var.peer_external_gateway.name : "external-${var.name}"
   project         = var.project_id
   redundancy_type = var.peer_external_gateway.redundancy_type
   description     = "Terraform managed external VPN gateway"
@@ -94,7 +94,8 @@ resource "google_compute_router" "router" {
         description = range.value
       }
     }
-    asn = var.router_asn
+    asn                = var.router_asn
+    keepalive_interval = var.keepalive_interval
   }
 }
 
@@ -102,7 +103,7 @@ resource "google_compute_router_peer" "bgp_peer" {
   for_each        = var.tunnels
   region          = var.region
   project         = var.project_id
-  name            = "${var.name}-${each.key}"
+  name            = each.value.bgp_session_name != null ? each.value.bgp_session_name : "${var.name}-${each.key}"
   router          = local.router
   peer_ip_address = each.value.bgp_peer.address
   peer_asn        = each.value.bgp_peer.asn
@@ -145,7 +146,7 @@ resource "google_compute_router_interface" "router_interface" {
   for_each   = var.tunnels
   project    = var.project_id
   region     = var.region
-  name       = "${var.name}-${each.key}"
+  name       = each.value.bgp_session_name != null ? each.value.bgp_session_name : "${var.name}-${each.key}"
   router     = local.router
   ip_range   = each.value.bgp_session_range == "" ? null : each.value.bgp_session_range
   vpn_tunnel = google_compute_vpn_tunnel.tunnels[each.key].name
