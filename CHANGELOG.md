@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file. The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.4.0](https://github.com/terraform-google-modules/terraform-google-vpn/compare/v2.3.1...v2.4.0) (2023-07-12)
+
+
+### Features
+
+* Add ip_address to bgp_peer_options in vpn_ha ([#100](https://github.com/terraform-google-modules/terraform-google-vpn/issues/100)) ([ca72e53](https://github.com/terraform-google-modules/terraform-google-vpn/commit/ca72e53e76336c53a2944a4ad1938225207483f2))
+* adds variables required for FS ([#106](https://github.com/terraform-google-modules/terraform-google-vpn/issues/106)) ([442b40d](https://github.com/terraform-google-modules/terraform-google-vpn/commit/442b40dea068f1f9fe649ab5067df75a223cdd3e))
+
 ## [2.3.1](https://github.com/terraform-google-modules/terraform-google-vpn/compare/v2.3.0...v2.3.1) (2022-12-29)
 
 
