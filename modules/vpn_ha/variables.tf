@@ -96,6 +96,7 @@ variable "tunnels" {
     })
     bgp_session_name = optional(string)
     bgp_peer_options = object({
+      ip_address          = string
       advertise_groups    = list(string)
       advertise_ip_ranges = map(string)
       advertise_mode      = string
