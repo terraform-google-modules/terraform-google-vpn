@@ -38,6 +38,12 @@ variable "name" {
   type        = string
 }
 
+variable "stack_type" {
+  description = "The IP stack type will apply to all the tunnels associated with this VPN gateway."
+  type        = string
+  default     = "IPV4_ONLY"
+}
+
 variable "network" {
   description = "VPC used for the gateway and routes."
   type        = string
