@@ -62,7 +62,7 @@ resource "google_compute_external_vpn_gateway" "external_gateway" {
 }
 
 data "google_compute_router" "router" {
-  name    = var.router_name
+  name    = var.router_name == null ? "" : var.router_name
   network = var.network
   project = var.project_id
   region  = var.region
