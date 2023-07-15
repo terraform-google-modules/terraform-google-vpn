@@ -18,7 +18,7 @@ variable "peer_external_gateway" {
   description = "Configuration of an external VPN gateway to which this VPN is connected."
   type = object({
     name            = optional(string)
-    redundancy_type = string
+    redundancy_type = optional(string)
     interfaces = list(object({
       id         = number
       ip_address = string
@@ -70,7 +70,7 @@ variable "router_advertise_config" {
   type = object({
     groups    = list(string)
     ip_ranges = map(string)
-    mode      = string
+    mode      = optional(string)
   })
   default = null
 }
@@ -102,17 +102,17 @@ variable "tunnels" {
     })
     bgp_session_name = optional(string)
     bgp_peer_options = object({
-      ip_address          = string
-      advertise_groups    = list(string)
-      advertise_ip_ranges = map(string)
-      advertise_mode      = string
-      route_priority      = number
+      ip_address          = optional(string)
+      advertise_groups    = optional(list(string))
+      advertise_ip_ranges = optional(map(string))
+      advertise_mode      = optional(string)
+      route_priority      = optional(number)
     })
-    bgp_session_range               = string
-    ike_version                     = number
-    vpn_gateway_interface           = number
-    peer_external_gateway_interface = number
-    shared_secret                   = string
+    bgp_session_range               = optional(string)
+    ike_version                     = optional(number)
+    vpn_gateway_interface           = optional(number)
+    peer_external_gateway_interface = optional(number)
+    shared_secret                   = optional(string, "")
   }))
   default = {}
 }
@@ -133,4 +133,10 @@ variable "labels" {
   description = "Labels for vpn components"
   type        = map(string)
   default     = {}
+}
+
+variable "external_vpn_gateway_description" {
+  description = "An optional description of external VPN Gateway"
+  type        = string
+  default     = "Terraform managed external VPN gateway"
 }

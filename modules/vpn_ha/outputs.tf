@@ -59,7 +59,6 @@ output "tunnels" {
 
 output "tunnel_names" {
   description = "VPN tunnel names."
-  sensitive   = true
   value = {
     for name in keys(var.tunnels) :
     name => google_compute_vpn_tunnel.tunnels[name].name
