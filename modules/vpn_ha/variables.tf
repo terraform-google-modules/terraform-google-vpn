@@ -101,14 +101,14 @@ variable "tunnels" {
       asn     = number
     })
     bgp_session_name = optional(string)
-    bgp_peer_options = object({
+    bgp_peer_options = optional(object({
       ip_address          = string
-      advertise_groups    = list(string)
-      advertise_ip_ranges = map(string)
-      advertise_mode      = string
-      route_priority      = number
-    })
-    bgp_session_range               = string
+      advertise_groups    = optional(list(string))
+      advertise_ip_ranges = optional(map(string))
+      advertise_mode      = optional(string)
+      route_priority      = optional(number)
+    }))
+    bgp_session_range               = optional(string)
     ike_version                     = number
     vpn_gateway_interface           = number
     peer_external_gateway_interface = number
