@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file. The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.0.0](https://github.com/terraform-google-modules/terraform-google-vpn/compare/v2.4.0...v3.0.0) (2023-07-25)
+
+
+### ⚠ BREAKING CHANGES
+
+* **TPG >= 4.74:** Added labels, update TPG and Terraform version requirements  ([#112](https://github.com/terraform-google-modules/terraform-google-vpn/issues/112))
+
+### Features
+
+* adds stack_type and an option to set the router name ([#110](https://github.com/terraform-google-modules/terraform-google-vpn/issues/110)) ([2382abd](https://github.com/terraform-google-modules/terraform-google-vpn/commit/2382abda421bafab111b13b83428c4e955f83dc1))
+* **TPG >= 4.74:** Added labels, update TPG and Terraform version requirements  ([#112](https://github.com/terraform-google-modules/terraform-google-vpn/issues/112)) ([24a946c](https://github.com/terraform-google-modules/terraform-google-vpn/commit/24a946cf5d6cce4cc5c1398cc47f1e4d8dcf2de9))
+
 ## [2.4.0](https://github.com/terraform-google-modules/terraform-google-vpn/compare/v2.3.1...v2.4.0) (2023-07-12)
 
 
