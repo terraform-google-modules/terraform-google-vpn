@@ -132,20 +132,21 @@ module "vpn_ha" {
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
 | create\_vpn\_gateway | create a VPN gateway | `bool` | `true` | no |
+| external\_vpn\_gateway\_description | An optional description of external VPN Gateway | `string` | `"Terraform managed external VPN gateway"` | no |
 | keepalive\_interval | The interval in seconds between BGP keepalive messages that are sent to the peer. | `number` | `20` | no |
 | labels | Labels for vpn components | `map(string)` | `{}` | no |
 | name | VPN gateway name, and prefix used for dependent resources. | `string` | n/a | yes |
 | network | VPC used for the gateway and routes. | `string` | n/a | yes |
-| peer\_external\_gateway | Configuration of an external VPN gateway to which this VPN is connected. | <pre>object({<br>    name            = optional(string)<br>    redundancy_type = string<br>    interfaces = list(object({<br>      id         = number<br>      ip_address = string<br>    }))<br>  })</pre> | `null` | no |
+| peer\_external\_gateway | Configuration of an external VPN gateway to which this VPN is connected. | <pre>object({<br>    name            = optional(string)<br>    redundancy_type = optional(string)<br>    interfaces = list(object({<br>      id         = number<br>      ip_address = string<br>    }))<br>  })</pre> | `null` | no |
 | peer\_gcp\_gateway | Self Link URL of the peer side HA GCP VPN gateway to which this VPN tunnel is connected. | `string` | `null` | no |
 | project\_id | Project where resources will be created. | `string` | n/a | yes |
 | region | Region used for resources. | `string` | n/a | yes |
 | route\_priority | Route priority, defaults to 1000. | `number` | `1000` | no |
-| router\_advertise\_config | Router custom advertisement configuration, ip\_ranges is a map of address ranges and descriptions. | <pre>object({<br>    groups    = list(string)<br>    ip_ranges = map(string)<br>    mode      = string<br>  })</pre> | `null` | no |
+| router\_advertise\_config | Router custom advertisement configuration, ip\_ranges is a map of address ranges and descriptions. | <pre>object({<br>    groups    = list(string)<br>    ip_ranges = map(string)<br>    mode      = optional(string)<br>  })</pre> | `null` | no |
 | router\_asn | Router ASN used for auto-created router. | `number` | `64514` | no |
 | router\_name | Name of router, leave blank to create one. | `string` | `""` | no |
 | stack\_type | The IP stack type will apply to all the tunnels associated with this VPN gateway. | `string` | `"IPV4_ONLY"` | no |
-| tunnels | VPN tunnel configurations, bgp\_peer\_options is usually null. | <pre>map(object({<br>    bgp_peer = object({<br>      address = string<br>      asn     = number<br>    })<br>    bgp_session_name = optional(string)<br>    bgp_peer_options = object({<br>      ip_address          = string<br>      advertise_groups    = list(string)<br>      advertise_ip_ranges = map(string)<br>      advertise_mode      = string<br>      route_priority      = number<br>    })<br>    bgp_session_range               = string<br>    ike_version                     = number<br>    vpn_gateway_interface           = number<br>    peer_external_gateway_interface = number<br>    shared_secret                   = string<br>  }))</pre> | `{}` | no |
+| tunnels | VPN tunnel configurations, bgp\_peer\_options is usually null. | <pre>map(object({<br>    bgp_peer = object({<br>      address = string<br>      asn     = number<br>    })<br>    bgp_session_name = optional(string)<br>    bgp_peer_options = optional(object({<br>      ip_address          = optional(string)<br>      advertise_groups    = optional(list(string))<br>      advertise_ip_ranges = optional(map(string))<br>      advertise_mode      = optional(string)<br>      route_priority      = optional(number)<br>    }))<br>    bgp_session_range               = optional(string)<br>    ike_version                     = optional(number)<br>    vpn_gateway_interface           = optional(number)<br>    peer_external_gateway_interface = optional(number)<br>    shared_secret                   = optional(string, "")<br>  }))</pre> | `{}` | no |
 | vpn\_gateway\_self\_link | self\_link of existing VPN gateway to be used for the vpn tunnel | `string` | `null` | no |
 
 ## Outputs

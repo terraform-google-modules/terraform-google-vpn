@@ -12,7 +12,7 @@ If you want to deploy [HA VPN](https://cloud.google.com/vpn/docs/how-to/moving-t
 
 ## Compatibility
 
- This module is meant for use with Terraform 0.12. If you haven't [upgraded](https://www.terraform.io/upgrade-guides/0-12.html)
+ This module is meant for use with Terraform 1.3+. If you haven't [upgraded](https://developer.hashicorp.com/terraform/language/v1.3.x/upgrade-guides)
   and need a Terraform 0.11.x-compatible version of this module, the last released version intended for
   Terraform 0.11.x is [0.3.0](https://registry.terraform.io/modules/terraform-google-modules/vpn/google/0.3.0).
 
@@ -21,6 +21,7 @@ If you want to deploy [HA VPN](https://cloud.google.com/vpn/docs/how-to/moving-t
 The following guides are available to assist with upgrades:
 
 - [1.X -> 2.0](./docs/upgrading_to_vpn_v2.0.md)
+- [2.X -> 3.0](./docs/upgrading_to_vpn_v3.0.md)
 
 ## Usage
 
@@ -131,8 +132,8 @@ References the variable descriptions below to determine the right configuration.
 
 ## Requirements
 ### Terraform plugins
-- [Terraform](https://www.terraform.io/downloads.html) 0.12.x
-- [terraform-provider-google](https://github.com/terraform-providers/terraform-provider-google) plugin v1.8.0
+- [Terraform](https://www.terraform.io/downloads.html) 1.3+
+- [terraform-provider-google](https://github.com/terraform-providers/terraform-provider-google) plugin v4.64+
 
 ### Configure a Service Account
 In order to execute this module you must have a Service Account with the following roles:
