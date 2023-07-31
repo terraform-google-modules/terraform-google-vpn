@@ -32,9 +32,9 @@ terraform {
   }
 
   provider_meta "google" {
-    module_name = "blueprints/terraform/terraform-google-vpn/v2.4.0"
+    module_name = "blueprints/terraform/terraform-google-vpn/v3.0.0"
   }
   provider_meta "google-beta" {
-    module_name = "blueprints/terraform/terraform-google-vpn/v2.4.0"
+    module_name = "blueprints/terraform/terraform-google-vpn/v3.0.0"
   }
 }
