@@ -1,81 +1,129 @@
 # Cloud VPN HA Module
 This module makes it easy to deploy either GCP-to-GCP or GCP-to-On-prem [Cloud HA VPN](https://cloud.google.com/vpn/docs/concepts/overview#ha-vpn).
 
-## Examples
+## Compatibility
+
+This module is meant for use with Terraform 1.3+ and tested using Terraform 1.3+. If you find incompatibilities using Terraform >=1.3, please open an issue.
+
+## Version
+
+Current version is 1.0. Upgrade guides:
+
+- [1.X -> 2.0.](/docs/upgrading_to_vpn_v2.0.md)
+- [2.X -> 3.0.](/docs/upgrading_to_vpn_v3.0.md)
+
+##  Module Format
+
+```
+module "vpn_ha" {
+  source                           = "terraform-google-modules/vpn/google//modules/vpn_ha"
+  version                          = "~> 3.0"
+  project_id                       = <Project ID>
+  region                           = "us-central1"
+  network                          = <VPC-Network-Self-Link>
+  name                             = "my-ha-vpn-gateway"
+
+  create_vpn_gateway               = true
+  vpn_gateway_self_link            = null
+
+  router_name                      = "my-vpn-router"
+  router_asn                       = 64514
+
+  external_vpn_gateway_description = "My VPN peering gateway"
+  peer_external_gateway            = {}
+  tunnels = {
+
+    tunel-0 = {
+
+    }
+
+    tunel-1 = {
+
+    }
+
+  }
+}
+```
+
+See section [peer_external_gateway](#peer_external_gateway) and [tunnels](#tunnels) for details.
+
+## Usage
 
 ### GCP to GCP
 ```hcl
 module "vpn_ha-1" {
-  source  = "terraform-google-modules/vpn/google//modules/vpn_ha"
-  version = "~> 1.3.0"
-  project_id  = "<PROJECT_ID>"
-  region  = "europe-west4"
-  network         = "https://www.googleapis.com/compute/v1/projects/<PROJECT_ID>/global/networks/network-1"
-  name            = "net1-to-net-2"
-  peer_gcp_gateway = module.vpn_ha-2.self_link
-  router_asn = 64514
+  source            = "terraform-google-modules/vpn/google//modules/vpn_ha"
+  version           = "~> 1.3.0"
+  project_id        = "<PROJECT_ID>"
+  region            = "europe-west4"
+  network           = "https://www.googleapis.com/compute/v1/projects/<PROJECT_ID>/global/networks/network-1"
+  name              = "net1-to-net-2"
+  peer_gcp_gateway  = module.vpn_ha-2.self_link
+  router_asn        = 64514
+
   tunnels = {
     remote-0 = {
       bgp_peer = {
         address = "169.254.1.1"
         asn     = 64513
       }
-      bgp_peer_options  = null
-      bgp_session_range = "169.254.1.2/30"
-      ike_version       = 2
-      vpn_gateway_interface = 0
+      bgp_peer_options                = null
+      bgp_session_range               = "169.254.1.2/30"
+      ike_version                     = 2
+      vpn_gateway_interface           = 0
       peer_external_gateway_interface = null
-      shared_secret     = ""
+      shared_secret                   = ""
     }
+
     remote-1 = {
       bgp_peer = {
         address = "169.254.2.1"
         asn     = 64513
       }
-      bgp_peer_options  = null
-      bgp_session_range = "169.254.2.2/30"
-      ike_version       = 2
-      vpn_gateway_interface = 1
+      bgp_peer_options                = null
+      bgp_session_range               = "169.254.2.2/30"
+      ike_version                     = 2
+      vpn_gateway_interface           = 1
       peer_external_gateway_interface = null
-      shared_secret     = ""
+      shared_secret                   = ""
     }
+
   }
 }
 
 module "vpn_ha-2" {
-  source  = "terraform-google-modules/vpn/google//modules/vpn_ha"
-  version = "~> 1.3.0"
-  project_id  = "<PROJECT_ID>"
-  region  = "europe-west4"
-  network         = "https://www.googleapis.com/compute/v1/projects/<PROJECT_ID>/global/networks/local-network"
-  name            = "net2-to-net1"
-  router_asn = 64513
-  peer_gcp_gateway = module.vpn_ha-1.self_link
+  source              = "terraform-google-modules/vpn/google//modules/vpn_ha"
+  version             = "~> 1.3.0"
+  project_id          = "<PROJECT_ID>"
+  region              = "europe-west4"
+  network             = "https://www.googleapis.com/compute/v1/projects/<PROJECT_ID>/global/networks/local-network"
+  name                = "net2-to-net1"
+  router_asn          = 64513
+  peer_gcp_gateway    = module.vpn_ha-1.self_link
+
   tunnels = {
     remote-0 = {
       bgp_peer = {
         address = "169.254.1.2"
         asn     = 64514
       }
-      bgp_peer_options  = null
-      bgp_session_range = "169.254.1.1/30"
-      ike_version       = 2
-      vpn_gateway_interface = 0
-      peer_external_gateway_interface = null
-      shared_secret     = module.vpn_ha-1.random_secret
+      bgp_session_range               = "169.254.1.1/30"
+      ike_version                     = 2
+      vpn_gateway_interface           = 0
+      shared_secret                   = module.vpn_ha-1.random_secret
     }
+
     remote-1 = {
       bgp_peer = {
         address = "169.254.2.2"
         asn     = 64514
       }
-      bgp_peer_options  = null
-      bgp_session_range = "169.254.2.1/30"
-      ike_version       = 2
-      vpn_gateway_interface = 1
-      peer_external_gateway_interface = null
-      shared_secret     = module.vpn_ha-1.random_secret
+      bgp_session_range               = "169.254.2.1/30"
+      ike_version                     = 2
+      vpn_gateway_interface           = 1
+      shared_secret                   = module.vpn_ha-1.random_secret
     }
+
   }
 }
 ```
@@ -83,45 +131,57 @@ module "vpn_ha-2" {
 
 ```hcl
 module "vpn_ha" {
-  source = "terraform-google-modules/vpn/google//modules/vpn_ha"
-  project_id  = "<PROJECT_ID>"
-  region  = "europe-west4"
-  network         = "https://www.googleapis.com/compute/v1/projects/<PROJECT_ID>/global/networks/my-network"
-  name            = "mynet-to-onprem"
-  peer_external_gateway = {
-      redundancy_type = "SINGLE_IP_INTERNALLY_REDUNDANT"
-      interfaces = [{
-          id = 0
-          ip_address = "8.8.8.8" # on-prem router ip address
+  source                           = "terraform-google-modules/vpn/google//modules/vpn_ha"
+  project_id                       = "<PROJECT_ID>"
+  region                           = "europe-west4"
+  network                          = "https://www.googleapis.com/compute/v1/projects/<PROJECT_ID>/global/networks/my-network"
+  name                             = "mynet-to-onprem"
+  create_vpn_gateway               = true
+  vpn_gateway_self_link            = null
+  external_vpn_gateway_description = "My VPN peering gateway"
+  peer_external_gateway            = {}
+  router_name                      = "my-vpn-router"
+  router_asn                       = 64515
 
-      }]
+  peer_external_gateway = {
+    name            = "vpn-peering-gw"
+    redundancy_type = "SINGLE_IP_INTERNALLY_REDUNDANT"
+    interfaces = [
+      {
+        id = 0
+        ip_address = "8.8.8.8" # on-prem router ip address
+      },
+    ]
   }
-  router_asn = 64514
+
   tunnels = {
+
     remote-0 = {
       bgp_peer = {
         address = "169.254.1.1"
         asn     = 64513
       }
-      bgp_peer_options  = null
-      bgp_session_range = "169.254.1.2/30"
-      ike_version       = 2
-      vpn_gateway_interface = 0
+      bgp_session_name                = "bgp-peer-0"
+      bgp_session_range               = "169.254.1.2/30"
+      ike_version                     = 2
       peer_external_gateway_interface = 0
-      shared_secret     = "mySecret"
+      vpn_gateway_interface           = 0
+      shared_secret                   = "mySecret"
     }
+
     remote-1 = {
       bgp_peer = {
         address = "169.254.2.1"
         asn     = 64513
       }
-      bgp_peer_options  = null
-      bgp_session_range = "169.254.2.2/30"
-      ike_version       = 2
-      vpn_gateway_interface = 1
+      bgp_session_name                = "bgp-peer-1"
+      bgp_session_range               = "169.254.2.1/30"
+      ike_version                     = 2
       peer_external_gateway_interface = 0
-      shared_secret     = "mySecret"
+      vpn_gateway_interface           = 1
+      shared_secret                   = "mySecret"
     }
+
   }
 }
 ```
@@ -147,7 +207,7 @@ module "vpn_ha" {
 | router\_name | Name of router, leave blank to create one. | `string` | `""` | no |
 | stack\_type | The IP stack type will apply to all the tunnels associated with this VPN gateway. | `string` | `"IPV4_ONLY"` | no |
 | tunnels | VPN tunnel configurations, bgp\_peer\_options is usually null. | <pre>map(object({<br>    bgp_peer = object({<br>      address = string<br>      asn     = number<br>    })<br>    bgp_session_name = optional(string)<br>    bgp_peer_options = optional(object({<br>      ip_address          = optional(string)<br>      advertise_groups    = optional(list(string))<br>      advertise_ip_ranges = optional(map(string))<br>      advertise_mode      = optional(string)<br>      route_priority      = optional(number)<br>    }))<br>    bgp_session_range               = optional(string)<br>    ike_version                     = optional(number)<br>    vpn_gateway_interface           = optional(number)<br>    peer_external_gateway_interface = optional(number)<br>    shared_secret                   = optional(string, "")<br>  }))</pre> | `{}` | no |
-| vpn\_gateway\_self\_link | self\_link of existing VPN gateway to be used for the vpn tunnel | `string` | `null` | no |
+| vpn\_gateway\_self\_link | self\_link of existing VPN gateway to be used for the vpn tunnel. create\_vpn\_gateway should be set to false | `string` | `null` | no |
 
 ## Outputs
 
@@ -165,3 +225,312 @@ module "vpn_ha" {
 | tunnels | VPN tunnel resources. |
 
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
+
+## peer_external_gateway
+
+# Format
+
+```
+  peer_external_gateway = {
+    name             = "vpn-peering-gw"
+    redundancy_type  = "SINGLE_IP_INTERNALLY_REDUNDANT"                   # can be SINGLE_IP_INTERNALLY_REDUNDANT, TWO_IPS_REDUNDANCY or FOUR_IPS_REDUNDANCY
+    interfaces       = []
+  }
+```
+
+# Examples
+
+- Single Interfaces
+
+```
+  peer_external_gateway = {
+    name            = "vpn-peering-gw"
+    redundancy_type = "SINGLE_IP_INTERNALLY_REDUNDANT"                   # can be SINGLE_IP_INTERNALLY_REDUNDANT, TWO_IPS_REDUNDANCY or FOUR_IPS_REDUNDANCY
+    interfaces = [
+      {
+        id         = 0
+        ip_address = "130.100.0.10"
+      },
+    ]
+  }
+```
+
+- Two Interfaces
+
+```
+  peer_external_gateway = {
+    name            = "vpn-peering-gw"
+    redundancy_type = "TWO_IPS_REDUNDANCY"                   # can be SINGLE_IP_INTERNALLY_REDUNDANT, TWO_IPS_REDUNDANCY or FOUR_IPS_REDUNDANCY
+    interfaces = [
+      {
+        id         = 0
+        ip_address = "130.100.0.10"
+      },
+      {
+        id         = 1
+        ip_address = "130.100.0.20"
+      },
+    ]
+  }
+
+```
+
+
+- Four Interfaces
+
+```
+  peer_external_gateway = {
+    name            = "vpn-peering-gw"
+    redundancy_type = "FOUR_IPS_REDUNDANCY"                   # can be SINGLE_IP_INTERNALLY_REDUNDANT, TWO_IPS_REDUNDANCY or FOUR_IPS_REDUNDANCY
+    interfaces = [
+      {
+        id         = 0
+        ip_address = "130.100.0.10"
+      },
+      {
+        id         = 1
+        ip_address = "130.100.0.20"
+      },
+      {
+        id         = 2
+        ip_address = "130.100.0.100"
+      },
+      {
+        id         = 3
+        ip_address = "130.100.0.120"
+      },
+    ]
+  }
+
+```
+
+
+
+## tunnels
+
+# Format
+
+```
+  tunnels = {
+    remote-0 = {
+
+      bgp_peer = {
+        address = "169.254.20.2" # Peer Router BGP IP address "169.254.20.2"
+        asn     = 31898          # Peer Router ASN
+      }
+
+      bgp_session_name = "bgp-peer0"
+
+      bgp_peer_options = {
+        advertise_mode = "CUSTOM"
+
+        # advertise_ip_ranges is a map fo strings in format "ip-address" = "description of the IP address" ex: "199.36.153.4/30" = "restricted.googleapis.com IPs". advertise_mode should be "CUSTOM". Not needed if routes are advertised from cloud router.
+        advertise_ip_ranges = {
+          "199.36.153.4/30" = "restricted.googleapis.com IPs"
+          "199.36.153.8/30" = "private.googleapis.com IPs"
+          "10.200.5.0/32"   = "My GoogleAPIS PSC IP address"
+          "10.10.10.0/24"   = "VPC IPs"
+        }
+        # ip_address          = optional(string)            # Optional GCP Router BGP IP address "169.254.20.1". Not needed. Will be pulled automatically from bgp_session_range
+        # advertise_groups    = optional(list(string))
+        # route_priority      = optional(number)
+      }
+
+      bgp_session_range               = "169.254.20.1/30"    # GCP BGP session IP address "169.254.20.1/30"
+      ike_version                     = 2
+      vpn_gateway_interface           = 0
+      peer_external_gateway_interface = 0
+      shared_secret                   = random_string.secret.result
+
+    }
+  }
+```
+
+# Examples
+
+- two tunnels
+
+```
+  tunnels = {
+    remote-0 = {
+
+      bgp_peer = {
+        address = "169.254.20.2"
+        asn     = 31898
+      }
+
+      bgp_session_name = "bgp-peer0"
+
+      bgp_peer_options = {
+        advertise_mode = "CUSTOM"
+        advertise_ip_ranges = {
+          "199.36.153.4/30" = "restricted.googleapis.com IPs"
+          "199.36.153.8/30" = "private.googleapis.com IPs"
+          "10.200.5.0/32"   = "My GoogleAPIS PSC IP address"
+          "10.10.10.0/24"   = "VPC IPs"
+        }
+      }
+
+      bgp_session_range               = "169.254.20.1/30"
+      ike_version                     = 2
+      vpn_gateway_interface           = 0
+      peer_external_gateway_interface = 0
+      shared_secret                   = random_string.secret.result
+
+    }
+
+    remote-1 = {
+
+      bgp_peer = {
+        address = "169.254.20.6"
+        asn     = 31898
+      }
+
+      bgp_session_name = "bgp-peer1"
+
+      bgp_peer_options = {
+        advertise_mode = "CUSTOM"
+        advertise_ip_ranges = {
+          "199.36.153.4/30" = "restricted.googleapis.com IPs"
+          "199.36.153.8/30" = "private.googleapis.com IPs"
+          "10.200.5.0/32"   = "My GoogleAPIS PSC IP address"
+          "10.10.10.0/24"   = "VPC IPs"
+        }
+      }
+
+      bgp_session_range               = "169.254.20.5/30"
+      ike_version                     = 2
+      vpn_gateway_interface           = 1
+      peer_external_gateway_interface = 1
+      shared_secret                   = random_string.secret.result
+    }
+
+  }
+```
+
+- Four tunnels
+
+```
+  tunnels = {
+    remote-0-0 = {
+
+      bgp_peer = {
+        address = "169.254.20.2"
+        asn     = 31898
+      }
+
+      bgp_session_name = "bgp-peer-0-0"
+
+      bgp_peer_options = {
+        advertise_mode = "CUSTOM"
+        advertise_ip_ranges = {
+          "199.36.153.4/30" = "restricted.googleapis.com IPs"
+          "199.36.153.8/30" = "private.googleapis.com IPs"
+          "10.200.5.0/32"   = "My GoogleAPIS PSC IP address"
+          "10.10.10.0/24"   = "VPC IPs"
+        }
+      }
+
+      bgp_session_range               = "169.254.20.1/30"
+      ike_version                     = 2
+      vpn_gateway_interface           = 0
+      peer_external_gateway_interface = 0
+      shared_secret                   = random_string.secret.result
+    }
+
+    remote-0-1 = {
+
+      bgp_peer = {
+        address = "169.254.20.6"
+        asn     = 31898
+      }
+
+      bgp_session_name = "bgp-peer-0-1"
+
+      bgp_peer_options = {
+        advertise_mode = "CUSTOM"
+        advertise_ip_ranges = {
+          "199.36.153.4/30" = "restricted.googleapis.com IPs"
+          "199.36.153.8/30" = "private.googleapis.com IPs"
+          "10.200.5.0/32"   = "My GoogleAPIS PSC IP address"
+          "10.10.10.0/24"   = "VPC IPs"
+        }
+      }
+
+      bgp_session_range               = "169.254.20.5/30"
+      ike_version                     = 2
+      vpn_gateway_interface           = 0
+      peer_external_gateway_interface = 1
+      shared_secret                   = random_string.secret.result
+    }
+
+    remote-1-0 = {
+
+      bgp_peer = {
+        address = "169.254.20.10"
+        asn     = 31898
+      }
+
+      bgp_session_name = "bgp-peer-1-0"
+
+      bgp_peer_options = {
+        advertise_mode = "CUSTOM"
+        advertise_ip_ranges = {
+          "199.36.153.4/30" = "restricted.googleapis.com IPs"
+          "199.36.153.8/30" = "private.googleapis.com IPs"
+          "10.200.5.0/32"   = "My GoogleAPIS PSC IP address"
+          "10.10.10.0/24"   = "VPC IPs"
+        }
+      }
+
+      bgp_session_range               = "169.254.20.9/30"
+      ike_version                     = 2
+      vpn_gateway_interface           = 1
+      peer_external_gateway_interface = 2
+      shared_secret                   = random_string.secret.result
+    }
+
+    remote-1-1 = {
+
+      bgp_peer = {
+        address = "169.254.20.14"
+        asn     = 31898
+      }
+
+      bgp_session_name = "bgp-peer-1-1"
+
+      bgp_peer_options = {
+        advertise_mode = "CUSTOM"
+        advertise_ip_ranges = {
+          "199.36.153.4/30" = "restricted.googleapis.com IPs"
+          "199.36.153.8/30" = "private.googleapis.com IPs"
+          "10.200.5.0/32"   = "My GoogleAPIS PSC IP address"
+          "10.10.10.0/24"   = "VPC IPs"
+        }
+      }
+
+      bgp_session_range               = "169.254.20.13/30"
+      ike_version                     = 2
+      vpn_gateway_interface           = 1
+      peer_external_gateway_interface = 3
+      shared_secret                   = random_string.secret.result
+    }
+
+  }
+```
+
+
+
+## Requirements
+### Terraform plugins
+- [Terraform](https://www.terraform.io/downloads.html) 1.3+
+- [terraform-provider-google](https://github.com/terraform-providers/terraform-provider-google) plugin v4.64+
+
+### Configure a Service Account
+In order to execute this module you must have a Service Account with the following roles:
+- roles/compute.networkAdmin on the organization
+
+### Enable API's
+In order to operate with the Service Account you must activate the following API on the project where the Service Account was created:
+- Compute Engine API - compute.googleapis.com
+

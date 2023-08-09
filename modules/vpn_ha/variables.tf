@@ -118,7 +118,7 @@ variable "tunnels" {
 }
 
 variable "vpn_gateway_self_link" {
-  description = "self_link of existing VPN gateway to be used for the vpn tunnel"
+  description = "self_link of existing VPN gateway to be used for the vpn tunnel. create_vpn_gateway should be set to false"
   type        = string
   default     = null
 }
