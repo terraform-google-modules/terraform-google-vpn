@@ -336,7 +336,7 @@ module "vpn_ha" {
         # route_priority      = optional(number)
       }
 
-      bgp_session_range               = "169.254.20.1/30"    # GCP BGP session IP address "169.254.20.1/30"
+      bgp_session_range               = "169.254.20.1/30"    # GCP BGP session IP address in this format: "169.254.X.X/30"
       ike_version                     = 2
       vpn_gateway_interface           = 0
       peer_external_gateway_interface = 0
