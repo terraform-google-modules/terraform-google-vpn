@@ -25,7 +25,6 @@ locals {
     var.peer_external_gateway != null
     ? google_compute_external_vpn_gateway.external_gateway[0].self_link
     : null
-
   )
   secret = random_id.secret.b64_url
   vpn_gateway_self_link = (
@@ -169,7 +168,7 @@ resource "google_compute_vpn_tunnel" "tunnels" {
   region                          = var.region
   name                            = "${var.name}-${each.key}"
   router                          = local.router
-  peer_external_gateway           = local.peer_external_gateway
+  peer_external_gateway           = each.value.peer_external_gateway_self_link != null ? each.value.peer_external_gateway_self_link : local.peer_external_gateway
   peer_external_gateway_interface = each.value.peer_external_gateway_interface
   peer_gcp_gateway                = var.peer_gcp_gateway
   vpn_gateway_interface           = each.value.vpn_gateway_interface

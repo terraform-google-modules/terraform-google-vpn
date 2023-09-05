@@ -111,6 +111,7 @@ variable "tunnels" {
     bgp_session_range               = optional(string)
     ike_version                     = optional(number)
     vpn_gateway_interface           = optional(number)
+    peer_external_gateway_self_link = optional(string, null)
     peer_external_gateway_interface = optional(number)
     shared_secret                   = optional(string, "")
   }))
