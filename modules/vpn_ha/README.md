@@ -236,7 +236,7 @@ module "vpn_ha" {
       bgp_session_name                = "bgp-peer-0"
       bgp_session_range               = "169.254.1.2/30"
       ike_version                     = 2
-      peer_external_gateway_self_link = google_compute_external_vpn_gateway.external_gateway1.self_link
+      peer_external_gateway_self_link = google_compute_external_vpn_gateway.external_gateway1.self_link # set a resource link
       peer_external_gateway_interface = 0
       vpn_gateway_interface           = 0
       shared_secret                   = "mySecret"
@@ -250,7 +250,7 @@ module "vpn_ha" {
       bgp_session_name                = "bgp-peer-1"
       bgp_session_range               = "169.254.2.2/30"
       ike_version                     = 2
-      peer_external_gateway_self_link = google_compute_external_vpn_gateway.external_gateway2.self_link
+      peer_external_gateway_self_link = google_compute_external_vpn_gateway.external_gateway2.self_link # set a resource link
       peer_external_gateway_interface = 0
       vpn_gateway_interface           = 1
       shared_secret                   = "mySecret"
