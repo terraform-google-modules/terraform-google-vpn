@@ -139,7 +139,6 @@ module "vpn_ha" {
   create_vpn_gateway               = true
   vpn_gateway_self_link            = null
   external_vpn_gateway_description = "My VPN peering gateway"
-  peer_external_gateway            = {}
   router_name                      = "my-vpn-router"
   router_asn                       = 64515
 
@@ -186,6 +185,81 @@ module "vpn_ha" {
 }
 ```
 
+### GCP to on-prem using multiple external VPN gateways
+
+```hcl
+
+resource "google_compute_external_vpn_gateway" "external_gateway1" {
+  provider        = google-beta
+  name            = "vpn-peering-gw1"
+  project         = "<PROJECT_ID>"
+  redundancy_type = "SINGLE_IP_INTERNALLY_REDUNDANT"
+  description     = "My VPN peering gateway1"
+
+  interface {
+    id         = 0
+    ip_address = "8.8.8.8"
+  }
+}
+
+resource "google_compute_external_vpn_gateway" "external_gateway2" {
+  provider        = google-beta
+  name            = "vpn-peering-gw2"
+  project         = "<PROJECT_ID>"
+  redundancy_type = "SINGLE_IP_INTERNALLY_REDUNDANT"
+  description     = "My VPN peering gateway2"
+
+  interface {
+    id         = 0
+    ip_address = "8.8.4.4"
+  }
+}
+
+module "vpn_ha" {
+  source                           = "terraform-google-modules/vpn/google//modules/vpn_ha"
+  project_id                       = "<PROJECT_ID>"
+  region                           = "europe-west4"
+  network                          = "https://www.googleapis.com/compute/v1/projects/<PROJECT_ID>/global/networks/my-network"
+  name                             = "mynet-to-onprem"
+  create_vpn_gateway               = true
+  vpn_gateway_self_link            = null
+  router_name                      = "my-vpn-router"
+  router_asn                       = 64515
+
+  tunnels = {
+
+    remote-0 = {
+      bgp_peer = {
+        address = "169.254.1.1"
+        asn     = 64513
+      }
+      bgp_session_name                = "bgp-peer-0"
+      bgp_session_range               = "169.254.1.2/30"
+      ike_version                     = 2
+      peer_external_gateway_self_link = google_compute_external_vpn_gateway.external_gateway1.self_link
+      peer_external_gateway_interface = 0
+      vpn_gateway_interface           = 0
+      shared_secret                   = "mySecret"
+    }
+
+    remote-1 = {
+      bgp_peer = {
+        address = "169.254.2.1"
+        asn     = 64513
+      }
+      bgp_session_name                = "bgp-peer-1"
+      bgp_session_range               = "169.254.2.1/30"
+      ike_version                     = 2
+      peer_external_gateway_self_link = google_compute_external_vpn_gateway.external_gateway2.self_link
+      peer_external_gateway_interface = 0
+      vpn_gateway_interface           = 1
+      shared_secret                   = "mySecret"
+    }
+
+  }
+}
+```
+
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 ## Inputs
 
@@ -206,7 +280,7 @@ module "vpn_ha" {
 | router\_asn | Router ASN used for auto-created router. | `number` | `64514` | no |
 | router\_name | Name of router, leave blank to create one. | `string` | `""` | no |
 | stack\_type | The IP stack type will apply to all the tunnels associated with this VPN gateway. | `string` | `"IPV4_ONLY"` | no |
-| tunnels | VPN tunnel configurations, bgp\_peer\_options is usually null. | <pre>map(object({<br>    bgp_peer = object({<br>      address = string<br>      asn     = number<br>    })<br>    bgp_session_name = optional(string)<br>    bgp_peer_options = optional(object({<br>      ip_address          = optional(string)<br>      advertise_groups    = optional(list(string))<br>      advertise_ip_ranges = optional(map(string))<br>      advertise_mode      = optional(string)<br>      route_priority      = optional(number)<br>    }))<br>    bgp_session_range               = optional(string)<br>    ike_version                     = optional(number)<br>    vpn_gateway_interface           = optional(number)<br>    peer_external_gateway_interface = optional(number)<br>    shared_secret                   = optional(string, "")<br>  }))</pre> | `{}` | no |
+| tunnels | VPN tunnel configurations, bgp\_peer\_options is usually null. | <pre>map(object({<br>    bgp_peer = object({<br>      address = string<br>      asn     = number<br>    })<br>    bgp_session_name = optional(string)<br>    bgp_peer_options = optional(object({<br>      ip_address          = optional(string)<br>      advertise_groups    = optional(list(string))<br>      advertise_ip_ranges = optional(map(string))<br>      advertise_mode      = optional(string)<br>      route_priority      = optional(number)<br>    }))<br>    bgp_session_range               = optional(string)<br>    ike_version                     = optional(number)<br>    vpn_gateway_interface           = optional(number)<br>    peer_external_gateway_self_link = optional(string, null)<br>    peer_external_gateway_interface = optional(number)<br>    shared_secret                   = optional(string, "")<br>  }))</pre> | `{}` | no |
 | vpn\_gateway\_self\_link | self\_link of existing VPN gateway to be used for the vpn tunnel. create\_vpn\_gateway should be set to false | `string` | `null` | no |
 
 ## Outputs
