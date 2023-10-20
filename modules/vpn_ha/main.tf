@@ -61,17 +61,10 @@ resource "google_compute_external_vpn_gateway" "external_gateway" {
   }
 }
 
-data "google_compute_router" "router" {
-  name    = var.router_name == null ? "" : var.router_name
-  network = var.network
-  project = var.project_id
-  region  = var.region
-}
-
 resource "google_compute_router" "router" {
   provider = google-beta
-  count    = data.google_compute_router.router.name == null ? 1 : 0
-  name     = var.router_name != "" ? var.router_name : "vpn-${var.name}"
+  count    = var.router_name == "" ? 1 : 0
+  name     = "vpn-${var.name}"
   project  = var.project_id
   region   = var.region
   network  = var.network
