@@ -1,4 +1,4 @@
-// Copyright 2023 Google LLC
+// Copyright 2022 Google LLC
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -15,11 +15,15 @@
 package test
 
 import (
+	// should be imported to enable testing for GO modules
 	"testing"
 
+	// should be imported to use terraform helpers in blueprints test framework
 	"github.com/GoogleCloudPlatform/cloud-foundation-toolkit/infra/blueprint-test/pkg/tft"
 )
 
+// entry function for the test; can be named as Test*
 func TestAll(t *testing.T) {
+	// the helper to autodiscover and test blueprint examples
 	tft.AutoDiscoverAndTest(t)
 }

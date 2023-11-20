@@ -35,8 +35,8 @@ locals {
 }
 
 resource "google_compute_ha_vpn_gateway" "ha_gateway" {
-  count      = var.create_vpn_gateway == true ? 1 : 0
-  provider   = google-beta
+  count = var.create_vpn_gateway == true ? 1 : 0
+  # provider   = google-beta
   name       = var.name
   project    = var.project_id
   region     = var.region
@@ -45,7 +45,7 @@ resource "google_compute_ha_vpn_gateway" "ha_gateway" {
 }
 
 resource "google_compute_external_vpn_gateway" "external_gateway" {
-  provider        = google-beta
+  # provider        = google-beta
   count           = var.peer_external_gateway != null ? 1 : 0
   name            = var.peer_external_gateway.name != null ? var.peer_external_gateway.name : "external-${var.name}"
   project         = var.project_id
@@ -62,12 +62,12 @@ resource "google_compute_external_vpn_gateway" "external_gateway" {
 }
 
 resource "google_compute_router" "router" {
-  provider = google-beta
-  count    = var.router_name == "" ? 1 : 0
-  name     = "vpn-${var.name}"
-  project  = var.project_id
-  region   = var.region
-  network  = var.network
+  # provider = google-beta
+  count   = var.router_name == "" ? 1 : 0
+  name    = "vpn-${var.name}"
+  project = var.project_id
+  region  = var.region
+  network = var.network
   bgp {
     advertise_mode = (
       var.router_advertise_config == null
@@ -144,7 +144,7 @@ resource "google_compute_router_peer" "bgp_peer" {
 }
 
 resource "google_compute_router_interface" "router_interface" {
-  provider   = google-beta
+  # provider   = google-beta
   for_each   = var.tunnels
   project    = var.project_id
   region     = var.region
@@ -155,7 +155,7 @@ resource "google_compute_router_interface" "router_interface" {
 }
 
 resource "google_compute_vpn_tunnel" "tunnels" {
-  provider                        = google-beta
+  # provider                        = google-beta
   for_each                        = var.tunnels
   project                         = var.project_id
   region                          = var.region
