@@ -41,30 +41,30 @@ output "gateway_ip" {
 
 output "vpn_tunnels_names-static" {
   description = "The VPN tunnel name is"
-  value       = google_compute_vpn_tunnel.tunnel-static.*.name
+  value       = google_compute_vpn_tunnel.tunnel-static[*].name
 }
 
 output "vpn_tunnels_self_link-static" {
   description = "The VPN tunnel self-link is"
-  value       = google_compute_vpn_tunnel.tunnel-static.*.self_link
+  value       = google_compute_vpn_tunnel.tunnel-static[*].self_link
 }
 
 output "ipsec_secret-static" {
   description = "The secret"
-  value       = google_compute_vpn_tunnel.tunnel-static.*.shared_secret
+  value       = google_compute_vpn_tunnel.tunnel-static[*].shared_secret
 }
 
 output "vpn_tunnels_names-dynamic" {
   description = "The VPN tunnel name is"
-  value       = google_compute_vpn_tunnel.tunnel-dynamic.*.name
+  value       = google_compute_vpn_tunnel.tunnel-dynamic[*].name
 }
 
 output "vpn_tunnels_self_link-dynamic" {
   description = "The VPN tunnel self-link is"
-  value       = google_compute_vpn_tunnel.tunnel-dynamic.*.self_link
+  value       = google_compute_vpn_tunnel.tunnel-dynamic[*].self_link
 }
 
 output "ipsec_secret-dynamic" {
   description = "The secret"
-  value       = google_compute_vpn_tunnel.tunnel-dynamic.*.shared_secret
+  value       = google_compute_vpn_tunnel.tunnel-dynamic[*].shared_secret
 }
