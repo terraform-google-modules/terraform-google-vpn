@@ -35,7 +35,7 @@ locals {
 }
 
 resource "google_compute_ha_vpn_gateway" "ha_gateway" {
-  count = var.create_vpn_gateway == true ? 1 : 0
+  count      = var.create_vpn_gateway == true ? 1 : 0
   name       = var.name
   project    = var.project_id
   region     = var.region
