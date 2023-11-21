@@ -11,13 +11,14 @@ Current version is 1.0. Upgrade guides:
 
 - [1.X -> 2.0.](/docs/upgrading_to_vpn_v2.0.md)
 - [2.X -> 3.0.](/docs/upgrading_to_vpn_v3.0.md)
+- [3.X -> 4.0.](/docs/upgrading_to_vpn_v4.0.md)
 
 ##  Module Format
 
 ```
 module "vpn_ha" {
   source                           = "terraform-google-modules/vpn/google//modules/vpn_ha"
-  version                          = "~> 3.0"
+  version                          = "~> 4.0"
   project_id                       = <Project ID>
   region                           = "us-central1"
   network                          = <VPC-Network-Self-Link>
@@ -53,7 +54,7 @@ See section [peer_external_gateway](#peer_external_gateway) and [tunnels](#tunne
 ```hcl
 module "vpn_ha-1" {
   source            = "terraform-google-modules/vpn/google//modules/vpn_ha"
-  version           = "~> 1.3.0"
+  version           = "~> 4.0"
   project_id        = "<PROJECT_ID>"
   region            = "europe-west4"
   network           = "https://www.googleapis.com/compute/v1/projects/<PROJECT_ID>/global/networks/network-1"
@@ -93,7 +94,7 @@ module "vpn_ha-1" {
 
 module "vpn_ha-2" {
   source              = "terraform-google-modules/vpn/google//modules/vpn_ha"
-  version             = "~> 1.3.0"
+  version             = "~> 4.0"
   project_id          = "<PROJECT_ID>"
   region              = "europe-west4"
   network             = "https://www.googleapis.com/compute/v1/projects/<PROJECT_ID>/global/networks/local-network"
@@ -132,6 +133,7 @@ module "vpn_ha-2" {
 ```hcl
 module "vpn_ha" {
   source                           = "terraform-google-modules/vpn/google//modules/vpn_ha"
+  version                          = "~> 4.0"
   project_id                       = "<PROJECT_ID>"
   region                           = "europe-west4"
   network                          = "https://www.googleapis.com/compute/v1/projects/<PROJECT_ID>/global/networks/my-network"
@@ -190,7 +192,6 @@ module "vpn_ha" {
 ```hcl
 
 resource "google_compute_external_vpn_gateway" "external_gateway1" {
-  provider        = google-beta
   name            = "vpn-peering-gw1"
   project         = "<PROJECT_ID>"
   redundancy_type = "SINGLE_IP_INTERNALLY_REDUNDANT"
@@ -203,7 +204,6 @@ resource "google_compute_external_vpn_gateway" "external_gateway1" {
 }
 
 resource "google_compute_external_vpn_gateway" "external_gateway2" {
-  provider        = google-beta
   name            = "vpn-peering-gw2"
   project         = "<PROJECT_ID>"
   redundancy_type = "SINGLE_IP_INTERNALLY_REDUNDANT"
@@ -217,6 +217,7 @@ resource "google_compute_external_vpn_gateway" "external_gateway2" {
 
 module "vpn_ha" {
   source                           = "terraform-google-modules/vpn/google//modules/vpn_ha"
+  version                          = "~> 4.0"
   project_id                       = "<PROJECT_ID>"
   region                           = "europe-west4"
   network                          = "https://www.googleapis.com/compute/v1/projects/<PROJECT_ID>/global/networks/my-network"
@@ -598,7 +599,7 @@ module "vpn_ha" {
 ## Requirements
 ### Terraform plugins
 - [Terraform](https://www.terraform.io/downloads.html) 1.3+
-- [terraform-provider-google](https://github.com/terraform-providers/terraform-provider-google) plugin v4.64+
+- [terraform-provider-google](https://github.com/terraform-providers/terraform-provider-google) plugin v5.7+
 
 ### Configure a Service Account
 In order to execute this module you must have a Service Account with the following roles:
