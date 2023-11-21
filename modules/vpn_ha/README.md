@@ -11,6 +11,7 @@ Current version is 1.0. Upgrade guides:
 
 - [1.X -> 2.0.](/docs/upgrading_to_vpn_v2.0.md)
 - [2.X -> 3.0.](/docs/upgrading_to_vpn_v3.0.md)
+- [3.X -> 4.0.](/docs/upgrading_to_vpn_v4.0.md)
 
 ##  Module Format
 
