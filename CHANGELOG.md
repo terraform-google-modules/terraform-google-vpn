@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file. The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [4.0.0](https://github.com/terraform-google-modules/terraform-google-vpn/compare/v3.1.1...v4.0.0) (2023-11-21)
+
+
+### ⚠ BREAKING CHANGES
+
+* migrate to GA Terraform Provider ([#134](https://github.com/terraform-google-modules/terraform-google-vpn/issues/134))
+
+### Bug Fixes
+
+* migrate to GA Terraform Provider ([#134](https://github.com/terraform-google-modules/terraform-google-vpn/issues/134)) ([b289d32](https://github.com/terraform-google-modules/terraform-google-vpn/commit/b289d32ceea6c03d653fa28fd352791bbbd464dc))
+
 ## [3.1.1](https://github.com/terraform-google-modules/terraform-google-vpn/compare/v3.1.0...v3.1.1) (2023-10-31)
 
 
