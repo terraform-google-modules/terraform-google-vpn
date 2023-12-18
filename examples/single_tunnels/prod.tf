@@ -15,7 +15,9 @@
  */
 
 module "vpn-gw-us-we1-prd-mgt-internal" {
-  source             = "../../"
+  source  = "terraform-google-modules/vpn/google"
+  version = "~> 4.0"
+
   project_id         = var.prod_project_id
   network            = var.prod_network
   region             = "us-west1"
