@@ -25,7 +25,6 @@ locals {
     var.peer_external_gateway != null
     ? google_compute_external_vpn_gateway.external_gateway[0].self_link
     : null
-
   )
   secret = random_id.secret.b64_url
   vpn_gateway_self_link = (
@@ -36,21 +35,20 @@ locals {
 }
 
 resource "google_compute_ha_vpn_gateway" "ha_gateway" {
-  count    = var.create_vpn_gateway == true ? 1 : 0
-  provider = google-beta
-  name     = var.name
-  project  = var.project_id
-  region   = var.region
-  network  = var.network
+  count      = var.create_vpn_gateway == true ? 1 : 0
+  name       = var.name
+  project    = var.project_id
+  region     = var.region
+  network    = var.network
+  stack_type = var.stack_type
 }
 
 resource "google_compute_external_vpn_gateway" "external_gateway" {
-  provider        = google-beta
   count           = var.peer_external_gateway != null ? 1 : 0
-  name            = "external-${var.name}"
+  name            = var.peer_external_gateway.name != null ? var.peer_external_gateway.name : "external-${var.name}"
   project         = var.project_id
   redundancy_type = var.peer_external_gateway.redundancy_type
-  description     = "Terraform managed external VPN gateway"
+  description     = var.external_vpn_gateway_description
   dynamic "interface" {
     for_each = var.peer_external_gateway.interfaces
     content {
@@ -61,12 +59,11 @@ resource "google_compute_external_vpn_gateway" "external_gateway" {
 }
 
 resource "google_compute_router" "router" {
-  provider = google-beta
-  count    = var.router_name == "" ? 1 : 0
-  name     = "vpn-${var.name}"
-  project  = var.project_id
-  region   = var.region
-  network  = var.network
+  count   = var.router_name == "" ? 1 : 0
+  name    = "vpn-${var.name}"
+  project = var.project_id
+  region  = var.region
+  network = var.network
   bgp {
     advertise_mode = (
       var.router_advertise_config == null
@@ -94,7 +91,8 @@ resource "google_compute_router" "router" {
         description = range.value
       }
     }
-    asn = var.router_asn
+    asn                = var.router_asn
+    keepalive_interval = var.keepalive_interval
   }
 }
 
@@ -102,10 +100,11 @@ resource "google_compute_router_peer" "bgp_peer" {
   for_each        = var.tunnels
   region          = var.region
   project         = var.project_id
-  name            = "${var.name}-${each.key}"
+  name            = each.value.bgp_session_name != null ? each.value.bgp_session_name : "${var.name}-${each.key}"
   router          = local.router
   peer_ip_address = each.value.bgp_peer.address
   peer_asn        = each.value.bgp_peer.asn
+  ip_address      = each.value.bgp_peer_options == null ? null : each.value.bgp_peer_options.ip_address
   advertised_route_priority = (
     each.value.bgp_peer_options == null ? var.route_priority : (
       each.value.bgp_peer_options.route_priority == null
@@ -141,31 +140,28 @@ resource "google_compute_router_peer" "bgp_peer" {
 }
 
 resource "google_compute_router_interface" "router_interface" {
-  provider   = google-beta
   for_each   = var.tunnels
   project    = var.project_id
   region     = var.region
-  name       = "${var.name}-${each.key}"
+  name       = each.value.bgp_session_name != null ? each.value.bgp_session_name : "${var.name}-${each.key}"
   router     = local.router
   ip_range   = each.value.bgp_session_range == "" ? null : each.value.bgp_session_range
   vpn_tunnel = google_compute_vpn_tunnel.tunnels[each.key].name
 }
 
 resource "google_compute_vpn_tunnel" "tunnels" {
-  provider                        = google-beta
   for_each                        = var.tunnels
   project                         = var.project_id
   region                          = var.region
   name                            = "${var.name}-${each.key}"
   router                          = local.router
-  peer_external_gateway           = local.peer_external_gateway
+  peer_external_gateway           = each.value.peer_external_gateway_self_link != null ? each.value.peer_external_gateway_self_link : local.peer_external_gateway
   peer_external_gateway_interface = each.value.peer_external_gateway_interface
   peer_gcp_gateway                = var.peer_gcp_gateway
   vpn_gateway_interface           = each.value.vpn_gateway_interface
   ike_version                     = each.value.ike_version
   shared_secret                   = each.value.shared_secret == "" ? local.secret : each.value.shared_secret
   vpn_gateway                     = local.vpn_gateway_self_link
-  labels                          = var.labels
 }
 
 resource "random_id" "secret" {

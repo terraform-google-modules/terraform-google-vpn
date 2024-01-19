@@ -29,10 +29,12 @@ module "vpn-ha-to-mgmt" {
         address = "169.254.1.2"
         asn     = 64514
       }
+      bgp_session_name                = "vpn-ha-to-mgmt-tunnel-0"
       bgp_peer_options                = null
       bgp_session_range               = "169.254.1.1/30"
       ike_version                     = 2
       vpn_gateway_interface           = 0
+      peer_external_gateway_self_link = null
       peer_external_gateway_interface = null
       shared_secret                   = module.vpn-ha-to-prod.random_secret
     }
@@ -41,10 +43,12 @@ module "vpn-ha-to-mgmt" {
         address = "169.254.2.2"
         asn     = 64514
       }
+      bgp_session_name                = "vpn-ha-to-mgmt-tunnel-1"
       bgp_peer_options                = null
       bgp_session_range               = "169.254.2.1/30"
       ike_version                     = 2
       vpn_gateway_interface           = 1
+      peer_external_gateway_self_link = null
       peer_external_gateway_interface = null
       shared_secret                   = module.vpn-ha-to-prod.random_secret
     }

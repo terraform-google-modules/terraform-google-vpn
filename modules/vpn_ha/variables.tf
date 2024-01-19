@@ -17,6 +17,7 @@
 variable "peer_external_gateway" {
   description = "Configuration of an external VPN gateway to which this VPN is connected."
   type = object({
+    name            = string
     redundancy_type = string
     interfaces = list(object({
       id         = number
@@ -35,6 +36,12 @@ variable "peer_gcp_gateway" {
 variable "name" {
   description = "VPN gateway name, and prefix used for dependent resources."
   type        = string
+}
+
+variable "stack_type" {
+  description = "The IP stack type will apply to all the tunnels associated with this VPN gateway."
+  type        = string
+  default     = "IPV4_ONLY"
 }
 
 variable "network" {
@@ -74,6 +81,12 @@ variable "router_asn" {
   default     = 64514
 }
 
+variable "keepalive_interval" {
+  description = "The interval in seconds between BGP keepalive messages that are sent to the peer."
+  type        = number
+  default     = 20
+}
+
 variable "router_name" {
   description = "Name of router, leave blank to create one."
   type        = string
@@ -87,7 +100,9 @@ variable "tunnels" {
       address = string
       asn     = number
     })
+    bgp_session_name = string
     bgp_peer_options = object({
+      ip_address          = string
       advertise_groups    = list(string)
       advertise_ip_ranges = map(string)
       advertise_mode      = string
@@ -96,6 +111,7 @@ variable "tunnels" {
     bgp_session_range               = string
     ike_version                     = number
     vpn_gateway_interface           = number
+    peer_external_gateway_self_link = string
     peer_external_gateway_interface = number
     shared_secret                   = string
   }))
@@ -103,7 +119,7 @@ variable "tunnels" {
 }
 
 variable "vpn_gateway_self_link" {
-  description = "self_link of existing VPN gateway to be used for the vpn tunnel"
+  description = "self_link of existing VPN gateway to be used for the vpn tunnel. create_vpn_gateway should be set to false"
   type        = string
   default     = null
 }
@@ -118,4 +134,10 @@ variable "labels" {
   description = "Labels for vpn components"
   type        = map(string)
   default     = {}
+}
+
+variable "external_vpn_gateway_description" {
+  description = "An optional description of external VPN Gateway"
+  type        = string
+  default     = "Terraform managed external VPN gateway"
 }
