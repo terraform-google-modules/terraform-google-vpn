@@ -15,7 +15,7 @@
  */
 
 terraform {
-  required_version = ">=0.13.0, < 1.3"
+  required_version = ">=0.13.0"
   required_providers {
     google = {
       source  = "hashicorp/google"
@@ -32,9 +32,9 @@ terraform {
   }
 
   provider_meta "google" {
-    module_name = "blueprints/terraform/terraform-google-vpn/v2.3.2"
+    module_name = "blueprints/terraform/terraform-google-vpn/v2.3.3"
   }
   provider_meta "google-beta" {
-    module_name = "blueprints/terraform/terraform-google-vpn/v2.3.2"
+    module_name = "blueprints/terraform/terraform-google-vpn/v2.3.3"
   }
 }
