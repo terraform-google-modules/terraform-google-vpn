@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [4.1.0](https://github.com/terraform-google-modules/terraform-google-vpn/compare/v4.0.1...v4.1.0) (2024-09-11)
+
+
+### Features
+
+* **deps:** Update Terraform Google Provider to v6 (major) ([#166](https://github.com/terraform-google-modules/terraform-google-vpn/issues/166)) ([badb0d5](https://github.com/terraform-google-modules/terraform-google-vpn/commit/badb0d593a6d982806a3107581e309fc4a2936dc))
+
 ## [4.0.1](https://github.com/terraform-google-modules/terraform-google-vpn/compare/v4.0.0...v4.0.1) (2024-07-25)
 
 
