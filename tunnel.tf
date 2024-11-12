@@ -16,7 +16,7 @@
 
 # Creating the VPN tunnel
 resource "random_id" "ipsec_secret" {
-  byte_length = 8
+  byte_length = var.ipsec_secret_length
 }
 
 resource "google_compute_vpn_tunnel" "tunnel-static" {

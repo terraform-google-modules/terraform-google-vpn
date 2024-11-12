@@ -97,6 +97,7 @@ References the variable descriptions below to determine the right configuration.
 | cr\_name | The name of cloud router for BGP routing | `string` | `""` | no |
 | gateway\_name | The name of VPN gateway | `string` | `"test-vpn"` | no |
 | ike\_version | Please enter the IKE version used by this tunnel (default is IKEv2) | `number` | `2` | no |
+| ipsec\_secret\_length | The lnegth the of shared secret for VPN tunnels | `number` | `8` | no |
 | local\_traffic\_selector | Local traffic selector to use when establishing the VPN tunnel with peer VPN gateway.<br>Value should be list of CIDR formatted strings and ranges should be disjoint. | `list(string)` | <pre>[<br>  "0.0.0.0/0"<br>]</pre> | no |
 | network | The name of VPC being created | `string` | n/a | yes |
 | peer\_asn | Please enter the ASN of the BGP peer that cloud router will use | `list(string)` | <pre>[<br>  "65101"<br>]</pre> | no |
