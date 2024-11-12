@@ -145,3 +145,9 @@ variable "route_tags" {
   description = "A list of instance tags to which this route applies."
   default     = []
 }
+
+variable "ipsec_secret_length" {
+  type        = number
+  description = "The lnegth the of shared secret for VPN tunnels"
+  default     = 8
+}

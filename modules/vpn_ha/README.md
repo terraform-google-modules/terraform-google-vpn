@@ -268,6 +268,7 @@ module "vpn_ha" {
 |------|-------------|------|---------|:--------:|
 | create\_vpn\_gateway | create a VPN gateway | `bool` | `true` | no |
 | external\_vpn\_gateway\_description | An optional description of external VPN Gateway | `string` | `"Terraform managed external VPN gateway"` | no |
+| ipsec\_secret\_length | The lnegth the of shared secret for VPN tunnels | `number` | `8` | no |
 | keepalive\_interval | The interval in seconds between BGP keepalive messages that are sent to the peer. | `number` | `20` | no |
 | labels | Labels for vpn components | `map(string)` | `{}` | no |
 | name | VPN gateway name, and prefix used for dependent resources. | `string` | n/a | yes |

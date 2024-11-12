@@ -141,3 +141,9 @@ variable "external_vpn_gateway_description" {
   type        = string
   default     = "Terraform managed external VPN gateway"
 }
+
+variable "ipsec_secret_length" {
+  type        = number
+  description = "The lnegth the of shared secret for VPN tunnels"
+  default     = 8
+}
