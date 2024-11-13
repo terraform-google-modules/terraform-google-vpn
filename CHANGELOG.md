@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [4.2.0](https://github.com/terraform-google-modules/terraform-google-vpn/compare/v4.1.0...v4.2.0) (2024-11-12)
+
+
+### Features
+
+* Making IPSEC PSK length configurable ([#171](https://github.com/terraform-google-modules/terraform-google-vpn/issues/171)) ([0621d9c](https://github.com/terraform-google-modules/terraform-google-vpn/commit/0621d9c87bfd53680bebaa4d9863a735c2f99e26))
+
 ## [4.1.0](https://github.com/terraform-google-modules/terraform-google-vpn/compare/v4.0.1...v4.1.0) (2024-09-11)
 
 
