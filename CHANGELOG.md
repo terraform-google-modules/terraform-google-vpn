@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file. The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [5.0.0](https://github.com/terraform-google-modules/terraform-google-vpn/compare/v4.2.0...v5.0.0) (2025-02-27)
+
+
+### ⚠ BREAKING CHANGES
+
+* **TPG>= 6.21:** Add lables to google_compute_ha_vpn_gateway ([#176](https://github.com/terraform-google-modules/terraform-google-vpn/issues/176))
+
+### Features
+
+* **TPG>= 6.21:** Add lables to google_compute_ha_vpn_gateway ([#176](https://github.com/terraform-google-modules/terraform-google-vpn/issues/176)) ([f9d73d9](https://github.com/terraform-google-modules/terraform-google-vpn/commit/f9d73d90b012b18d8b00827e5da871f1194a7163))
+
 ## [4.2.0](https://github.com/terraform-google-modules/terraform-google-vpn/compare/v4.1.0...v4.2.0) (2024-11-12)
 
 
