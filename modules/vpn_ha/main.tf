@@ -41,6 +41,7 @@ resource "google_compute_ha_vpn_gateway" "ha_gateway" {
   region     = var.region
   network    = var.network
   stack_type = var.stack_type
+  labels     = var.labels
 }
 
 resource "google_compute_external_vpn_gateway" "external_gateway" {
