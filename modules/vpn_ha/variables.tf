@@ -44,6 +44,12 @@ variable "stack_type" {
   default     = "IPV4_ONLY"
 }
 
+variable "interconnect_attachment" {
+  description = "URL of the interconnect attachment resource. When the value of this field is present, the VPN Gateway will be used for IPsec-encrypted Cloud Interconnect."
+  type        = list(string)
+  default     = []
+}
+
 variable "network" {
   description = "VPC used for the gateway and routes."
   type        = string
