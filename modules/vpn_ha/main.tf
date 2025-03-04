@@ -41,6 +41,14 @@ resource "google_compute_ha_vpn_gateway" "ha_gateway" {
   region     = var.region
   network    = var.network
   stack_type = var.stack_type
+  labels     = var.labels
+  dynamic "vpn_interfaces" {
+    for_each = { for idx, val in var.interconnect_attachment : idx => val }
+    content {
+      id                      = vpn_interfaces.key
+      interconnect_attachment = vpn_interfaces.value
+    }
+  }
 }
 
 resource "google_compute_external_vpn_gateway" "external_gateway" {
