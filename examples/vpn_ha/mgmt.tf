@@ -17,7 +17,7 @@
 ##To Prod VPC
 module "vpn-ha-to-prod" {
   source  = "terraform-google-modules/vpn/google//modules/vpn_ha"
-  version = "~> 4.0"
+  version = "~> 5.0"
 
   project_id       = var.mgt_project_id
   region           = var.region

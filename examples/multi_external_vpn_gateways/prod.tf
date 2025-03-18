@@ -47,7 +47,7 @@ resource "google_compute_external_vpn_gateway" "external_gateway2" {
 
 module "vpn-ha-to-onprem" {
   source  = "terraform-google-modules/vpn/google//modules/vpn_ha"
-  version = "~> 4.0"
+  version = "~> 5.0"
 
   project_id = var.prod_project_id
   region     = var.region
