@@ -20,8 +20,9 @@ variable "peer_external_gateway" {
     name            = optional(string)
     redundancy_type = optional(string)
     interfaces = list(object({
-      id         = number
-      ip_address = string
+      id           = number
+      ip_address   = string
+      ipv6_address = optional(string)
     }))
   })
   default = null
@@ -36,6 +37,18 @@ variable "peer_gcp_gateway" {
 variable "name" {
   description = "VPN gateway name, and prefix used for dependent resources."
   type        = string
+}
+
+variable "gateway_ip_version" {
+  description = "The IP version that will be used by this VPN gateway."
+  type        = string
+  default     = "IPV4"
+}
+
+variable "vpn_gateway_description" {
+  description = "Description of the VPN gateway."
+  type        = string
+  default     = ""
 }
 
 variable "stack_type" {
@@ -69,6 +82,18 @@ variable "route_priority" {
   description = "Route priority, defaults to 1000."
   type        = number
   default     = 1000
+}
+
+variable "router_interface_ip_version" {
+  description = "IP version used for the router interface. Valid values are IPV4 and IPV6."
+  type        = string
+  default     = null
+}
+
+variable "router_description" {
+  description = "Description of the router."
+  type        = string
+  default     = ""
 }
 
 variable "router_advertise_config" {
