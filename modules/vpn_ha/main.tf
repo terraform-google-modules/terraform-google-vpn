@@ -35,13 +35,15 @@ locals {
 }
 
 resource "google_compute_ha_vpn_gateway" "ha_gateway" {
-  count      = var.create_vpn_gateway == true ? 1 : 0
-  name       = var.name
-  project    = var.project_id
-  region     = var.region
-  network    = var.network
-  stack_type = var.stack_type
-  labels     = var.labels
+  count              = var.create_vpn_gateway == true ? 1 : 0
+  name               = var.name
+  project            = var.project_id
+  region             = var.region
+  network            = var.network
+  stack_type         = var.stack_type
+  description        = var.vpn_gateway_description
+  gateway_ip_version = var.gateway_ip_version
+  labels             = var.labels
   dynamic "vpn_interfaces" {
     for_each = { for idx, val in var.interconnect_attachment : idx => val }
     content {
@@ -61,18 +63,20 @@ resource "google_compute_external_vpn_gateway" "external_gateway" {
   dynamic "interface" {
     for_each = var.peer_external_gateway.interfaces
     content {
-      id         = interface.value.id
-      ip_address = interface.value.ip_address
+      id           = interface.value.id
+      ip_address   = interface.value.ip_address
+      ipv6_address = interface.value.ipv6_address
     }
   }
 }
 
 resource "google_compute_router" "router" {
-  count   = var.router_name == "" ? 1 : 0
-  name    = "vpn-${var.name}"
-  project = var.project_id
-  region  = var.region
-  network = var.network
+  count       = var.router_name == "" ? 1 : 0
+  name        = "vpn-${var.name}"
+  description = var.router_description
+  project     = var.project_id
+  region      = var.region
+  network     = var.network
   bgp {
     advertise_mode = (
       var.router_advertise_config == null
@@ -154,6 +158,7 @@ resource "google_compute_router_interface" "router_interface" {
   region     = var.region
   name       = each.value.bgp_session_name != null ? each.value.bgp_session_name : "${var.name}-${each.key}"
   router     = local.router
+  ip_version = var.router_interface_ip_version
   ip_range   = each.value.bgp_session_range == "" ? null : each.value.bgp_session_range
   vpn_tunnel = google_compute_vpn_tunnel.tunnels[each.key].name
 }
