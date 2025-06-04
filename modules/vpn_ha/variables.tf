@@ -112,6 +112,7 @@ variable "tunnels" {
       advertise_groups    = optional(list(string))
       advertise_ip_ranges = optional(map(string))
       advertise_mode      = optional(string)
+      custom_learned_ip_ranges = optional(map(string))
       route_priority      = optional(number)
       import_policies     = optional(list(string))
       export_policies     = optional(list(string))
@@ -122,6 +123,7 @@ variable "tunnels" {
     peer_external_gateway_self_link = optional(string, null)
     peer_external_gateway_interface = optional(number)
     shared_secret                   = optional(string, "")
+    custom_learned_route_priority = optional(number)
   }))
   default = {}
 }

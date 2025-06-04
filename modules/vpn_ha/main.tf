@@ -114,6 +114,7 @@ resource "google_compute_router_peer" "bgp_peer" {
   router          = local.router
   peer_ip_address = each.value.bgp_peer.address
   peer_asn        = each.value.bgp_peer.asn
+  custom_learned_route_priority = each.value.custom_learned_route_priority == null ? null : each.value.custom_learned_route_priority
   ip_address      = each.value.bgp_peer_options == null ? null : each.value.bgp_peer_options.ip_address
   advertised_route_priority = (
     each.value.bgp_peer_options == null ? var.route_priority : (
@@ -150,6 +151,18 @@ resource "google_compute_router_peer" "bgp_peer" {
     content {
       range       = range.key
       description = range.value
+    }
+  }
+
+  dynamic "custom_learned_ip_ranges" {
+    for_each = (
+      each.value.bgp_peer_options == null ? {} : (
+       each.value.bgp_peer_options.custom_learned_ip_ranges
+      )
+    )
+    iterator = range
+    content {
+      range       = range.key
     }
   }
   interface = google_compute_router_interface.router_interface[each.key].name
