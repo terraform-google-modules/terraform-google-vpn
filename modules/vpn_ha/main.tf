@@ -106,6 +106,7 @@ resource "google_compute_router" "router" {
 }
 
 resource "google_compute_router_peer" "bgp_peer" {
+  provider        = google-beta
   for_each        = var.tunnels
   region          = var.region
   project         = var.project_id
@@ -130,6 +131,12 @@ resource "google_compute_router_peer" "bgp_peer" {
       ? null
       : each.value.bgp_peer_options.advertise_groups
     )
+  )
+  import_policies = (
+    each.value.bgp_peer_options == null ? null : each.value.bgp_peer_options.import_policies
+  )
+  export_policies = (
+    each.value.bgp_peer_options == null ? null : each.value.bgp_peer_options.export_policies
   )
   dynamic "advertised_ip_ranges" {
     for_each = (

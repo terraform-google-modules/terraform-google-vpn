@@ -113,6 +113,8 @@ variable "tunnels" {
       advertise_ip_ranges = optional(map(string))
       advertise_mode      = optional(string)
       route_priority      = optional(number)
+      import_policies     = optional(list(string))
+      export_policies     = optional(list(string))
     }))
     bgp_session_range               = optional(string)
     ike_version                     = optional(number)
