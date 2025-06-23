@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file. The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [6.0.0](https://github.com/terraform-google-modules/terraform-google-vpn/compare/v5.0.0...v6.0.0) (2025-06-04)
+
+
+### ⚠ BREAKING CHANGES
+
+* **TPG beta:** add support for BGP Route Policy in vpn_ha sub-module ([#188](https://github.com/terraform-google-modules/terraform-google-vpn/issues/188))
+
+### Features
+
+* **TPG beta:** add support for BGP Route Policy in vpn_ha sub-module ([#188](https://github.com/terraform-google-modules/terraform-google-vpn/issues/188)) ([8c44816](https://github.com/terraform-google-modules/terraform-google-vpn/commit/8c4481669153dd8e16f688742d16293218a32c49))
+
 ## [5.0.0](https://github.com/terraform-google-modules/terraform-google-vpn/compare/v4.2.0...v5.0.0) (2025-03-05)
 
 
