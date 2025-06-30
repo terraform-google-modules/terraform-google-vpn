@@ -16,7 +16,7 @@
 
 module "vpn-gw-us-we1-prd-mgt-internal" {
   source  = "terraform-google-modules/vpn/google"
-  version = "~> 5.0"
+  version = "~> 6.0"
 
   project_id         = var.prod_project_id
   network            = var.prod_network
