@@ -17,7 +17,7 @@
 ##To MGMT VPC
 module "vpn-ha-to-mgmt" {
   source  = "terraform-google-modules/vpn/google//modules/vpn_ha"
-  version = "~> 5.0"
+  version = "~> 6.0"
 
   project_id       = var.prod_project_id
   region           = var.region
