@@ -39,7 +39,7 @@ resource "google_compute_router" "cr-uscentral1-to-prod-vpc-02" {
 
 module "vpn-gw-us-ce1-mgt-prd-internal-01" {
   source  = "terraform-google-modules/vpn/google"
-  version = "~> 5.0"
+  version = "~> 6.0"
 
   project_id         = var.mgt_project_id
   network            = var.mgt_network
@@ -59,7 +59,7 @@ module "vpn-gw-us-ce1-mgt-prd-internal-01" {
 
 module "vpn-gw-us-ce1-mgt-prd-internal-02" {
   source  = "terraform-google-modules/vpn/google"
-  version = "~> 5.0"
+  version = "~> 6.0"
 
   project_id         = var.mgt_project_id
   network            = var.mgt_network
@@ -79,7 +79,7 @@ module "vpn-gw-us-ce1-mgt-prd-internal-02" {
 
 module "vpn-gw-us-we1-mgt-prd-internal" {
   source  = "terraform-google-modules/vpn/google"
-  version = "~> 5.0"
+  version = "~> 6.0"
 
   project_id         = var.mgt_project_id
   network            = var.mgt_network
