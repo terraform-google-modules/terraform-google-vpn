@@ -103,8 +103,9 @@ variable "tunnels" {
   description = "VPN tunnel configurations, bgp_peer_options is usually null."
   type = map(object({
     bgp_peer = object({
-      address = string
-      asn     = number
+      address     = string
+      asn         = number
+      enable_ipv6 = optional(bool)
     })
     bgp_session_name = optional(string)
     bgp_peer_options = optional(object({
