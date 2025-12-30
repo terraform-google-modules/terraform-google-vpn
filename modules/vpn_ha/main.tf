@@ -35,13 +35,14 @@ locals {
 }
 
 resource "google_compute_ha_vpn_gateway" "ha_gateway" {
-  count      = var.create_vpn_gateway == true ? 1 : 0
-  name       = var.name
-  project    = var.project_id
-  region     = var.region
-  network    = var.network
-  stack_type = var.stack_type
-  labels     = var.labels
+  count              = var.create_vpn_gateway == true ? 1 : 0
+  name               = var.name
+  project            = var.project_id
+  region             = var.region
+  network            = var.network
+  gateway_ip_version = var.gateway_ip_version
+  stack_type         = var.stack_type
+  labels             = var.labels
   dynamic "vpn_interfaces" {
     for_each = { for idx, val in var.interconnect_attachment : idx => val }
     content {
@@ -61,8 +62,9 @@ resource "google_compute_external_vpn_gateway" "external_gateway" {
   dynamic "interface" {
     for_each = var.peer_external_gateway.interfaces
     content {
-      id         = interface.value.id
-      ip_address = interface.value.ip_address
+      id           = interface.value.id
+      ip_address   = interface.value.ip_address
+      ipv6_address = interface.value.ipv6_address
     }
   }
 }
@@ -106,44 +108,50 @@ resource "google_compute_router" "router" {
 }
 
 resource "google_compute_router_peer" "bgp_peer" {
-  provider        = google-beta
-  for_each        = var.tunnels
-  region          = var.region
-  project         = var.project_id
-  name            = each.value.bgp_session_name != null ? each.value.bgp_session_name : "${var.name}-${each.key}"
-  router          = local.router
-  peer_ip_address = each.value.bgp_peer.address
-  peer_asn        = each.value.bgp_peer.asn
-  ip_address      = each.value.bgp_peer_options == null ? null : each.value.bgp_peer_options.ip_address
+  provider                  = google-beta
+  for_each                  = var.tunnels
+  region                    = var.region
+  project                   = var.project_id
+  name                      = each.value.bgp_session_name != null ? each.value.bgp_session_name : "${var.name}-${each.key}"
+  router                    = local.router
+  peer_ip_address           = each.value.bgp_peer.address
+  peer_asn                  = each.value.bgp_peer.asn
+  peer_ipv4_nexthop_address = each.value.bgp_peer.ipv4_nexthop_address
+  peer_ipv6_nexthop_address = each.value.bgp_peer.ipv6_nexthop_address
+  ip_address                = each.value.bgp_options == null ? null : each.value.bgp_options.ip_address
+  ipv4_nexthop_address      = each.value.bgp_options == null ? null : each.value.bgp_options.ipv4_nexthop_address
+  ipv6_nexthop_address      = each.value.bgp_options == null ? null : each.value.bgp_options.ipv6_nexthop_address
+  enable_ipv4               = each.value.bgp_options == null ? null : each.value.bgp_options.enable_ipv4
+  enable_ipv6               = each.value.bgp_options == null ? null : each.value.bgp_options.enable_ipv6
   advertised_route_priority = (
-    each.value.bgp_peer_options == null ? var.route_priority : (
-      each.value.bgp_peer_options.route_priority == null
+    each.value.bgp_options == null ? var.route_priority : (
+      each.value.bgp_options.route_priority == null
       ? var.route_priority
-      : each.value.bgp_peer_options.route_priority
+      : each.value.bgp_options.route_priority
     )
   )
   advertise_mode = (
-    each.value.bgp_peer_options == null ? null : each.value.bgp_peer_options.advertise_mode
+    each.value.bgp_options == null ? null : each.value.bgp_options.advertise_mode
   )
   advertised_groups = (
-    each.value.bgp_peer_options == null ? null : (
-      each.value.bgp_peer_options.advertise_mode != "CUSTOM"
+    each.value.bgp_options == null ? null : (
+      each.value.bgp_options.advertise_mode != "CUSTOM"
       ? null
-      : each.value.bgp_peer_options.advertise_groups
+      : each.value.bgp_options.advertise_groups
     )
   )
   import_policies = (
-    each.value.bgp_peer_options == null ? null : each.value.bgp_peer_options.import_policies
+    each.value.bgp_options == null ? null : each.value.bgp_options.import_policies
   )
   export_policies = (
-    each.value.bgp_peer_options == null ? null : each.value.bgp_peer_options.export_policies
+    each.value.bgp_options == null ? null : each.value.bgp_options.export_policies
   )
   dynamic "advertised_ip_ranges" {
     for_each = (
-      each.value.bgp_peer_options == null ? {} : (
-        each.value.bgp_peer_options.advertise_mode != "CUSTOM"
+      each.value.bgp_options == null ? {} : (
+        each.value.bgp_options.advertise_mode != "CUSTOM"
         ? {}
-        : each.value.bgp_peer_options.advertise_ip_ranges
+        : each.value.bgp_options.advertise_ip_ranges
       )
     )
     iterator = range
@@ -162,6 +170,7 @@ resource "google_compute_router_interface" "router_interface" {
   name       = each.value.bgp_session_name != null ? each.value.bgp_session_name : "${var.name}-${each.key}"
   router     = local.router
   ip_range   = each.value.bgp_session_range == "" ? null : each.value.bgp_session_range
+  ip_version = each.value.bgp_ip_version
   vpn_tunnel = google_compute_vpn_tunnel.tunnels[each.key].name
 }
 
