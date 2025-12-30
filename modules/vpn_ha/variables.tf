@@ -20,8 +20,9 @@ variable "peer_external_gateway" {
     name            = optional(string)
     redundancy_type = optional(string)
     interfaces = list(object({
-      id         = number
-      ip_address = string
+      id           = number
+      ip_address   = optional(string, null)
+      ipv6_address = optional(string, null)
     }))
   })
   default = null
@@ -36,6 +37,12 @@ variable "peer_gcp_gateway" {
 variable "name" {
   description = "VPN gateway name, and prefix used for dependent resources."
   type        = string
+}
+
+variable "gateway_ip_version" {
+  description = "The IP family of the gateway IPs for the HA-VPN gateway interfaces. If not specified, IPV4 will be used. Default value is IPV4. Possible values are: IPV4, IPV6"
+  type        = string
+  default     = "IPV4"
 }
 
 variable "stack_type" {
@@ -103,21 +110,27 @@ variable "tunnels" {
   description = "VPN tunnel configurations, bgp_peer_options is usually null."
   type = map(object({
     bgp_peer = object({
-      address     = string
-      asn         = number
-      enable_ipv6 = optional(bool)
+      address              = string
+      asn                  = number
+      ipv4_nexthop_address = optional(string, null)
+      ipv6_nexthop_address = optional(string, null)
     })
     bgp_session_name = optional(string)
-    bgp_peer_options = optional(object({
-      ip_address          = optional(string)
-      advertise_groups    = optional(list(string))
-      advertise_ip_ranges = optional(map(string))
-      advertise_mode      = optional(string)
-      route_priority      = optional(number)
-      import_policies     = optional(list(string))
-      export_policies     = optional(list(string))
+    bgp_options = optional(object({
+      ip_address           = optional(string)
+      enable_ipv4          = optional(bool)
+      ipv4_nexthop_address = optional(string, null)
+      enable_ipv6          = optional(bool)
+      ipv6_nexthop_address = optional(string, null)
+      advertise_groups     = optional(list(string))
+      advertise_ip_ranges  = optional(map(string))
+      advertise_mode       = optional(string)
+      route_priority       = optional(number)
+      import_policies      = optional(list(string))
+      export_policies      = optional(list(string))
     }))
     bgp_session_range               = optional(string)
+    bgp_ip_version                  = optional(string, null)
     ike_version                     = optional(number)
     vpn_gateway_interface           = optional(number)
     peer_external_gateway_self_link = optional(string, null)
