@@ -116,8 +116,21 @@ variable "tunnels" {
       import_policies     = optional(list(string))
       export_policies     = optional(list(string))
     }))
-    bgp_session_range               = optional(string)
-    ike_version                     = optional(number)
+    bgp_session_range = optional(string)
+    ike_version       = optional(number)
+    cipher_suite = optional(object({
+      phase1 = optional(object({
+        encryption = optional(list(string))
+        integrity  = optional(list(string))
+        prf        = optional(list(string))
+        dh         = optional(list(string))
+      }))
+      phase2 = optional(object({
+        encryption = optional(list(string))
+        integrity  = optional(list(string))
+        pfs        = optional(list(string))
+      }))
+    }))
     vpn_gateway_interface           = optional(number)
     peer_external_gateway_self_link = optional(string, null)
     peer_external_gateway_interface = optional(number)
