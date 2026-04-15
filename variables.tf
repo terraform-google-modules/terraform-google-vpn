@@ -128,6 +128,18 @@ variable "advertised_route_priority" {
   default     = 100
 }
 
+variable "custom_learned_route_priority" {
+  description = "The priority for custom learned route ranges. If not set, Google Cloud assigns a priority of 100."
+  type        = number
+  default     = null
+}
+
+variable "custom_learned_ip_ranges" {
+  description = "List of custom learned IP address ranges (CIDR format) for the BGP peer."
+  type        = list(string)
+  default     = []
+}
+
 variable "ike_version" {
   type        = number
   description = "Please enter the IKE version used by this tunnel (default is IKEv2)"
