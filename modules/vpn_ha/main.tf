@@ -138,6 +138,17 @@ resource "google_compute_router_peer" "bgp_peer" {
   export_policies = (
     each.value.bgp_peer_options == null ? null : each.value.bgp_peer_options.export_policies
   )
+  custom_learned_route_priority = (
+    each.value.bgp_peer_options == null ? null : each.value.bgp_peer_options.custom_learned_route_priority
+  )
+  dynamic "custom_learned_ip_ranges" {
+    for_each = (
+      each.value.bgp_peer_options == null ? [] : coalesce(each.value.bgp_peer_options.custom_learned_ip_ranges, [])
+    )
+    content {
+      range = custom_learned_ip_ranges.value
+    }
+  }
   dynamic "advertised_ip_ranges" {
     for_each = (
       each.value.bgp_peer_options == null ? {} : (
