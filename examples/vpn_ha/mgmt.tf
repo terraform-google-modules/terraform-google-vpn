@@ -31,7 +31,10 @@ module "vpn-ha-to-prod" {
         address = "169.254.1.1"
         asn     = 64513
       }
-      bgp_peer_options                = null
+      bgp_peer_options = {
+        custom_learned_route_priority = 200
+        custom_learned_ip_ranges      = ["10.100.0.0/16", "10.200.0.0/16"]
+      }
       bgp_session_range               = "169.254.1.2/30"
       ike_version                     = 2
       vpn_gateway_interface           = 0
