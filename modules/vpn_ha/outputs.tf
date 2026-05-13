@@ -30,7 +30,7 @@ output "external_gateway" {
 
 output "name" {
   description = "VPN gateway name."
-  value       = regex("[\\w-]+$", lower(local.vpn_gateway_self_link))
+  value       = local.vpn_gateway_self_link != null ? regex("[\\w-]+$", lower(local.vpn_gateway_self_link)) : var.name
 }
 
 output "router" {
