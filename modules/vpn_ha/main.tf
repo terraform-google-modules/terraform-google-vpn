@@ -185,6 +185,29 @@ resource "google_compute_vpn_tunnel" "tunnels" {
   shared_secret                   = each.value.shared_secret == "" ? local.secret : each.value.shared_secret
   vpn_gateway                     = local.vpn_gateway_self_link
   labels                          = var.labels
+
+  dynamic "cipher_suite" {
+    for_each = each.value.cipher_suite == null ? [] : [1]
+    content {
+      dynamic "phase1" {
+        for_each = each.value.cipher_suite.phase1 == null ? [] : [1]
+        content {
+          encryption = each.value.cipher_suite.phase1.encryption
+          integrity  = each.value.cipher_suite.phase1.integrity
+          prf        = each.value.cipher_suite.phase1.prf
+          dh         = each.value.cipher_suite.phase1.dh
+        }
+      }
+      dynamic "phase2" {
+        for_each = each.value.cipher_suite.phase2 == null ? [] : [1]
+        content {
+          encryption = each.value.cipher_suite.phase2.encryption
+          integrity  = each.value.cipher_suite.phase2.integrity
+          pfs        = each.value.cipher_suite.phase2.pfs
+        }
+      }
+    }
+  }
 }
 
 resource "random_id" "secret" {
