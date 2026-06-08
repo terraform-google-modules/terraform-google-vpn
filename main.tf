@@ -70,5 +70,11 @@ resource "google_compute_router_peer" "bgp_peer" {
   }
 
   depends_on = [google_compute_router_interface.router_interface]
+
+  lifecycle {
+    replace_triggered_by = [
+      google_compute_router_interface.router_interface[0].ip_range
+    ]
+  }
 }
 
