@@ -153,6 +153,12 @@ resource "google_compute_router_peer" "bgp_peer" {
     }
   }
   interface = google_compute_router_interface.router_interface[each.key].name
+
+  lifecycle {
+    replace_triggered_by = [
+      google_compute_router_interface.router_interface[each.key].ip_range
+    ]
+  }
 }
 
 resource "google_compute_router_interface" "router_interface" {
