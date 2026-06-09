@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file. The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [7.0.0](https://github.com/terraform-google-modules/terraform-google-vpn/compare/v6.1.0...v7.0.0) (2026-06-09)
+
+
+### ⚠ BREAKING CHANGES
+
+* replace bgp_peer when updating router_interface bgp_session_range ([#205](https://github.com/terraform-google-modules/terraform-google-vpn/issues/205))
+
+### Features
+
+* add custom_learned_ip_ranges and custom_learned_route_priority to BGP peer configuration ([#203](https://github.com/terraform-google-modules/terraform-google-vpn/issues/203)) ([37c3169](https://github.com/terraform-google-modules/terraform-google-vpn/commit/37c3169865d5520addd0a8a5d8837ba06ce35d9b))
+* replace bgp_peer when updating router_interface bgp_session_range ([#205](https://github.com/terraform-google-modules/terraform-google-vpn/issues/205)) ([1374466](https://github.com/terraform-google-modules/terraform-google-vpn/commit/13744663dab319b7664d8885506b77f5a47411c2))
+
 ## [6.1.0](https://github.com/terraform-google-modules/terraform-google-vpn/compare/v6.0.0...v6.1.0) (2025-09-04)
 
 
