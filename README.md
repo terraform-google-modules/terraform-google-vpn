@@ -95,6 +95,8 @@ References the variable descriptions below to determine the right configuration.
 | bgp\_remote\_session\_range | Please enter the remote environments BGP Session IP | `list(string)` | <pre>[<br>  "169.254.1.2",<br>  "169.254.1.6"<br>]</pre> | no |
 | cr\_enabled | If there is a cloud router for BGP routing | `bool` | `false` | no |
 | cr\_name | The name of cloud router for BGP routing | `string` | `""` | no |
+| custom\_learned\_ip\_ranges | List of custom learned IP address ranges (CIDR format) for the BGP peer. | `list(string)` | `[]` | no |
+| custom\_learned\_route\_priority | The priority for custom learned route ranges. If not set, Google Cloud assigns a priority of 100. | `number` | `null` | no |
 | gateway\_name | The name of VPN gateway | `string` | `"test-vpn"` | no |
 | ike\_version | Please enter the IKE version used by this tunnel (default is IKEv2) | `number` | `2` | no |
 | ipsec\_secret\_length | The lnegth the of shared secret for VPN tunnels | `number` | `8` | no |

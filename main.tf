@@ -51,15 +51,23 @@ resource "google_compute_router_interface" "router_interface" {
 
 ## Create Peers
 resource "google_compute_router_peer" "bgp_peer" {
-  count                     = var.cr_enabled ? var.tunnel_count : 0
-  name                      = "bgp-session-${local.tunnel_name_prefix}-${count.index}"
-  router                    = var.cr_name
-  region                    = var.region
-  peer_ip_address           = var.bgp_remote_session_range[count.index]
-  peer_asn                  = var.peer_asn[count.index]
-  advertised_route_priority = var.advertised_route_priority
-  interface                 = "interface-${local.tunnel_name_prefix}-${count.index}"
-  project                   = var.project_id
+  count                         = var.cr_enabled ? var.tunnel_count : 0
+  name                          = "bgp-session-${local.tunnel_name_prefix}-${count.index}"
+  router                        = var.cr_name
+  region                        = var.region
+  peer_ip_address               = var.bgp_remote_session_range[count.index]
+  peer_asn                      = var.peer_asn[count.index]
+  advertised_route_priority     = var.advertised_route_priority
+  custom_learned_route_priority = var.custom_learned_route_priority
+  interface                     = "interface-${local.tunnel_name_prefix}-${count.index}"
+  project                       = var.project_id
+
+  dynamic "custom_learned_ip_ranges" {
+    for_each = var.custom_learned_ip_ranges
+    content {
+      range = custom_learned_ip_ranges.value
+    }
+  }
 
   depends_on = [google_compute_router_interface.router_interface]
 
