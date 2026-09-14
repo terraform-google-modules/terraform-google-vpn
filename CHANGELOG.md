@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [7.1.0](https://github.com/terraform-google-modules/terraform-google-vpn/compare/v7.0.0...v7.1.0) (2026-09-09)
+
+
+### Features
+
+* **deps:** Update Terraform Google Provider to v8 ([#212](https://github.com/terraform-google-modules/terraform-google-vpn/issues/212)) ([77bbf60](https://github.com/terraform-google-modules/terraform-google-vpn/commit/77bbf60f5d3981b49a71f96c22a9a4c6e3cd2e6b))
+
 ## [7.0.0](https://github.com/terraform-google-modules/terraform-google-vpn/compare/v6.1.0...v7.0.0) (2026-06-09)
 
 
