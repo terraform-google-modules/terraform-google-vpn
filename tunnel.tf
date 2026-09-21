@@ -33,6 +33,29 @@ resource "google_compute_vpn_tunnel" "tunnel-static" {
 
   ike_version = var.ike_version
 
+  dynamic "cipher_suite" {
+    for_each = var.cipher_suite != null ? [var.cipher_suite] : []
+    content {
+      dynamic "phase1" {
+        for_each = cipher_suite.value.phase1 != null ? [cipher_suite.value.phase1] : []
+        content {
+          encryption = phase1.value.encryption
+          integrity  = phase1.value.integrity
+          prf        = phase1.value.prf
+          dh         = phase1.value.dh
+        }
+      }
+      dynamic "phase2" {
+        for_each = cipher_suite.value.phase2 != null ? [cipher_suite.value.phase2] : []
+        content {
+          encryption = phase2.value.encryption
+          integrity  = phase2.value.integrity
+          pfs        = phase2.value.pfs
+        }
+      }
+    }
+  }
+
   depends_on = [
     google_compute_forwarding_rule.vpn_esp,
     google_compute_forwarding_rule.vpn_udp500,
@@ -52,6 +75,29 @@ resource "google_compute_vpn_tunnel" "tunnel-dynamic" {
 
   router      = var.cr_name
   ike_version = var.ike_version
+
+  dynamic "cipher_suite" {
+    for_each = var.cipher_suite != null ? [var.cipher_suite] : []
+    content {
+      dynamic "phase1" {
+        for_each = cipher_suite.value.phase1 != null ? [cipher_suite.value.phase1] : []
+        content {
+          encryption = phase1.value.encryption
+          integrity  = phase1.value.integrity
+          prf        = phase1.value.prf
+          dh         = phase1.value.dh
+        }
+      }
+      dynamic "phase2" {
+        for_each = cipher_suite.value.phase2 != null ? [cipher_suite.value.phase2] : []
+        content {
+          encryption = phase2.value.encryption
+          integrity  = phase2.value.integrity
+          pfs        = phase2.value.pfs
+        }
+      }
+    }
+  }
 
   depends_on = [
     google_compute_forwarding_rule.vpn_esp,

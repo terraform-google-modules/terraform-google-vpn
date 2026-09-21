@@ -73,6 +73,36 @@ module "vpn-manage-internal" {
 }
 ```
 
+### Optional custom cipher suite
+
+The `cipher_suite` input is optional. Leave it unset to use Google Cloud's default IKE/IPsec negotiation. To opt in to an explicit suite:
+
+```hcl
+module "vpn-prod-internal" {
+  source = "terraform-google-modules/vpn/google"
+
+  project_id    = var.project_id
+  network       = "default"
+  region        = "us-west1"
+  gateway_name  = "vpn-prod-internal"
+  peer_ips      = ["1.1.1.1"]
+
+  cipher_suite = {
+    phase1 = {
+      encryption = ["AES-CBC-256"]
+      integrity  = ["HMAC-SHA2-256-128"]
+      prf        = ["PRF-HMAC-SHA2-256"]
+      dh         = ["Group-14"]
+    }
+    phase2 = {
+      encryption = ["AES-CBC-128"]
+      integrity  = ["HMAC-SHA2-256-128"]
+      pfs        = ["Group-14"]
+    }
+  }
+}
+```
+
 Then perform the following commands on the root folder:
 
 - `terraform init` to get the plugins
@@ -93,6 +123,7 @@ References the variable descriptions below to determine the right configuration.
 | advertised\_route\_priority | Please enter the priority for the advertised route to BGP peer(default is 100) | `number` | `100` | no |
 | bgp\_cr\_session\_range | Please enter the cloud-router interface IP/Session IP | `list(string)` | <pre>[<br>  "169.254.1.1/30",<br>  "169.254.1.5/30"<br>]</pre> | no |
 | bgp\_remote\_session\_range | Please enter the remote environments BGP Session IP | `list(string)` | <pre>[<br>  "169.254.1.2",<br>  "169.254.1.6"<br>]</pre> | no |
+| cipher\_suite | Optional custom IKE/IPsec cipher suite. Leave unset to use Google Cloud's default negotiation. | <pre>object({<br>    phase1 = optional(object({<br>      encryption = optional(list(string))<br>      integrity  = optional(list(string))<br>      prf        = optional(list(string))<br>      dh         = optional(list(string))<br>    }))<br>    phase2 = optional(object({<br>      encryption = optional(list(string))<br>      integrity  = optional(list(string))<br>      pfs        = optional(list(string))<br>    }))<br>  })</pre> | `null` | no |
 | cr\_enabled | If there is a cloud router for BGP routing | `bool` | `false` | no |
 | cr\_name | The name of cloud router for BGP routing | `string` | `""` | no |
 | custom\_learned\_ip\_ranges | List of custom learned IP address ranges (CIDR format) for the BGP peer. | `list(string)` | `[]` | no |

@@ -146,6 +146,24 @@ variable "ike_version" {
   default     = 2
 }
 
+variable "cipher_suite" {
+  type = object({
+    phase1 = optional(object({
+      encryption = optional(list(string))
+      integrity  = optional(list(string))
+      prf        = optional(list(string))
+      dh         = optional(list(string))
+    }))
+    phase2 = optional(object({
+      encryption = optional(list(string))
+      integrity  = optional(list(string))
+      pfs        = optional(list(string))
+    }))
+  })
+  description = "Optional custom IKE/IPsec cipher suite. Leave unset to use Google Cloud's default negotiation."
+  default     = null
+}
+
 variable "vpn_gw_ip" {
   type        = string
   description = "Please enter the public IP address of the VPN Gateway, if you have already one. Do not set this variable to autocreate one"
