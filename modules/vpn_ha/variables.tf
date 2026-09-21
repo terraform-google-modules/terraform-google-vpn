@@ -124,6 +124,20 @@ variable "tunnels" {
     peer_external_gateway_self_link = optional(string, null)
     peer_external_gateway_interface = optional(number)
     shared_secret                   = optional(string, "")
+    # Optional custom IKE/IPsec cipher suite. Leave unset to use Google Cloud's default negotiation.
+    cipher_suite = optional(object({
+      phase1 = optional(object({
+        encryption = optional(list(string))
+        integrity  = optional(list(string))
+        prf        = optional(list(string))
+        dh         = optional(list(string))
+      }))
+      phase2 = optional(object({
+        encryption = optional(list(string))
+        integrity  = optional(list(string))
+        pfs        = optional(list(string))
+      }))
+    }))
   }))
   default = {}
 }

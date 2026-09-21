@@ -283,7 +283,7 @@ module "vpn_ha" {
 | router\_asn | Router ASN used for auto-created router. | `number` | `64514` | no |
 | router\_name | Name of router, leave blank to create one. | `string` | `""` | no |
 | stack\_type | The IP stack type will apply to all the tunnels associated with this VPN gateway. | `string` | `"IPV4_ONLY"` | no |
-| tunnels | VPN tunnel configurations, bgp\_peer\_options is usually null. | <pre>map(object({<br>    bgp_peer = object({<br>      address = string<br>      asn     = number<br>    })<br>    bgp_session_name = optional(string)<br>    bgp_peer_options = optional(object({<br>      ip_address                    = optional(string)<br>      advertise_groups              = optional(list(string))<br>      advertise_ip_ranges           = optional(map(string))<br>      advertise_mode                = optional(string)<br>      route_priority                = optional(number)<br>      import_policies               = optional(list(string))<br>      export_policies               = optional(list(string))<br>      custom_learned_route_priority = optional(number)<br>      custom_learned_ip_ranges      = optional(list(string))<br>    }))<br>    bgp_session_range               = optional(string)<br>    ike_version                     = optional(number)<br>    vpn_gateway_interface           = optional(number)<br>    peer_external_gateway_self_link = optional(string, null)<br>    peer_external_gateway_interface = optional(number)<br>    shared_secret                   = optional(string, "")<br>  }))</pre> | `{}` | no |
+| tunnels | VPN tunnel configurations, bgp\_peer\_options is usually null. | <pre>map(object({<br>    bgp_peer = object({<br>      address = string<br>      asn     = number<br>    })<br>    bgp_session_name = optional(string)<br>    bgp_peer_options = optional(object({<br>      ip_address                    = optional(string)<br>      advertise_groups              = optional(list(string))<br>      advertise_ip_ranges           = optional(map(string))<br>      advertise_mode                = optional(string)<br>      route_priority                = optional(number)<br>      import_policies               = optional(list(string))<br>      export_policies               = optional(list(string))<br>      custom_learned_route_priority = optional(number)<br>      custom_learned_ip_ranges      = optional(list(string))<br>    }))<br>    bgp_session_range               = optional(string)<br>    ike_version                     = optional(number)<br>    vpn_gateway_interface           = optional(number)<br>    peer_external_gateway_self_link = optional(string, null)<br>    peer_external_gateway_interface = optional(number)<br>    shared_secret                   = optional(string, "")<br>    # Optional custom IKE/IPsec cipher suite. Leave unset to use Google Cloud's default negotiation.<br>    cipher_suite = optional(object({<br>      phase1 = optional(object({<br>        encryption = optional(list(string))<br>        integrity  = optional(list(string))<br>        prf        = optional(list(string))<br>        dh         = optional(list(string))<br>      }))<br>      phase2 = optional(object({<br>        encryption = optional(list(string))<br>        integrity  = optional(list(string))<br>        pfs        = optional(list(string))<br>      }))<br>    }))<br>  }))</pre> | `{}` | no |
 | vpn\_gateway\_self\_link | self\_link of existing VPN gateway to be used for the vpn tunnel. create\_vpn\_gateway should be set to false | `string` | `null` | no |
 
 ## Outputs
@@ -596,7 +596,40 @@ module "vpn_ha" {
   }
 ```
 
+## cipher_suite (optional)
 
+By default, each tunnel's `cipher_suite` is left unset and Cloud VPN negotiates IKE/IPsec ciphers using Google Cloud's default suite. If you need to enforce a specific set of IKE/IPsec ciphers (e.g. to satisfy a compliance requirement), set `cipher_suite` explicitly on the tunnel. Omitting it keeps existing behavior unchanged.
+
+```
+  tunnels = {
+    remote-0 = {
+      bgp_peer = {
+        address = "169.254.20.2"
+        asn     = 31898
+      }
+
+      bgp_session_range     = "169.254.20.1/30"
+      ike_version           = 2
+      vpn_gateway_interface = 0
+      shared_secret         = random_string.secret.result
+
+      # Optional: only needed to opt in to a custom cipher suite.
+      cipher_suite = {
+        phase1 = {
+          encryption = ["AES-CBC-256"]
+          integrity  = ["HMAC-SHA2-256-128"]
+          prf        = ["PRF-HMAC-SHA2-256"]
+          dh         = ["Group-14"]
+        }
+        phase2 = {
+          encryption = ["AES-CBC-128"]
+          integrity  = ["HMAC-SHA2-256-128"]
+          pfs        = ["Group-14"]
+        }
+      }
+    }
+  }
+```
 
 ## Requirements
 ### Terraform plugins
